@@ -7,7 +7,7 @@ Welcome to the Dino Adventure game! This project is a recreation of the classic 
 * Dodge: Press the down arrow key or S key to make the dinosaur go under obstacles.  
 * Score: Your score increases as you successfully avoid obstacles. 
 
-# Особенности
+# Peculiarities
 * Adaptability: The game adapts to different screen sizes, allowing you to play on desktop computers or mobile devices.  
 * Endless gameplay: The game continues endlessly, challenging you to achieve the highest score possible.
 * Levels: Completing levels adds new challenges and opportunities, keeping the game interesting and varied.  
