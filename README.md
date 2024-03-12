@@ -23,6 +23,7 @@
 # Авторы
 Разработчик: [mykhailoko](https://github.com/mykhailoko)   
 Разработчик: [exgraal7](https://github.com/exgraal7)  
+[Телеграм канал игры](https://t.me/dinoadventure)
 
 ---
 Наслаждайтесь игрой! 🎮🦕
