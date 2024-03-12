@@ -15,7 +15,7 @@
 * Бусты: Используйте бусты, чтобы получить временные преимущества, такие как замедление или временную неуязвимость, что добавляет стратегический элемент в игру.  
 * Мультиплеер: Возможность соревноваться с друзьями в кооперативном режиме или в режиме реального времени.  
 
-# Фото нашей игры
+# Фото игры
 ![Main menu](https://github.com/mykhailoko/Dino-Adventure/blob/main/Game/Photos/Photo_1.png)
 ![Game is running](https://github.com/mykhailoko/Dino-Adventure/blob/main/Game/Photos/Photo_2.png)
 ![Reset menu](https://github.com/mykhailoko/Dino-Adventure/blob/main/Game/Photos/Photo_3.png)
