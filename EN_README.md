@@ -1,29 +1,29 @@
 # Dino Adventure
 
-Добро пожаловать в игру Dino Adventure! Этот проект - воссоздание классической браузерной игры, которую вы могли встретить, когда ваше интернет-соединение пропадает, и вы видите динозавра на странице "Нет подключения к Интернету" в Google Chrome. Наша версия игры предлагает множество уникальных особенностей и функций, которые не встретишь в классической версии от Google. Проект создана на Python с использованием библиотеки Pygame.
+Welcome to the Dino Adventure game! This project is a recreation of the classic browser game you might encounter when your internet connection goes down and you see a dinosaur on the "No Internet Connection" page in Google Chrome. Our version of the game offers many unique features and functions that you will not find in the classic version from Google. The project was created in Python using the Pygame library.
 
-# Как играть
-* Прыжок: Нажмите пробел, клавишу со стрелкой вверх или клавишу W на вашей клавиатуре, чтобы заставить динозавра прыгнуть через препятствия.  
-* Уклонение: Нажмите клавишу со стрелкой вниз или клавишу S, чтобы заставить динозавра пройти под препятствиями.  
-* Очки: Ваш счет увеличивается по мере успешного избегания препятствий.  
+# How to play
+* Jump: Press Spacebar, Up Arrow key or W key on your keyboard to make the dinosaur jump over obstacles.  
+* Dodge: Press the down arrow key or S key to make the dinosaur go under obstacles.  
+* Score: Your score increases as you successfully avoid obstacles. 
 
 # Особенности
-* Адаптивность: Игра адаптируется под разные размеры экранов, позволяя вам играть на настольных компьютерах или мобильных устройствах.  
-* Бесконечный геймплей: Игра продолжается бесконечно, бросая вам вызов достичь максимально высокого счета.  
-* Уровни: Прохождение уровней добавляет новые вызовы и возможности, сохраняя игру интересной и разнообразной.  
-* Скины: Персонализируйте своего динозавра с помощью различных скинов, позволяя вам выделяться среди других игроков.  
-* Бусты: Используйте бусты, чтобы получить временные преимущества, такие как замедление или временную неуязвимость, что добавляет стратегический элемент в игру.  
-* Мультиплеер: Возможность соревноваться с друзьями в кооперативном режиме или в режиме реального времени.  
+* Adaptability: The game adapts to different screen sizes, allowing you to play on desktop computers or mobile devices.  
+* Endless gameplay: The game continues endlessly, challenging you to achieve the highest score possible.
+* Levels: Completing levels adds new challenges and opportunities, keeping the game interesting and varied.  
+* Skins: Personalize your dinosaur with a variety of skins, allowing you to stand out from other players.  
+* Boosts: Use boosts to gain temporary benefits such as a slow or temporary invulnerability, which adds a strategic element to the game. 
+* Multiplayer: Ability to compete with friends in cooperative mode or in real time. 
 
-# Фото игры
+# Game's Photos
 ![Main menu](https://github.com/mykhailoko/Dino-Adventure/blob/main/Game/Photos/Photo_1.png)
 ![Game is running](https://github.com/mykhailoko/Dino-Adventure/blob/main/Game/Photos/Photo_2.png)
 ![Reset menu](https://github.com/mykhailoko/Dino-Adventure/blob/main/Game/Photos/Photo_3.png)
 
-# Авторы
-Разработчик: [mykhailoko](https://github.com/mykhailoko)   
-Разработчик: [exgraal7](https://github.com/exgraal7)  
-[Телеграм канал игры](https://t.me/dinoadventure)
+# Authors
+Developer: [mykhailoko](https://github.com/mykhailoko)   
+Developer: [exgraal7](https://github.com/exgraal7)  
+[Game Telegram channel](https://t.me/dinoadventure)
 
 ---
-Наслаждайтесь игрой! 🎮🦕
+Enjoy the game! 🎮🦕
