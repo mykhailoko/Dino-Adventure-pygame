@@ -25,7 +25,7 @@ jobs:
       run: echo "/home/runner/.local/bin" >> $GITHUB_PATH
     
     - name: Run Nuitka
-      run: nuitka --standalone --output-dir=dist main.py
+      run: python -m nuitka --standalone --output-dir=dist main.py
     
     - name: Upload EXE artifact
       uses: actions/upload-artifact@v2
