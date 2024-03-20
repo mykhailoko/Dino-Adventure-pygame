@@ -16,7 +16,7 @@ jobs:
     - name: Setup Python
       uses: actions/setup-python@v2
       with:
-        python-version: '3.x'
+        python-version: '3.11'
         
     - name: Install Nuitka
       run: python -m pip install nuitka
@@ -26,9 +26,7 @@ jobs:
     
     - name: Run Nuitka
       run: python -m nuitka --standalone --output-dir=dist $GITHUB_WORKSPACE/src/main.py
-      env:
-        PYTHON_VERSION: 3.11
-        
+      
     - name: Upload EXE artifact
       uses: actions/upload-artifact@v2
       with:
