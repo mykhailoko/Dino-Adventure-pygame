@@ -21,9 +21,9 @@ jobs:
     - name: Install Nuitka
       run: python -m pip install nuitka
       
-    - name: Add Nuitka to PATH
-      run: echo "::add-path::$(python -m site --user-base)/bin"
-      
+    - name: Set Nuitka path
+      run: echo "/home/runner/.local/bin" >> $GITHUB_PATH
+    
     - name: Run Nuitka
       run: nuitka --standalone --output-dir=dist main.py
     
