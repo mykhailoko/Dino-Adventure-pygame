@@ -21,7 +21,10 @@ jobs:
     - name: Install Nuitka
       run: python -m pip install nuitka
       
-    - name: Build EXE
+    - name: Add Nuitka to PATH
+      run: echo "::add-path::$(python -m site --user-base)/bin"
+      
+    - name: Run Nuitka
       run: nuitka --standalone --output-dir=dist main.py
     
     - name: Upload EXE artifact
