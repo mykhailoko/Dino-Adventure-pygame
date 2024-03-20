@@ -6,7 +6,7 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4.1.2
-      - name: Intsall deps
+      - name: Install deps
         run: npm ci
       - name: Lint
         run: npm run lint
