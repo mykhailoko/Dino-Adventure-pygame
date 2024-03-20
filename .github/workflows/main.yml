@@ -1,8 +1,31 @@
-name: main
-on: push
+name: Build EXE
+
+on:
+  push:
+    branches:
+      - main
+
 jobs:
-  lint:
+  build:
     runs-on: ubuntu-latest
+    
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4.1.2
+    - name: Checkout code
+      uses: actions/checkout@v2
+      
+    - name: Setup Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x' # Укажите версию Python, которая поддерживается Nuitka
+        
+    - name: Install Nuitka
+      run: python -m pip install nuitka
+      
+    - name: Build EXE
+      run: nuitka --standalone --output-dir=dist my_script.py # Замените my_script.py на ваш скрипт
+    
+    - name: Upload EXE artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: my_script_exe
+        path: dist/my_script.exe # Замените my_script.exe на имя вашего .exe файла
