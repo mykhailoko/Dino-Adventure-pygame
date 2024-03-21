@@ -26,6 +26,10 @@ jobs:
     
     - name: Run Nuitka
       run: python -m nuitka --standalone --output-dir=dist $GITHUB_WORKSPACE/src/main.py
+
+    - name: Create tag
+      run: git tag -a v1.0 -m "Version 1.0"
+      if: github.ref == 'refs/heads/main'
       
     - name: Upload EXE artifact
       uses: softprops/action-gh-release@v1
