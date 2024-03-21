@@ -28,7 +28,7 @@ jobs:
       run: python -m nuitka --standalone --output-dir=dist $GITHUB_WORKSPACE/src/main.py
       
     - name: Upload EXE artifact
-      uses: actions/upload-artifact@v2
+      uses: softprops/action-gh-release@v1
       with:
-        name: main
-        path: dist/
+        files: «dist/main.exe»
+ 
