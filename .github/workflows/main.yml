@@ -1,4 +1,4 @@
-name: Compile and Release Python to Exe
+name: Build EXE
 
 on:
   push:
@@ -8,41 +8,26 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    
     steps:
-    - name: Checkout Repository
+    - name: Checkout code
       uses: actions/checkout@v2
-
-    - name: Install Python
+      
+    - name: Setup Python
       uses: actions/setup-python@v2
       with:
-        python-version: '3.x'
-
+        python-version: '3.11'
+        
     - name: Install Nuitka
-      run: |
-        python -m pip install nuitka
+      run: python -m pip install nuitka
+      
+    - name: Set Nuitka path
+      run: echo "/home/runner/.local/bin" >> $GITHUB_PATH
+    
+    - name: Run Nuitka
+      run: python -m nuitka --standalone --output-dir=dist $GITHUB_WORKSPACE/src/main.py
 
-    - name: Compile Python to Exe
-      run: nuitka --mingw --output-dir=./src/main.py
-
-    - name: Create Release
-      id: create_release
-      uses: actions/create-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Upload EXE artifact
+      uses: softprops/action-gh-release@v1
       with:
-        tag_name: v1.0.1
-        release_name: Release v1.0.1
-        draft: false
-        prerelease: false
-
-    - name: Upload Exe to Release
-      id: upload-release-asset
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./dist/main.exe
-        asset_name: main.exe
-        asset_content_type: application/octet-stream
+        files: "dist/main.exe"
