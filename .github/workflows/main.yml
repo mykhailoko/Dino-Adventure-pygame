@@ -11,7 +11,7 @@ jobs:
     
     steps:
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
       
     - name: Setup Python
       uses: actions/setup-python@v2
@@ -28,7 +28,7 @@ jobs:
       run: python -m nuitka --standalone --output-dir=dist $GITHUB_WORKSPACE/src/main.py
 
     - name: Upload EXE artifact
-      uses: softprops/action-gh-release@v1
+      uses: softprops/action-gh-release@v2
       if: startsWith(github.ref, 'refs/tags/')
       with:
         files: "dist/main.exe"
