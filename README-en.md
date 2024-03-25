@@ -16,9 +16,9 @@ Welcome to the Dino Adventure game! This project is a recreation of the classic 
 * Multiplayer: Ability to compete with friends in cooperative mode or in real time. 
 
 # Game's Photos
-![Main menu](https://github.com/mykhailoko/Dino-Adventure/blob/main/Assets/Photo_1.png)
-![Game is running](https://github.com/mykhailoko/Dino-Adventure/blob/main/Assets/Photo_2.png)
-![Reset menu](https://github.com/mykhailoko/Dino-Adventure/blob/main/Assets/Photo_3.png)
+![Main menu](https://github.com/mykhailoko/Dino-Adventure/blob/main/Screenshots/Photo_1.png)
+![Game is running](https://github.com/mykhailoko/Dino-Adventure/blob/main/Screenshots/Photo_2.png)
+![Reset menu](https://github.com/mykhailoko/Dino-Adventure/blob/main/Screenshots/Photo_3.png)
 
 # Authors
 Developer: [mykhailoko](https://github.com/mykhailoko)   
