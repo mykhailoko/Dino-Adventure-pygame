@@ -54,7 +54,7 @@ def main():
     player = Dinosaur()
     cloud = Cloud()
     game_speed = 16
-    background_speed = 6
+    background_speed = 16
     points = 0 
 
     font = pygame.font.Font('freesansbold.ttf', 23)
@@ -62,24 +62,23 @@ def main():
     death_count = 0
     pygame.mixer.music.stop()
 
-    def score(points):
+    def score(points, game_speed, background_speed):
         points += 1
-        game_speed = 16
-        background_speed = 6
         if points % 100 == 0:
             game_speed += 1
-        if points % 200 == 0 and points < 1400:
+        if points % 250 == 0 and points < 1400:
             background_speed += 1
         if points % 1000 == 0:
             SCORE_SOUND.play()
 
-        text = font.render("Points: " + str(points), True, (255, 255, 255))
+        text = font.render("Points: " + str(points), True, (0, 0, 0))
         textRect = text.get_rect()
         textRect.center = (1440, 40)
         SCREEN.blit(text, textRect)
-        return points
+        return points, game_speed, background_speed
 
-    x_pos_bg = 0
+    x1_pos_bg = 0
+    x2_pos_bg = 0
 
     while run:
         for event in pygame.event.get():
@@ -91,8 +90,11 @@ def main():
         SCREEN.fill((255, 255, 255))
 
         # Отображение фона
-        SCREEN.blit(BG, (x_pos_bg, 0))
-        SCREEN.blit(BG, (BG.get_width() + x_pos_bg, 0))
+        SCREEN.blit(CLASSIC1, (x1_pos_bg, 515))
+        SCREEN.blit(CLASSIC1, (CLASSIC1.get_width() + x1_pos_bg, 515))
+
+        SCREEN.blit(CLASSIC2, (x2_pos_bg, 0))
+        SCREEN.blit(CLASSIC2, (CLASSIC2.get_width() + x2_pos_bg, 0))
 
         if len(obstacles) == 0:
             obstacle_type = random.randint(0, 2)
@@ -124,14 +126,18 @@ def main():
         cloud.draw(SCREEN)
         cloud.update(background_speed)
 
-        points = score(points)
+        points, game_speed, background_speed = score(points, game_speed, background_speed)
 
         player.draw(SCREEN)
         player.update(userInput)
 
-        x_pos_bg -= background_speed
-        if x_pos_bg <= -BG.get_width():
-            x_pos_bg = 0
+        x1_pos_bg -= game_speed
+        if x1_pos_bg <= -CLASSIC1.get_width():
+            x1_pos_bg = 0
+
+        x2_pos_bg -= (background_speed - 10)
+        if x2_pos_bg <= -CLASSIC2.get_width():
+            x2_pos_bg = 0
 
         pygame.display.flip()
 
@@ -143,7 +149,7 @@ def main_winter():
     clock = pygame.time.Clock()
     player = DinosaurWinter()
     game_speed = 16
-    background_speed = 6
+    background_speed = 16
     points = 0 
 
     font = pygame.font.Font('freesansbold.ttf', 23)
@@ -151,24 +157,24 @@ def main_winter():
     death_count = 0
     pygame.mixer.music.stop()
 
-    def score(points):
+    def score(points, game_speed, background_speed):
         points += 1
-        game_speed = 16
-        background_speed = 6
         if points % 100 == 0:
             game_speed += 1
-        if points % 200 == 0 and points < 1400:
+        if points % 250 == 0 and points < 1400:
             background_speed += 1
         if points % 1000 == 0:
             SCORE_SOUND.play()
 
-        text = font.render("Points: " + str(points), True, (255, 255, 255))
+        text = font.render("Points: " + str(points), True, (0, 0, 0))
         textRect = text.get_rect()
         textRect.center = (1440, 40)
         SCREEN.blit(text, textRect)
-        return points
+        return points, game_speed, background_speed
 
-    x_pos_bg = 0
+    x1_pos_bg = 0
+    x2_pos_bg = 0
+    x3_pos_bg = 0
 
     while run:
         for event in pygame.event.get():
@@ -179,9 +185,15 @@ def main_winter():
 
         SCREEN.fill((255, 255, 255))
 
-        # Отображение фона
-        SCREEN.blit(BGWINTER, (x_pos_bg, 0))
-        SCREEN.blit(BGWINTER, (BGWINTER.get_width() + x_pos_bg, 0))
+        # Отображение фона 
+        SCREEN.blit(WINTER1, (x1_pos_bg, 555))
+        SCREEN.blit(WINTER1, (WINTER1.get_width() + x1_pos_bg, 555))
+
+        SCREEN.blit(WINTER2, (x2_pos_bg, 523))
+        SCREEN.blit(WINTER2, (WINTER2.get_width() + x2_pos_bg, 523))
+
+        SCREEN.blit(WINTER3, (x3_pos_bg, 0))
+        SCREEN.blit(WINTER3, (WINTER3.get_width() + x3_pos_bg, 0))
 
         if len(obstacles) == 0:
             if random.randint(0, 2) == 0:
@@ -209,14 +221,22 @@ def main_winter():
                 loose_menu(death_count, level_state, points)
                 run = False
 
-        points = score(points)
+        points, game_speed, background_speed = score(points, game_speed, background_speed)
 
         player.draw(SCREEN)
         player.update(userInput)
 
-        x_pos_bg -= background_speed
-        if x_pos_bg <= -BGWINTER.get_width():
-            x_pos_bg = 0
+        x1_pos_bg -= (background_speed + 6)
+        if x1_pos_bg <= -WINTER1.get_width():
+            x1_pos_bg = 0
+
+        x2_pos_bg -= game_speed
+        if x2_pos_bg <= -WINTER2.get_width():
+            x2_pos_bg = 0
+
+        x3_pos_bg -= (background_speed - 11)
+        if x3_pos_bg <= -WINTER3.get_width():
+           x3_pos_bg = 0
 
         pygame.display.flip()
 
