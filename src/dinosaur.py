@@ -141,8 +141,8 @@ class DinosaurZombi(Dinosaur):
     JUMP_VEL = 9
 
     def __init__(self):
-        self.duck_img = DUCKING
-        self.run_img = RUNNING
+        self.duck_img = DUCKING_ZOMBI
+        self.run_img = RUNNING_ZOMBI
         self.jump_img = JUMPING_ZOMBI
 
         self.dino_duck = False
