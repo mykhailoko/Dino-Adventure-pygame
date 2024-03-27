@@ -1,5 +1,4 @@
 # Dino Adventure
-[![License](https://img.shields.io/github/license/mykhailoko/Dino-Adventure.svg)](https://github.com/mykhailoko/Dino-Adventure/tree/main?tab=GPL-3.0-1-ov-file)
 [![License: GPL-3.0](https://img.shields.io/badge/License-GPL_3.0-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 
