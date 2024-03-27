@@ -112,6 +112,11 @@ BEACH3 = pygame.image.load(os.path.join("Assets/Other", "Beach3.png")).convert_a
 ZOMBI1 = pygame.image.load(os.path.join("Assets/Other", "Zombi1.png")).convert_alpha()
 ZOMBI2 = pygame.image.load(os.path.join("Assets/Other", "Zombi2.png")).convert_alpha()
 ZOMBI3 = pygame.image.load(os.path.join("Assets/Other", "Zombi3.png")).convert_alpha()
+CLASSIC1 = pygame.image.load(os.path.join("Assets/Other", "Classic1.png")).convert_alpha()
+CLASSIC2 = pygame.image.load(os.path.join("Assets/Other", "Classic2.png")).convert_alpha()
+WINTER1 = pygame.image.load(os.path.join("Assets/Other", "Winter1.png")).convert_alpha()
+WINTER2 = pygame.image.load(os.path.join("Assets/Other", "Winter2.png")).convert_alpha()
+WINTER3 = pygame.image.load(os.path.join("Assets/Other", "Winter3.png")).convert_alpha()
 MENU = pygame.image.load(os.path.join("Assets/Other", "Menu.png")).convert_alpha()
 
 CLASSICLEVEL = pygame.image.load (os.path.join("Assets/Other", "ClassicLevel.png")).convert_alpha()
