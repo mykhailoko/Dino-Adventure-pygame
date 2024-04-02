@@ -13,7 +13,12 @@ Welcome to the Dino Adventure game! This project is a recreation of the classic 
 * Levels: Completing levels adds new challenges and opportunities, keeping the game interesting and varied.  
 * Skins: Personalize your dinosaur with a variety of skins, allowing you to stand out from other players.  
 * Boosts: Use boosts to gain temporary benefits such as a slow or temporary invulnerability, which adds a strategic element to the game. 
-* Multiplayer: Ability to compete with friends in cooperative mode or in real time. 
+* Multiplayer: Ability to compete with friends in cooperative mode or in real time.
+
+# Integration and Deployment System 
+Github Actions acts as a CI/CD system
+
+[![Build Python Project](https://github.com/mykhailoko/Dino-Adventure/actions/workflows/main.yml/badge.svg)](https://github.com/mykhailoko/Dino-Adventure/actions/workflows/main.yml/badge.svg)
 
 # Game's Photos
 ![Main menu](https://github.com/mykhailoko/Dino-Adventure/blob/main/Screenshots/Photo_1.png)
