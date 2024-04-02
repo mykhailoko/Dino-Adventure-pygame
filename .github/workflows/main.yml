@@ -31,7 +31,7 @@ jobs:
       run: touch main.bin
 
     - name: Check
-      run: ls dist/main.dist
+      run: ls 
 
     - name: Generate Git Tag
       id: generate_tag
