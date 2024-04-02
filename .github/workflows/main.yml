@@ -1,4 +1,4 @@
-name: Build and Release
+name: Build EXE
 
 on:
   push:
@@ -8,46 +8,30 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
+    - name: Checkout code
+      uses: actions/checkout@v2
+      
+    - name: Setup Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.11'
+        
+    - name: Install Nuitka
+      run: python -m pip install nuitka
+      
+    - name: Set Nuitka path
+      run: echo "/home/runner/.local/bin" >> $GITHUB_PATH
+    
+    - name: Run Nuitka
+      run: python -m nuitka --standalone --output-dir=dist $GITHUB_WORKSPACE/src/main.py
 
-      - name: Setup Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: 3.9
-
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install pyinstaller
-
-      - name: Build executable
-        run: |
-          cd src 
-          pyinstaller --onefile main.py
-
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: v${{ github.run_number }}
-          release_name: Release ${{ github.run_number }}
-          body: |
-            Description of the release
-          draft: false
-          prerelease: false
-
-      - name: Upload Release Asset
-        id: upload-release-asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./src/dist/main.exe  
-          asset_name: main.exe
-          asset_content_type: application/octet-stream
+    - name: Check
+      run: ls
+      
+    - name: Upload EXE artifact
+      uses: softprops/action-gh-release@v1
+      with:
+        files: "dist/main.exe"
+        tag_name: v1.0.0
