@@ -48,5 +48,5 @@ jobs:
       uses: softprops/action-gh-release@v1
       with:
         files: "main.bin"
-        token: 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
+        token: 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
         tag_name: v1.0.0
