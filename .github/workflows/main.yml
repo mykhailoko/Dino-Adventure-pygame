@@ -28,10 +28,10 @@ jobs:
       run: python -m nuitka --standalone --output-dir=dist $GITHUB_WORKSPACE/src/main.py
 
     - name: Check
-      run: ls dist
+      run: ls dist/main.dist
       
     - name: Upload EXE artifact
       uses: softprops/action-gh-release@v1
       with:
-        files: "dist/main.exe"
+        files: "dist/main.dist/main.bin"
         tag_name: v1.0.0
