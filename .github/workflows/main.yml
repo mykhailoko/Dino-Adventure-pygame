@@ -29,6 +29,17 @@ jobs:
 
     - name: Check
       run: ls dist/main.dist
+
+    - name: Generate Git Tag
+      id: generate_tag
+      run: |
+          VERSION_PREFIX="v"
+          VERSION_MAJOR_MINOR="1.0"
+          VERSION_PATCH="0"
+           
+          NEW_TAG="${VERSION_PREFIX}${VERSION_MAJOR_MINOR}.${VERSION_PATCH}"
+          echo "Generated new tag: $NEW_TAG"
+          echo "NEW_TAG=$NEW_TAG" >> $GITHUB_ENV
       
     - name: Upload EXE artifact
       uses: softprops/action-gh-release@v1
