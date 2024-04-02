@@ -5,6 +5,10 @@ on:
     branches:
       - main
 
+env:
+  GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+  REPO_NAME: mykhailoko/Dino-Adventure
+
 jobs:
   build:
     runs-on: ubuntu-latest
