@@ -6,7 +6,6 @@ on:
       - main
 
 env:
-  GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
   REPO_NAME: mykhailoko/Dino-Adventure
 
 jobs:
@@ -29,7 +28,7 @@ jobs:
       run: echo "/home/runner/.local/bin" >> $GITHUB_PATH
     
     - name: Run Nuitka
-      run: python -m nuitka --standalone --output-dir=dist $GITHUB_WORKSPACE/src/main.py
+      run: touch main.bin
 
     - name: Check
       run: ls dist/main.dist
@@ -48,5 +47,6 @@ jobs:
     - name: Upload EXE artifact
       uses: softprops/action-gh-release@v1
       with:
-        files: "dist/main.dist/main.bin"
+        files: "main.bin"
+        token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
         tag_name: v1.0.0
