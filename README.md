@@ -1,17 +1,5 @@
 # Dino Adventure [![License: GPL-3.0](https://img.shields.io/badge/License-GPL_3.0-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) [![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/) [![GitHub last commit](https://img.shields.io/github/last-commit/mykhailoko/Dino-Adventure.svg)](https://github.com/mykhailoko/Dino-Adventure) [![GitHub stars](https://img.shields.io/github/stars/mykhailoko/Dino-Adventure.svg)](https://github.com/mykhailoko/Dino-Adventure/stargazers) [![GitHub release](https://img.shields.io/github/v/release/mykhailoko/Dino-Adventure.svg)](https://github.com/mykhailoko/Dino-Adventure/releases)  [![Contributors](https://img.shields.io/github/contributors/mykhailoko/Dino-Adventure)](https://github.com/mykhailoko/Dino-Adventure/graphs/contributors) 
 
-
-
-
-
-
-
-
-
-
-
-
-
 Добро пожаловать в игру Dino Adventure! Этот проект - воссоздание классической браузерной игры, которую вы могли встретить, когда ваше интернет-соединение пропадает, и вы видите динозавра на странице "Нет подключения к Интернету" в Google Chrome. Наша версия игры предлагает множество уникальных особенностей и функций, которые не встретишь в классической версии от Google. Проект создана на Python с использованием библиотеки Pygame.
 
 # Как играть
