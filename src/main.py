@@ -1,6 +1,7 @@
 import pygame
 import os
-import random                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+import random 
+from enum import Enum                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
 
 pygame.init()
 pygame.mixer.init()
@@ -23,9 +24,69 @@ from button import *
 pygame.mixer.music.load(MAIN_MENU_MUSIC)
 pygame.mixer.music.set_volume(0.5)  # Устанавливаем громкость музыки (от 0 до 1)
 pygame.mixer.music.play(-1)  # -1 означает,что музыка будет воспроизводиться в цикле бесконечно 
+    
+
+class BackgroundType(Enum):
+    DEFAULT = 0
+    WINTER = 1
+    BEACH = 2
+    ZOMBI = 3
+
+class ForegroundType(Enum):
+    BLACK = 0
+    WHITE = 1
+
+class ObstaclesType(Enum):
+    DEFAULT = 0
+    WINTER = 1
+    BEACH = 2
+    ZOMBI = 3
+
+class LevelType(Enum):
+    DEFAULT = 0
+    WINTER = 1
+    BEACH = 2
+    ZOMBI = 3
 
 
-def main(player):
+def main_background(background_type):
+    if background_type == BackgroundType.DEFAULT:
+        return CLASSIC1, CLASSIC2
+    elif background_type == BackgroundType.WINTER:
+        return WINTER1, WINTER2, WINTER3
+    elif background_type == BackgroundType.BEACH:
+        return BEACH1, BEACH2, BEACH3
+    elif background_type == BackgroundType.ZOMBI:
+        return ZOMBI1, ZOMBI2, ZOMBI3
+    
+def foreground(foreground_type):
+    if foreground_type == ForegroundType.BLACK:
+        return (0, 0, 0)
+    elif foreground_type == ForegroundType.WHITE:
+        return (255, 255, 255)
+    
+def obstacles(obstacles_type):
+    if obstacles_type == ObstaclesType.DEFAULT:
+        return SMALL_CACTUS, LARGE_CACTUS, BIRD
+    elif obstacles_type == ObstaclesType.WINTER:
+        return SMALL_CACTUS_WINTER, LARGE_CACTUS_WINTER, BIRD_WINTER
+    elif obstacles_type == ObstaclesType.BEACH:
+        return LARGE_BOARDS, LARGE_TREES, BIRD_BEACH
+    elif obstacles_type == ObstaclesType.ZOMBI:
+        return LARGE_GRAVES, ZOMBI, BAT
+    
+def level(level_type):
+    if level_type == LevelType.DEFAULT:
+        return "main"
+    elif level_type == LevelType.WINTER:
+        return "main_winter"
+    elif level_type == LevelType.BEACH:
+        return "main_beach"
+    elif level_type == LevelType.ZOMBI:
+        return "main_zombi"
+
+
+def main(background_type, foreground_type, obstacles_type, level_type, player):
     run = True
     clock = pygame.time.Clock()
     game_speed = 16
@@ -46,7 +107,8 @@ def main(player):
         if points % 1000 == 0:
             SCORE_SOUND.play()
 
-        text = font.render("Points: " + str(points), True, (255, 255, 255))
+        text_color = foreground(foreground_type)  # Получаем цвет текста
+        text = font.render("Points: " + str(points), True, text_color)
         textRect = text.get_rect()
         textRect.center = (1440, 40)
         SCREEN.blit(text, textRect)
@@ -54,6 +116,15 @@ def main(player):
 
     x1_pos_bg = 0
     x2_pos_bg = 0
+    x3_pos_bg = 0
+    x4_pos_bg = 0
+    x5_pos_bg = 0
+    x6_pos_bg = 0
+    x7_pos_bg = 0
+    x8_pos_bg = 0
+    x9_pos_bg = 0
+    x10_pos_bg = 0 
+    x11_pos_bg = 0
 
     while run:
         for event in pygame.event.get():
@@ -65,21 +136,72 @@ def main(player):
         SCREEN.fill((255, 255, 255))
 
         # Отображение фона
-        SCREEN.blit(CLASSIC1, (x1_pos_bg, 515))
-        SCREEN.blit(CLASSIC1, (CLASSIC1.get_width() + x1_pos_bg, 515))
+        if background_type == BackgroundType.DEFAULT:
+            SCREEN.blit(CLASSIC1, (x1_pos_bg, 515))
+            SCREEN.blit(CLASSIC1, (CLASSIC1.get_width() + x1_pos_bg, 515))
 
-        SCREEN.blit(CLASSIC2, (x2_pos_bg, 0))
-        SCREEN.blit(CLASSIC2, (CLASSIC2.get_width() + x2_pos_bg, 0))
+            SCREEN.blit(CLASSIC2, (x2_pos_bg, 0))
+            SCREEN.blit(CLASSIC2, (CLASSIC2.get_width() + x2_pos_bg, 0))
+
+        if background_type == BackgroundType.WINTER:
+            SCREEN.blit(WINTER1, (x3_pos_bg, 555))
+            SCREEN.blit(WINTER1, (WINTER1.get_width() + x3_pos_bg, 555))
+
+            SCREEN.blit(WINTER2, (x4_pos_bg, 523))
+            SCREEN.blit(WINTER2, (WINTER2.get_width() + x4_pos_bg, 523))
+
+            SCREEN.blit(WINTER3, (x5_pos_bg, 0))
+            SCREEN.blit(WINTER3, (WINTER3.get_width() + x5_pos_bg, 0))
+
+        if background_type == BackgroundType.BEACH:
+            SCREEN.blit(BEACH1, (x6_pos_bg, 510))
+            SCREEN.blit(BEACH1, (BEACH1.get_width() + x6_pos_bg, 510))
+
+            SCREEN.blit(BEACH2, (x7_pos_bg, 332))
+            SCREEN.blit(BEACH2, (BEACH2.get_width() + x7_pos_bg, 332))
+
+            SCREEN.blit(BEACH3, (x8_pos_bg, 0))
+            SCREEN.blit(BEACH3, (BEACH3.get_width() + x8_pos_bg, 0))
+
+        if background_type == BackgroundType.ZOMBI:
+            SCREEN.blit(ZOMBI1, (x9_pos_bg, 550))
+            SCREEN.blit(ZOMBI1, (ZOMBI1.get_width() + x9_pos_bg, 550))
+
+            SCREEN.blit(ZOMBI2, (x10_pos_bg, 510))
+            SCREEN.blit(ZOMBI2, (ZOMBI1.get_width() + x10_pos_bg, 510))
+
+            SCREEN.blit(ZOMBI3, (x11_pos_bg, 0))
+            SCREEN.blit(ZOMBI3, (ZOMBI3.get_width() + x11_pos_bg, 0))
 
         if len(obstacles) == 0:
-            obstacle_type = random.randint(0, 2)
-            if obstacle_type == 0:
+            obstacle_type_random = random.randint(0, 2)
+            if obstacles_type == ObstaclesType.DEFAULT and obstacle_type_random == 0:
                 obstacles.append(SmallCactus(SMALL_CACTUS))
-            elif obstacle_type == 1:
+            elif obstacles_type == ObstaclesType.DEFAULT and obstacle_type_random == 1:
                 obstacles.append(LargeCactus(LARGE_CACTUS))
-            elif obstacle_type == 2:
+            elif obstacles_type == ObstaclesType.DEFAULT and obstacle_type_random == 2:
                 obstacles.append(Bird(BIRD))
-            
+
+            if obstacles_type == ObstaclesType.WINTER and obstacle_type_random == 0:
+                obstacles.append(SmallCactus(SMALL_CACTUS_WINTER))
+            elif obstacles_type == ObstaclesType.WINTER and obstacle_type_random == 1:
+                obstacles.append(LargeCactus(LARGE_CACTUS_WINTER))
+            elif obstacles_type == ObstaclesType.WINTER and obstacle_type_random == 2:
+                obstacles.append(Bird(BIRD_WINTER))
+
+            if obstacles_type == ObstaclesType.BEACH and obstacle_type_random == 0:
+                obstacles.append(LargeCactus(LARGE_TREES))
+            elif obstacles_type == ObstaclesType.BEACH and obstacle_type_random == 1:
+                obstacles.append(LargeCactus(LARGE_BOARDS))
+            elif obstacles_type == ObstaclesType.BEACH and obstacle_type_random == 2:
+                obstacles.append(Bird(BIRD_BEACH))
+
+            if obstacles_type == ObstaclesType.ZOMBI and obstacle_type_random == 0:
+                obstacles.append(LargeCactus(ZOMBI))
+            elif obstacles_type == ObstaclesType.ZOMBI and obstacle_type_random == 1:
+                obstacles.append(LargeCactus(LARGE_GRAVES))
+            elif obstacles_type == ObstaclesType.ZOMBI and obstacle_type_random == 2:
+                obstacles.append(Bird(BAT))
 
         for obstacle in obstacles:
             obstacle.draw(SCREEN)
@@ -95,7 +217,7 @@ def main(player):
                 DEATH_SOUND.play()
                 pygame.time.delay(700)
                 death_count += 1
-                level_state = "main"
+                level_state = level(level_type)
                 loose_menu(death_count, level_state, points, player)
                 run = False
 
@@ -112,306 +234,55 @@ def main(player):
         if x2_pos_bg <= -CLASSIC2.get_width():
             x2_pos_bg = 0
 
+        x3_pos_bg -= (background_speed + 6)
+        if x3_pos_bg <= -WINTER1.get_width():
+            x3_pos_bg = 0
+
+        x4_pos_bg -= game_speed
+        if x4_pos_bg <= -WINTER2.get_width():
+            x4_pos_bg = 0
+
+        x5_pos_bg -= (background_speed - 11)
+        if x5_pos_bg <= -WINTER3.get_width():
+           x5_pos_bg = 0
+
+        x6_pos_bg -= game_speed
+        if x6_pos_bg <= -BEACH1.get_width():
+            x6_pos_bg = 0
+
+        x7_pos_bg -= (background_speed - 10)
+        if x7_pos_bg <= -BEACH2.get_width():
+            x7_pos_bg = 0
+
+        x8_pos_bg -= (background_speed - 11)
+        if x8_pos_bg <= -BEACH3.get_width():
+           x8_pos_bg = 0  
+
+        x9_pos_bg -= (background_speed + 4)
+        if x9_pos_bg <= -ZOMBI1.get_width():
+            x9_pos_bg = 0
+
+        x10_pos_bg -= game_speed
+        if x10_pos_bg <= -ZOMBI2.get_width():
+            x10_pos_bg = 0
+
+        x11_pos_bg -= (background_speed - 10)
+        if x11_pos_bg <= -ZOMBI3.get_width():
+            x11_pos_bg = 0   
+
         pygame.display.flip()
 
         clock.tick(30)
 
 
 def main_winter(player):
-    run = True
-    clock = pygame.time.Clock()
-    game_speed = 16
-    background_speed = 16
-    points = 0 
-
-    font = pygame.font.Font('freesansbold.ttf', 23)
-    obstacles = []
-    death_count = 0
-    pygame.mixer.music.stop()
-
-    def score(points, game_speed, background_speed):
-        points += 1
-        if points % 100 == 0 and points < 3000:
-            game_speed += 1
-        if points % 250 == 0 and points < 1400:
-            background_speed += 1
-        if points % 1000 == 0:
-            SCORE_SOUND.play()
-
-        text = font.render("Points: " + str(points), True, (0, 0, 0))
-        textRect = text.get_rect()
-        textRect.center = (1440, 40)
-        SCREEN.blit(text, textRect)
-        return points, game_speed, background_speed
-
-    x1_pos_bg = 0
-    x2_pos_bg = 0
-    x3_pos_bg = 0
-
-    while run:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                run = False
-
-        userInput = pygame.key.get_pressed()
-
-        SCREEN.fill((255, 255, 255))
-
-        # Отображение фона 
-        SCREEN.blit(WINTER1, (x1_pos_bg, 555))
-        SCREEN.blit(WINTER1, (WINTER1.get_width() + x1_pos_bg, 555))
-
-        SCREEN.blit(WINTER2, (x2_pos_bg, 523))
-        SCREEN.blit(WINTER2, (WINTER2.get_width() + x2_pos_bg, 523))
-
-        SCREEN.blit(WINTER3, (x3_pos_bg, 0))
-        SCREEN.blit(WINTER3, (WINTER3.get_width() + x3_pos_bg, 0))
-
-        if len(obstacles) == 0:
-            if random.randint(0, 2) == 0:
-                obstacles.append(SmallCactus(SMALL_CACTUS_WINTER))
-            elif random.randint(0, 2) == 1:
-                obstacles.append(LargeCactus(LARGE_CACTUS_WINTER))
-            elif random.randint(0, 2) == 2:
-                obstacles.append(Bird(BIRD_WINTER))
-
-
-        for obstacle in obstacles:
-            obstacle.draw(SCREEN)
-            obstacle.update(obstacles, game_speed)
-
-            # Столкновение
-            dino_rect_adjusted = pygame.Rect(player.dino_rect.x, player.dino_rect.y,
-                                              player.dino_rect.width - 60, player.dino_rect.height - 40)
-            obstacle_rect_adjusted = pygame.Rect(obstacle.rect.x, obstacle.rect.y,
-                                                  obstacle.rect.width - 20, obstacle.rect.height - 15)
-
-            if dino_rect_adjusted.colliderect(obstacle_rect_adjusted):
-                DEATH_SOUND.play()
-                pygame.time.delay(700)
-                death_count += 1
-                level_state = "main_winter"
-                loose_menu(death_count, level_state, points, player)
-                run = False
-
-        points, game_speed, background_speed = score(points, game_speed, background_speed)
-
-        player.draw(SCREEN)
-        player.update(userInput)
-
-        x1_pos_bg -= (background_speed + 6)
-        if x1_pos_bg <= -WINTER1.get_width():
-            x1_pos_bg = 0
-
-        x2_pos_bg -= game_speed
-        if x2_pos_bg <= -WINTER2.get_width():
-            x2_pos_bg = 0
-
-        x3_pos_bg -= (background_speed - 11)
-        if x3_pos_bg <= -WINTER3.get_width():
-           x3_pos_bg = 0
-
-        pygame.display.flip()
-
-        clock.tick(30)
-
+    main(BackgroundType.WINTER, ForegroundType.BLACK, ObstaclesType.WINTER, LevelType.WINTER, player)
 
 def main_beach(player):
-    run = True
-    clock = pygame.time.Clock()
-    game_speed = 16
-    background_speed = 16
-    points = 0 
-
-    font = pygame.font.Font('freesansbold.ttf', 23)
-    obstacles = []
-    death_count = 0
-    pygame.mixer.music.stop()
-
-    def score(points, game_speed, background_speed):
-        points += 1
-        if points % 100 == 0 and points < 3000:
-            game_speed += 1
-        if points % 250 == 0 and points < 1400:
-            background_speed += 1
-        if points % 1000 == 0:
-            SCORE_SOUND.play()
-
-        text = font.render("Points: " + str(points), True, (0, 0, 0))
-        textRect = text.get_rect()
-        textRect.center = (1440, 40)
-        SCREEN.blit(text, textRect)
-        return points, game_speed, background_speed
-
-    x1_pos_bg = 0
-    x2_pos_bg = 0
-    x3_pos_bg = 0
-
-    while run:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                run = False
-
-        userInput = pygame.key.get_pressed()
-
-        SCREEN.fill((255, 255, 255))
-
-        # Отображение фона 
-        SCREEN.blit(BEACH1, (x1_pos_bg, 510))
-        SCREEN.blit(BEACH1, (BEACH1.get_width() + x1_pos_bg, 510))
-
-        SCREEN.blit(BEACH2, (x2_pos_bg, 332))
-        SCREEN.blit(BEACH2, (BEACH2.get_width() + x2_pos_bg, 332))
-
-        SCREEN.blit(BEACH3, (x3_pos_bg, 0))
-        SCREEN.blit(BEACH3, (BEACH3.get_width() + x3_pos_bg, 0))
-
-        if len(obstacles) == 0:
-            if random.randint(0, 2) == 0:
-                obstacles.append(LargeCactus(LARGE_TREES))
-            elif random.randint(0, 2) == 1:
-                obstacles.append(LargeCactus(LARGE_BOARDS))
-            elif random.randint(0, 2) == 2:
-                obstacles.append(Bird(BIRD_BEACH))
-
-        for obstacle in obstacles:
-            obstacle.draw(SCREEN)
-            obstacle.update(obstacles, game_speed)
-
-            # Столкновение
-            dino_rect_adjusted = pygame.Rect(player.dino_rect.x, player.dino_rect.y,
-                                              player.dino_rect.width - 60, player.dino_rect.height - 40)
-            obstacle_rect_adjusted = pygame.Rect(obstacle.rect.x, obstacle.rect.y,
-                                                  obstacle.rect.width - 20, obstacle.rect.height - 15)
-
-            if dino_rect_adjusted.colliderect(obstacle_rect_adjusted):
-                DEATH_SOUND.play()
-                pygame.time.delay(700)
-                death_count += 1
-                level_state = "main_beach"
-                loose_menu(death_count, level_state, points, player)
-                run = False
-
-        points, game_speed, background_speed = score(points, game_speed, background_speed)
-
-        player.draw(SCREEN)
-        player.update(userInput)
-
-        x1_pos_bg -= game_speed
-        if x1_pos_bg <= -BEACH1.get_width():
-            x1_pos_bg = 0
-
-        x2_pos_bg -= (background_speed - 10)
-        if x2_pos_bg <= -BEACH2.get_width():
-            x2_pos_bg = 0
-
-        x3_pos_bg -= (background_speed - 11)
-        if x3_pos_bg <= -BEACH3.get_width():
-           x3_pos_bg = 0
-
-        pygame.display.flip()    
-
-        clock.tick(30)
-
+    main(BackgroundType.BEACH, ForegroundType.BLACK, ObstaclesType.BEACH, LevelType.BEACH, player)
 
 def main_zombi(player):
-    run = True
-    clock = pygame.time.Clock()
-    game_speed = 16
-    background_speed = 16
-    points = 0 
-
-    font = pygame.font.Font('freesansbold.ttf', 23)
-    obstacles = []
-    death_count = 0
-    pygame.mixer.music.stop()
-
-    def score(points, game_speed, background_speed):
-        points += 1
-        if points % 100 == 0 and points < 3000:
-            game_speed += 1
-        if points % 250 == 0 and points < 1400:
-            background_speed += 1
-        if points % 1000 == 0:
-            SCORE_SOUND.play()
-
-        text = font.render("Points: " + str(points), True, (255, 255, 255))
-        textRect = text.get_rect()
-        textRect.center = (1440, 40)
-        SCREEN.blit(text, textRect)
-        return points, game_speed, background_speed
-
-    x1_pos_bg = 0
-    x2_pos_bg = 0
-    x3_pos_bg = 0
-
-    while run:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                run = False
-
-        userInput = pygame.key.get_pressed()
-
-        SCREEN.fill((255, 255, 255))
-
-        # Отображение фона 
-        SCREEN.blit(ZOMBI1, (x1_pos_bg, 550))
-        SCREEN.blit(ZOMBI1, (ZOMBI1.get_width() + x1_pos_bg, 550))
-
-        SCREEN.blit(ZOMBI2, (x2_pos_bg, 510))
-        SCREEN.blit(ZOMBI2, (ZOMBI1.get_width() + x2_pos_bg, 510))
-
-        SCREEN.blit(ZOMBI3, (x3_pos_bg, 0))
-        SCREEN.blit(ZOMBI3, (ZOMBI3.get_width() + x3_pos_bg, 0))
-
-
-        if len(obstacles) == 0:
-            if random.randint(0, 2) == 0:
-                obstacles.append(Zombi(ZOMBI))
-            elif random.randint(0, 2) == 1:
-                obstacles.append(LargeCactus(LARGE_GRAVES))
-            elif random.randint(0, 2) == 2:
-                obstacles.append(Bird(BAT))
-
-
-        for obstacle in obstacles:
-            obstacle.draw(SCREEN)
-            obstacle.update(obstacles, game_speed)
-
-            # Столкновение
-            dino_rect_adjusted = pygame.Rect(player.dino_rect.x, player.dino_rect.y,
-                                              player.dino_rect.width - 60, player.dino_rect.height - 40)
-            obstacle_rect_adjusted = pygame.Rect(obstacle.rect.x, obstacle.rect.y,
-                                                  obstacle.rect.width - 20, obstacle.rect.height - 15)
-
-            if dino_rect_adjusted.colliderect(obstacle_rect_adjusted):
-                DEATH_SOUND.play()
-                pygame.time.delay(700)
-                death_count += 1
-                level_state = "main_zombi"
-                loose_menu(death_count, level_state, points, player)
-                run = False
-
-        points, game_speed, background_speed = score(points, game_speed, background_speed)
-
-        player.draw(SCREEN)
-        player.update(userInput)
-
-        x1_pos_bg -= (background_speed + 4)
-        if x1_pos_bg <= -ZOMBI1.get_width():
-            x1_pos_bg = 0
-
-        x2_pos_bg -= game_speed
-        if x2_pos_bg <= -ZOMBI2.get_width():
-            x2_pos_bg = 0
-
-        x3_pos_bg -= (background_speed - 10)
-        if x3_pos_bg <= -ZOMBI3.get_width():
-            x3_pos_bg = 0
-
-        pygame.display.flip()
-
-        clock.tick(30)
+    main(BackgroundType.ZOMBI, ForegroundType.WHITE, ObstaclesType.ZOMBI, LevelType.ZOMBI, player)
 
 
 def start_menu(death_count, player, level_state):
@@ -462,13 +333,13 @@ def loose_menu(death_count, level_state, points, player):
         if death_count > 0:
             if reset_button.draw():
                 if level_state == "main":
-                    main(player)
+                    main(BackgroundType.DEFAULT, ForegroundType.WHITE, ObstaclesType.DEFAULT, LevelType.DEFAULT, player)
                 if level_state == "main_winter":
-                    main_winter(player)
+                    main(BackgroundType.WINTER, ForegroundType.BLACK, ObstaclesType.WINTER, LevelType.WINTER, player)
                 if level_state == "main_beach":
-                    main_beach(player)
+                    main(BackgroundType.BEACH, ForegroundType.BLACK, ObstaclesType.BEACH, LevelType.BEACH, player)
                 if level_state == "main_zombi":
-                    main_zombi(player)
+                    main(BackgroundType.ZOMBI, ForegroundType.WHITE, ObstaclesType.ZOMBI, LevelType.ZOMBI, player)
             elif menu_button.draw():
                 start_menu(death_count=0, player=Dinosaur(), level_state=None)
             score = font.render("Your Score: " + str(points), True, (255, 255, 255))
@@ -503,7 +374,7 @@ def classic_level(slider1_button_clicked, slider2_button_clicked, player, level_
         SCREEN.blit(CLASSICLEVEL, (SCREEN_WIDTH // 2 - 450, SCREEN_HEIGHT // 2 - 320))
 
         if level_button.draw():
-            main(player)
+            main(BackgroundType.DEFAULT, ForegroundType.WHITE, ObstaclesType.DEFAULT, player)
 
         if slider2_button.draw() and not slider2_button_clicked[0]:
             slider2_button_clicked[0] = True
