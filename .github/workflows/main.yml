@@ -49,5 +49,5 @@ jobs:
       if: startsWith(github.ref, 'refs/tags/')
       with:
         files: ./main.bin
-        token: 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
+        token: 
 
