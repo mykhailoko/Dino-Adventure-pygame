@@ -22,9 +22,16 @@ jobs:
       - name: Загрузка образа Docker
         run: docker pull jedie/buildozer
         
+      - name: Создание временной директории
+        run: mkdir -p ${{ github.workspace }}/temp
+      
+      - name: Создание buildozer.spec
+        run: |
+          echo "[app]\ntitle = DinoAdventure\npackage.name = dino\npackage.domain = org.example\nsource.dir = .\nsource.include_exts = py,png,jpg,kv,atlas\nsource.exclude_dirs = tests, bin\nversion = 0.1\nrequirements = kivy\nicon.filename = %(source.dir)s/icon.png\norientation = portrait" > ${{ github.workspace }}/temp/buildozer.spec
+      
       - name: Компиляция APK
         run: |
-          docker run -t -v ${PWD}/src:/buildozer/ jedie/buildozer buildozer --verbose android release
+          docker run -t -v ${PWD}/src:/buildozer/ -v ${{ github.workspace }}/temp:/buildozer/.buildozer jedie/buildozer buildozer --verbose android release
           systemctl start docker
       
       - name: Загрузка APK в релизы
