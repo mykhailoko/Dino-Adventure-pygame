@@ -22,21 +22,21 @@ jobs:
       - name: Загрузка образа Docker
         run: docker pull jedie/buildozer
         
-      - name: Создание временной директории и buildozer.spec
+      - name: Создание директории и файла buildozer.spec
         run: |
-          mkdir -p ${{ github.workspace }}/temp
-          echo "[app]\ntitle = Ваше название приложения\npackage.name = ваше_название_приложения\npackage.domain = org.example\nsource.dir = .\nsource.include_exts = py,png,jpg,kv,atlas\nsource.exclude_dirs = tests, bin\nversion = 0.1\nrequirements = kivy\nicon.filename = %(source.dir)s/icon.png\norientation = portrait" > ${{ github.workspace }}/temp/buildozer.spec
+          mkdir -p buildozer
+          echo "[app]\ntitle = Ваше название приложения\npackage.name = ваше_название_приложения\npackage.domain = org.example\nsource.dir = .\nsource.include_exts = py,png,jpg,kv,atlas\nsource.exclude_dirs = tests, bin\nversion = 0.1\nrequirements = kivy\nicon.filename = %(source.dir)s/icon.png\norientation = portrait" > buildozer/buildozer.spec
       
-      - name: Показать содержимое временной директории
-        run: ls ${{ github.workspace }}/temp
+      - name: Показать содержимое директории buildozer
+        run: ls buildozer
       
       - name: Компиляция APK
         run: |
-          docker run -t -v ${PWD}/src:/buildozer/ -v ${{ github.workspace }}/temp:/buildozer/.buildozer -w /buildozer jedie/buildozer buildozer --verbose android release --spec ${{ github.workspace }}/temp/buildozer.spec
+          docker run -t -v ${PWD}/src:/buildozer/ -v ${PWD}/buildozer:/buildozer/.buildozer -w /buildozer jedie/buildozer buildozer --verbose android release --spec /buildozer/.buildozer/buildozer.spec
           systemctl start docker
       
       - name: Перемещение APK в папку bin
-        run: mv ${{ github.workspace }}/temp/bin/*.apk ${{ github.workspace }}/bin/
+        run: mv buildozer/bin/*.apk bin/
       
       - name: Загрузка APK в релизы
         uses: actions/upload-release-asset@v1
