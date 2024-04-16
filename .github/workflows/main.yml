@@ -19,16 +19,17 @@ jobs:
       - name: Setup Docker
         uses: docker/setup-buildx-action@v1
         
-      - name: Pull Docker Image
-        run: docker pull jedie/buildozer
-        
-      - name: Create buildozer.spec directory and file
-        run: |
-          mkdir -p buildozer
-          echo "[app]\ntitle = Your app title\npackage.name = your_package_name\npackage.domain = org.example\nsource.dir = .\nsource.include_exts = py,png,jpg,kv,atlas\nsource.exclude_dirs = tests, bin\nversion = 0.1\nrequirements = kivy\nicon.filename = %(source.dir)s/icon.png\norientation = portrait" > buildozer/buildozer.spec
+      - name: Build Docker Image
+        run: docker build -t jedie/buildozer .
       
-      - name: Show contents of buildozer directory
-        run: ls buildozer
+      - name: List installed packages
+        run: docker run jedie/buildozer pip freeze
+      
+      - name: Print version information
+        run: |
+          docker run jedie/buildozer uname -a
+          docker run jedie/buildozer cython --version
+          docker run jedie/buildozer buildozer --version
       
       - name: Compile APK
         run: |
