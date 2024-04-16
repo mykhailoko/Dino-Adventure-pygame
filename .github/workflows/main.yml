@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-      - name: Checkout code
+      - name: Checkout Сode
         uses: actions/checkout@v2
       
       - name: Setup Docker
