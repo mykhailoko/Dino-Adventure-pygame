@@ -29,7 +29,7 @@ jobs:
       
       - name: Компиляция APK
         run: |
-          docker run -t -v ${PWD}/src:/buildozer/ -v ${{ github.workspace }}/temp:/buildozer/.buildozer jedie/buildozer buildozer --verbose android release
+          docker run -t -v ${PWD}/src:/buildozer/ -v ${{ github.workspace }}/temp:/buildozer/.buildozer -w /buildozer jedie/buildozer buildozer --verbose android release
           systemctl start docker
       
       - name: Перемещение APK в папку bin
