@@ -22,11 +22,9 @@ jobs:
       - name: Загрузка образа Docker
         run: docker pull jedie/buildozer
         
-      - name: Создание временной директории
-        run: mkdir -p ${{ github.workspace }}/temp
-      
-      - name: Создание buildozer.spec
+      - name: Создание временной директории и buildozer.spec
         run: |
+          mkdir -p ${{ github.workspace }}/temp
           echo "[app]\ntitle = Ваше название приложения\npackage.name = ваше_название_приложения\npackage.domain = org.example\nsource.dir = .\nsource.include_exts = py,png,jpg,kv,atlas\nsource.exclude_dirs = tests, bin\nversion = 0.1\nrequirements = kivy\nicon.filename = %(source.dir)s/icon.png\norientation = portrait" > ${{ github.workspace }}/temp/buildozer.spec
       
       - name: Компиляция APK
