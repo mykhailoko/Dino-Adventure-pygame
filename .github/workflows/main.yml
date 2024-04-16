@@ -27,6 +27,9 @@ jobs:
           mkdir -p ${{ github.workspace }}/temp
           echo "[app]\ntitle = Ваше название приложения\npackage.name = ваше_название_приложения\npackage.domain = org.example\nsource.dir = .\nsource.include_exts = py,png,jpg,kv,atlas\nsource.exclude_dirs = tests, bin\nversion = 0.1\nrequirements = kivy\nicon.filename = %(source.dir)s/icon.png\norientation = portrait" > ${{ github.workspace }}/temp/buildozer.spec
       
+      - name: Показать содержимое временной директории
+        run: ls ${{ github.workspace }}/temp
+      
       - name: Компиляция APK
         run: |
           docker run -t -v ${PWD}/src:/buildozer/ -v ${{ github.workspace }}/temp:/buildozer/.buildozer -w /buildozer jedie/buildozer buildozer --verbose android release
