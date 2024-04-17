@@ -80,3 +80,65 @@ class Bird(Obstacle):
             self.index = 0
         SCREEN.blit(self.image[self.index // 5], self.rect)
         self.index += 1
+
+
+class SmallCactusMultiplayer1(Obstacle):
+    def __init__(self, image):
+        self.type = random.randint(0, 2)
+        super().__init__(image, self.type)
+        self.rect.y = 210
+
+class LargeCactusMultiplayer1(Obstacle):
+    def __init__(self, image):
+        self.type = random.randint(0, 2)
+        super().__init__(image, self.type)
+        self.rect.y = 200
+
+class BirdMultiplayer1(Obstacle):
+    def __init__(self, image):
+        self.type = 0
+        super().__init__(image, self.type)
+        self.rect.y = 90
+        self.index = 0
+
+    def update(self, obstacles, game_speed):
+        self.rect.x -= (game_speed + 5)
+        if self.rect.x < -self.rect.width:
+            obstacles.pop()
+
+    def draw(self, SCREEN):
+        if self.index >= 9:
+            self.index = 0
+        SCREEN.blit(self.image[self.index // 5], self.rect)
+        self.index += 1
+
+
+class SmallCactusMultiplayer2(Obstacle):
+    def __init__(self, image):
+        self.type = random.randint(0, 2)
+        super().__init__(image, self.type)
+        self.rect.y = 620
+
+class LargeCactusMultiplayer2(Obstacle):
+    def __init__(self, image):
+        self.type = random.randint(0, 2)
+        super().__init__(image, self.type)
+        self.rect.y = 610
+
+class BirdMultiplayer2(Obstacle):
+    def __init__(self, image):
+        self.type = 0
+        super().__init__(image, self.type)
+        self.rect.y = 490
+        self.index = 0
+
+    def update(self, obstacles, game_speed):
+        self.rect.x -= (game_speed + 5)
+        if self.rect.x < -self.rect.width:
+            obstacles.pop()
+
+    def draw(self, SCREEN):
+        if self.index >= 9:
+            self.index = 0
+        SCREEN.blit(self.image[self.index // 5], self.rect)
+        self.index += 1
