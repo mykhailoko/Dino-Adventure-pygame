@@ -185,3 +185,163 @@ class DinosaurSkin1(Dinosaur):
         self.dino_rect = self.image.get_rect()
         self.dino_rect.x = self.X_POS
         self.dino_rect.y = self.Y_POS
+
+class DinosaurSkin1Winter(Dinosaur):
+    X_POS = 80
+    Y_POS = 400
+    Y_POS_DUCK = 445
+    JUMP_VEL = 8.5
+
+    def __init__(self):
+        self.duck_img = DUCKING_WINTER_SKIN1
+        self.run_img = RUNNING_WINTER_SKIN1
+        self.jump_img = JUMPING_WINTER_SKIN1
+
+        self.dino_duck = False
+        self.dino_run = True
+        self.dino_jump = False
+
+        self.step_index = 0
+        self.jump_vel = self.JUMP_VEL
+        self.image = self.run_img[0]
+        self.dino_rect = self.image.get_rect()
+        self.dino_rect.x = self.X_POS
+        self.dino_rect.y = self.Y_POS
+
+class DinosaurSkin1Beach(Dinosaur):
+    X_POS = 80
+    Y_POS = 400
+    Y_POS_DUCK = 445
+    JUMP_VEL = 8.5
+
+    def __init__(self):
+        self.duck_img = DUCKING_BEACH_SKIN1
+        self.run_img = RUNNING_BEACH_SKIN1
+        self.jump_img = JUMPING_BEACH_SKIN1
+
+        self.dino_duck = False
+        self.dino_run = True
+        self.dino_jump = False
+
+        self.step_index = 0
+        self.jump_vel = self.JUMP_VEL
+        self.image = self.run_img[0]
+        self.dino_rect = self.image.get_rect()
+        self.dino_rect.x = self.X_POS
+        self.dino_rect.y = self.Y_POS
+
+class DinosaurSkin1Zombi(Dinosaur):
+    X_POS = 80
+    Y_POS = 400
+    Y_POS_DUCK = 445
+    JUMP_VEL = 8.5
+
+    def __init__(self):
+        self.duck_img = DUCKING_SKIN1_ZOMBI
+        self.run_img = RUNNING_SKIN1_ZOMBI
+        self.jump_img = JUMPING_SKIN1_ZOMBI
+
+        self.dino_duck = False
+        self.dino_run = True
+        self.dino_jump = False
+
+        self.step_index = 0
+        self.jump_vel = self.JUMP_VEL
+        self.image = self.run_img[0]
+        self.dino_rect = self.image.get_rect()
+        self.dino_rect.x = self.X_POS
+        self.dino_rect.y = self.Y_POS
+
+class DinosaurMultiplayer1(Dinosaur):
+    X_POS = 80
+    Y_POS = 185
+    Y_POS_DUCK = 240
+    JUMP_VEL = 8.5
+
+    def __init__(self):
+        self.duck_img = DUCKING
+        self.run_img = RUNNING
+        self.jump_img = JUMPING
+
+        self.dino_duck = False
+        self.dino_run = True
+        self.dino_jump = False
+
+        self.step_index = 0
+        self.jump_vel = self.JUMP_VEL
+        self.image = self.run_img[0]
+        self.dino_rect = self.image.get_rect()
+        self.dino_rect.x = self.X_POS
+        self.dino_rect.y = self.Y_POS
+
+    def update(self, userInput):
+        if self.dino_duck:
+            self.duck()
+        elif self.dino_run:
+            self.run()
+        elif self.dino_jump:
+            self.jump()
+
+        if self.step_index >= 10:
+            self.step_index = 0
+
+        if userInput[pygame.K_UP] and not self.dino_jump:
+            JUMP_SOUND.play()
+            self.dino_duck = False
+            self.dino_run = False
+            self.dino_jump = True
+        elif userInput[pygame.K_DOWN] and not self.dino_jump:
+            self.dino_duck = True
+            self.dino_run = False
+            self.dino_jump = False
+        elif not (self.dino_jump or userInput[pygame.K_DOWN]):
+            self.dino_duck = False
+            self.dino_run = True
+            self.dino_jump = False
+
+class DinosaurMultiplayer2(Dinosaur):
+    X_POS = 80
+    Y_POS = 600
+    Y_POS_DUCK = 645
+    JUMP_VEL = 8.5
+
+    def __init__(self):
+        self.duck_img = DUCKING_SKIN1
+        self.run_img = RUNNING_SKIN1
+        self.jump_img = JUMPING_SKIN1
+
+        self.dino_duck = False
+        self.dino_run = True
+        self.dino_jump = False
+
+        self.step_index = 0
+        self.jump_vel = self.JUMP_VEL
+        self.image = self.run_img[0]
+        self.dino_rect = self.image.get_rect()
+        self.dino_rect.x = self.X_POS
+        self.dino_rect.y = self.Y_POS
+
+    def update(self, userInput):
+        if self.dino_duck:
+            self.duck()
+        elif self.dino_run:
+            self.run()
+        elif self.dino_jump:
+            self.jump()
+
+        if self.step_index >= 10:
+            self.step_index = 0
+
+        if userInput[pygame.K_w] and not self.dino_jump:
+            JUMP_SOUND.play()
+            self.dino_duck = False
+            self.dino_run = False
+            self.dino_jump = True
+        elif userInput[pygame.K_s] and not self.dino_jump:
+            self.dino_duck = True
+            self.dino_run = False
+            self.dino_jump = False
+        elif not (self.dino_jump or userInput[pygame.K_s]):
+            self.dino_duck = False
+            self.dino_run = True
+            self.dino_jump = False
