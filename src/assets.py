@@ -10,6 +10,10 @@ DEATH_SOUND = pygame.mixer.Sound(os.path.join("Assets", "Sounds", "death_sound.w
 SCORE_SOUND = pygame.mixer.Sound(os.path.join("Assets", "Sounds", "score_sound.wav"))
 JUMP_SOUND = pygame.mixer.Sound(os.path.join("Assets", "Sounds", "jump_sound.wav"))
 MAIN_MENU_MUSIC = os.path.join("Assets", "Sounds", "main_menu.mp3")
+WINTER_LEVEL_MUSIC = os.path.join("Assets", "Sounds", "winter_level.mp3")
+BEACH_LEVEL_MUSIC = os.path.join("Assets", "Sounds", "beach_level.mp3")
+ZOMBI_LEVEL_MUSIC = os.path.join("Assets", "Sounds", "zombi_level.mp3")
+MAIN_LEVEL_MUSIC = os.path.join("Assets", "Sounds", "main_level.mp3")
 
 RUNNING = []
 DUCKING = []
@@ -32,6 +36,13 @@ for i in range(1, 3):
     DUCKING_WINTER.append(pygame.image.load(os.path.join("Assets", "Dino", f"DinoDuckWinter{i}.png")).convert_alpha()) 
 JUMPING_WINTER = pygame.image.load(os.path.join("Assets", "Dino", "DinoJumpWinter.png")).convert_alpha()
 
+RUNNING_WINTER_SKIN1 = []
+DUCKING_WINTER_SKIN1 = []
+for i in range(1, 3):
+    RUNNING_WINTER_SKIN1.append(pygame.image.load(os.path.join("Assets", "Dino", f"DinoSkin1RunWinter{i}.png")).convert_alpha())
+    DUCKING_WINTER_SKIN1.append(pygame.image.load(os.path.join("Assets", "Dino", f"DinoSkin1DuckWinter{i}.png")).convert_alpha()) 
+JUMPING_WINTER_SKIN1 = pygame.image.load(os.path.join("Assets", "Dino", "DinoSkin1JumpWinter.png")).convert_alpha()
+
 RUNNING_BEACH = []
 DUCKING_BEACH = []
 for i in range(1, 3):
@@ -39,12 +50,26 @@ for i in range(1, 3):
     DUCKING_BEACH.append(pygame.image.load(os.path.join("Assets", "Dino", f"DinoDuckBeach{i}.png")).convert_alpha()) 
 JUMPING_BEACH = pygame.image.load(os.path.join("Assets", "Dino", "DinoJumpBeach.png")).convert_alpha()
 
+RUNNING_BEACH_SKIN1 = []
+DUCKING_BEACH_SKIN1 = []
+for i in range(1, 3):
+    RUNNING_BEACH_SKIN1.append(pygame.image.load(os.path.join("Assets", "Dino", f"DinoSkin1RunBeach{i}.png")).convert_alpha())
+    DUCKING_BEACH_SKIN1.append(pygame.image.load(os.path.join("Assets", "Dino", f"DinoSkin1DuckBeach{i}.png")).convert_alpha()) 
+JUMPING_BEACH_SKIN1 = pygame.image.load(os.path.join("Assets", "Dino", "DinoSkin1JumpBeach.png")).convert_alpha()
+
 RUNNING_ZOMBI = []
 DUCKING_ZOMBI = []
 for i in range(1, 3):
     RUNNING_ZOMBI.append(pygame.image.load(os.path.join("Assets", "Dino", f"DinoRunZombi{i}.png")).convert_alpha())
     DUCKING_ZOMBI.append(pygame.image.load(os.path.join("Assets", "Dino", f"DinoDuckZombi{i}.png")).convert_alpha()) 
 JUMPING_ZOMBI = pygame.image.load(os.path.join("Assets", "Dino", "DinoJumpZombi.png")).convert_alpha()
+
+RUNNING_SKIN1_ZOMBI = []
+DUCKING_SKIN1_ZOMBI = []
+for i in range(1, 3):
+    RUNNING_SKIN1_ZOMBI.append(pygame.image.load(os.path.join("Assets", "Dino", f"DinoSkin1RunZombi{i}.png")).convert_alpha())
+    DUCKING_SKIN1_ZOMBI.append(pygame.image.load(os.path.join("Assets", "Dino", f"DinoSkin1DuckZombi{i}.png")).convert_alpha()) 
+JUMPING_SKIN1_ZOMBI = pygame.image.load(os.path.join("Assets", "Dino", "DinoSkin1JumpZombi.png")).convert_alpha()
 
 
 DINOMENU = pygame.image.load(os.path.join("Assets", "Dino", "DinoMenu.png")).convert_alpha()
@@ -57,12 +82,12 @@ LARGE_CACTUS = [pygame.image.load(os.path.join("Assets", "Cactus", "LargeCactus1
                 pygame.image.load(os.path.join("Assets", "Cactus", "LargeCactus3.png")).convert_alpha()]
 
 
-SMALL_CACTUS_WINTER = [pygame.image.load(os.path.join("Assets", "Cactus", "SmallCactusWinter1.png")).convert_alpha(),
-                pygame.image.load(os.path.join("Assets", "Cactus", "SmallCactusWinter2.png")).convert_alpha(),
-                pygame.image.load(os.path.join("Assets", "Cactus", "SmallCactusWinter3.png")).convert_alpha()]
-LARGE_CACTUS_WINTER = [pygame.image.load(os.path.join("Assets", "Cactus", "LargeCactusWinter1.png")).convert_alpha(),
-                pygame.image.load(os.path.join("Assets", "Cactus", "LargeCactusWinter2.png")).convert_alpha(),
-                pygame.image.load(os.path.join("Assets", "Cactus", "LargeCactusWinter3.png")).convert_alpha()]
+SNOWMAN = [pygame.image.load(os.path.join("Assets", "Cactus", "Snowman1.png")).convert_alpha(),
+                pygame.image.load(os.path.join("Assets", "Cactus", "Snowman2.png")).convert_alpha(),
+                pygame.image.load(os.path.join("Assets", "Cactus", "Snowman3.png")).convert_alpha()]
+SKIS = [pygame.image.load(os.path.join("Assets", "Cactus", "Skis1.png")).convert_alpha(),
+                pygame.image.load(os.path.join("Assets", "Cactus", "Skis2.png")).convert_alpha(),
+                pygame.image.load(os.path.join("Assets", "Cactus", "Skis3.png")).convert_alpha()]
 
 SMALL_GRAVES = [pygame.image.load(os.path.join("Assets", "Cactus", "SmallGraves1.png")).convert_alpha(),
                 pygame.image.load(os.path.join("Assets", "Cactus", "SmallGraves2.png")).convert_alpha(),
@@ -142,6 +167,9 @@ SKINBEACH1 = pygame.image.load(os.path.join("Assets", "Dino", "SkinBeach1.png"))
 SKINZOMBI1 = pygame.image.load(os.path.join("Assets", "Dino", "SkinZombi1.png")).convert_alpha()
 
 DINOSKIN2 = pygame.image.load(os.path.join("Assets", "Dino", "DinoSkin2.png")).convert_alpha()
+SKINSANTA2 = pygame.image.load(os.path.join("Assets", "Dino", "SkinSanta2.png")).convert_alpha()
+SKINBEACH2 = pygame.image.load(os.path.join("Assets", "Dino", "SkinBeach2.png")).convert_alpha()
+SKINZOMBI2 = pygame.image.load(os.path.join("Assets", "Dino", "SkinZombi2.png")).convert_alpha()
 
 SKINBUTTON1 = pygame.image.load(os.path.join("Assets", "Dino", "SkinButton1.png")).convert_alpha()
 SKINBUTTON2 = pygame.image.load(os.path.join("Assets", "Dino", "SkinButton2.png")).convert_alpha()
@@ -157,3 +185,13 @@ OKAY = pygame.image.load (os.path.join("Assets", "Other", "Okay.png")).convert_a
 MENULEVELS = pygame.image.load (os.path.join("Assets", "Other", "MenuLevels.png")).convert_alpha()
 
 BOOST = pygame.image.load (os.path.join("Assets", "Other", "boost.png")).convert_alpha()
+
+MULTIPLAYERBG1 = pygame.image.load (os.path.join("Assets", "Other", "multiplayer1.png")).convert_alpha()
+MULTIPLAYERBG2 = pygame.image.load (os.path.join("Assets", "Other", "multiplayer2.png")).convert_alpha()
+MULTIPLAYERBG3 = pygame.image.load (os.path.join("Assets", "Other", "multiplayer3.png")).convert_alpha()
+
+EXIT = pygame.image.load (os.path.join("Assets", "Other", "Exit.png")).convert_alpha()
+EXITBOARD = pygame.image.load (os.path.join("Assets", "Other", "ExitBoard.png")).convert_alpha()
+EXITYES = pygame.image.load (os.path.join("Assets", "Other", "ExitYes.png")).convert_alpha()
+EXITNO = pygame.image.load (os.path.join("Assets", "Other", "ExitNo.png")).convert_alpha()
+EXITMENU = pygame.image.load (os.path.join("Assets", "Other", "ExitMenu.png")).convert_alpha()
