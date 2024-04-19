@@ -7,6 +7,10 @@
   <a href="https://github.com/psf/black">
     <img src="https://img.shields.io/badge/License-GPL_3.0-blue.svg" height="20">
   </a>
+
+   <a href="https://github.com/psf/black">
+    <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white" height="20">
+  </a>
 </div>
 
 Добро пожаловать в игру Dino Adventure! Этот проект - воссоздание классической браузерной игры, которую вы могли встретить, когда ваше интернет-соединение пропадает, и вы видите динозавра на странице "Нет подключения к Интернету" в Google Chrome. Наша версия игры предлагает множество уникальных особенностей и функций, которые не встретишь в классической версии от Google. Проект создана на Python с использованием библиотеки Pygame.
