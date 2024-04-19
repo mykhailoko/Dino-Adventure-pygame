@@ -9,16 +9,13 @@ env:
   REPO_NAME: mykhailoko/Dino-Adventure
 
 jobs:
-  build:
+  container-test-job:
     runs-on: ubuntu-latest
-    
     container:
-      image: nodejs:18
-      
-    steps:
-      - name: Checkout Сode
-        uses: actions/checkout@v2
-        
+      image: node:18
+      volumes:
+        - my_docker_volume:/volume_mount
+    steps:        
       - name: Print version information
         run: |
           cython --version
