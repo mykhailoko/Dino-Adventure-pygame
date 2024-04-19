@@ -16,11 +16,16 @@ jobs:
       env:
         NODE_ENV: development
       volumes:
-        - ./:/Dino-Adventure
+        - ./Dino-Adventure:/Dino-Adventure
     steps:        
       - name: Checkout Сode
         uses: actions/checkout@v1
         
       - name: Check for dockerenv file
         run: pwd && ls && ls -la /Dino-Adventure
+
+      - name: Print version information
+        run: |
+          cython --version
+          buildozer --version
           
