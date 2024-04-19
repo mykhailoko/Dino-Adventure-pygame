@@ -29,4 +29,7 @@ jobs:
           uname -a
           cython --version
           buildozer --version
+
+      - name: Build Android app
+        run: buildozer --verbose android debug --spec ./buildozer.spec   
           
