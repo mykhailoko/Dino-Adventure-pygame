@@ -43,9 +43,7 @@
 * Мультиплеер: Возможность соревноваться с друзьями в кооперативном режиме или в режиме реального времени.
 
 ## Система Интеграции и развертывания 
-В качестве системы CI/CD выступает Github Actions
-
-[![Build Python Project](https://github.com/mykhailoko/Dino-Adventure/actions/workflows/main.yml/badge.svg)](https://github.com/mykhailoko/Dino-Adventure/actions/workflows/main.yml)
+В качестве системы CI/CD выступает Github Actions [![Build Python Project](https://github.com/mykhailoko/Dino-Adventure/actions/workflows/main.yml/badge.svg)](https://github.com/mykhailoko/Dino-Adventure/actions/workflows/main.yml)
   
 
 ## Фото игры
