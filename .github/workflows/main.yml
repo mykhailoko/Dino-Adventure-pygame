@@ -26,6 +26,7 @@ jobs:
 
       - name: Print version information
         run: |
+          uname -a
           cython --version
           buildozer --version
           
