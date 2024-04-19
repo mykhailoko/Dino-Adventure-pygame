@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     
     container:
-      image: jedie/buildozer
+      image: nodejs:18
       
     steps:
       - name: Checkout Сode
