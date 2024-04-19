@@ -11,7 +11,8 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
-    
+    container:
+      image: jedie/buildozer
     steps:
       - name: Checkout Сode
         uses: actions/checkout@v2
@@ -27,9 +28,9 @@ jobs:
       
       - name: Print version information
         run: |
-          docker run jedie/buildozer uname -a
-          docker run jedie/buildozer cython --version
-          docker run jedie/buildozer buildozer --version
+          uname -a
+          cython --version
+          buildozer --version
       
       - name: Compile APK
         run: |
