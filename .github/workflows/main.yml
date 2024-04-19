@@ -13,10 +13,11 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: node:18
+      env:
+        NODE_ENV: development
       volumes:
         - my_docker_volume:/volume_mount
     steps:        
-      - name: Print version information
-        run: |
-          cython --version
-          buildozer --version
+      - name: Check for dockerenv file
+        run: (ls /.dockerenv && echo Found dockerenv) || (echo No dockerenv)
+          
