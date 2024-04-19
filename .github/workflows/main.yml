@@ -20,6 +20,9 @@ jobs:
     steps:        
       - name: Checkout Сode
         uses: actions/checkout@v1
+
+      - name: Create test file
+        run: touch dino.txt
         
       - name: Check for dockerenv file
         run: pwd && ls && ls -la /Dino-Adventure
