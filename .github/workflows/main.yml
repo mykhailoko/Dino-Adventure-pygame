@@ -12,7 +12,7 @@ jobs:
   container-test-job:
     runs-on: ubuntu-latest
     container:
-      image: node:18
+      image: jedie/buildozer
       env:
         NODE_ENV: development
       volumes:
