@@ -19,13 +19,14 @@ from assets import *
 from dinosaur import *
 from obstacles import *
 from button import *
+from boost import *
 
 pygame.mixer.music.load(MAIN_MENU_MUSIC)
 pygame.mixer.music.set_volume(0.5)  # Устанавливаем громкость музыки (от 0 до 1)
 pygame.mixer.music.play(-1)  # -1 означает,что музыка будет воспроизводиться в цикле бесконечно
 
 
-def main(player):
+def main(player, level_state):
     run = True
     clock = pygame.time.Clock()
     game_speed = 16
@@ -34,8 +35,12 @@ def main(player):
 
     font = pygame.font.Font('freesansbold.ttf', 23)
     obstacles = []
+    boosts = []
     death_count = 0
     main_music_playing = False
+
+    pause_button = Button(1465, 30, PAUSE)
+    paused = False
 
     def play_main_music():
         pygame.mixer.music.load(MAIN_LEVEL_MUSIC)
@@ -60,13 +65,26 @@ def main(player):
 
         text = font.render("Points: " + str(points), True, (255, 255, 255))
         textRect = text.get_rect()
-        textRect.center = (1440, 40)
+        textRect.center = (80, 40)
         SCREEN.blit(text, textRect)
         return points, game_speed, background_speed
     
-    def speed(game_speed):
-        game_speed -=7
-        return game_speed
+    def pause_board(death_count, player, paused, level_state, points):
+            pause_start = Button(620, 330, PAUSESTART)
+            pause_menu = Button(620, 440, PAUSEMENU)
+            
+            SCREEN.blit(PAUSEBOARD, (420, 170))
+
+            if pause_start.draw():
+                paused = False
+
+            if pause_menu.draw():
+                death_count += 1
+                level_state = "main"
+                loose_menu(death_count, level_state, points, player)
+                stop_music()
+
+            return paused
 
     x1_pos_bg = 0
     x2_pos_bg = 0
@@ -75,72 +93,102 @@ def main(player):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_p:  # Нажата кнопка 'p' (пауза)
+                    paused = not paused  # Изменить состояние паузы 
+            
+        if paused == False:
+            if not main_music_playing:
+                play_main_music()
+                main_music_playing = True
 
-        if not main_music_playing:
-            play_main_music()
-            main_music_playing = True
+            userInput = pygame.key.get_pressed()
 
-        userInput = pygame.key.get_pressed()
+            SCREEN.fill((255, 255, 255))
 
-        SCREEN.fill((255, 255, 255))
+            # Отображение фона
+            SCREEN.blit(CLASSIC1, (x1_pos_bg, 515))
+            SCREEN.blit(CLASSIC1, (CLASSIC1.get_width() + x1_pos_bg, 515))
 
-        # Отображение фона
-        SCREEN.blit(CLASSIC1, (x1_pos_bg, 515))
-        SCREEN.blit(CLASSIC1, (CLASSIC1.get_width() + x1_pos_bg, 515))
+            SCREEN.blit(CLASSIC2, (x2_pos_bg, 0))
+            SCREEN.blit(CLASSIC2, (CLASSIC2.get_width() + x2_pos_bg, 0))
 
-        SCREEN.blit(CLASSIC2, (x2_pos_bg, 0))
-        SCREEN.blit(CLASSIC2, (CLASSIC2.get_width() + x2_pos_bg, 0))
+            if len(obstacles) == 0:
+                obstacle_type = random.randint(0, 2)
+                if obstacle_type == 0:
+                    obstacles.append(SmallCactus(SMALL_CACTUS))
+                elif obstacle_type == 1:
+                    obstacles.append(LargeCactus(LARGE_CACTUS))
+                elif obstacle_type == 2:
+                    obstacles.append(Bird(BIRD))
 
-        if len(obstacles) == 0:
-            obstacle_type = random.randint(0, 2)
-            if obstacle_type == 0:
-                obstacles.append(SmallCactus(SMALL_CACTUS))
-            elif obstacle_type == 1:
-                obstacles.append(LargeCactus(LARGE_CACTUS))
-            elif obstacle_type == 2:
-                obstacles.append(Bird(BIRD))
+            for obstacle in obstacles:
+                obstacle.draw(SCREEN)
+                obstacle.update(obstacles, game_speed)
 
-        for obstacle in obstacles:
-            obstacle.draw(SCREEN)
-            obstacle.update(obstacles, game_speed)
+                # Столкновение
+                dino_rect_adjusted = pygame.Rect(player.dino_rect.x, player.dino_rect.y,
+                                                player.dino_rect.width - 60, player.dino_rect.height - 40)
+                obstacle_rect_adjusted = pygame.Rect(obstacle.rect.x, obstacle.rect.y,
+                                                    obstacle.rect.width - 20, obstacle.rect.height - 15)
 
-            # Столкновение
-            dino_rect_adjusted = pygame.Rect(player.dino_rect.x, player.dino_rect.y,
-                                              player.dino_rect.width - 60, player.dino_rect.height - 40)
-            obstacle_rect_adjusted = pygame.Rect(obstacle.rect.x, obstacle.rect.y,
-                                                  obstacle.rect.width - 20, obstacle.rect.height - 15)
+                if dino_rect_adjusted.colliderect(obstacle_rect_adjusted):
+                    DEATH_SOUND.play()
+                    pygame.time.delay(700)
+                    death_count += 1
+                    level_state = "main"
+                    loose_menu(death_count, level_state, points, player)
+                    run = False
+                    stop_music()
 
-            if dino_rect_adjusted.colliderect(obstacle_rect_adjusted):
-                DEATH_SOUND.play()
-                pygame.time.delay(700)
-                death_count += 1
-                level_state = "main"
-                loose_menu(death_count, level_state, points, player)
-                run = False
-                stop_music()
+            # BOOST
+            '''
+            if len(boosts) == 0:
+                boost_type = random.randint(0, 10)
+                if boost_type == 0:
+                    boosts.append(Speed(BOOST))
 
+            for boost in boosts:
+                boost.draw(SCREEN)
+                boost.update(boosts, game_speed)
 
-        points, game_speed, background_speed = score(points, game_speed, background_speed)
+                # Столкновение
+                dino_rect_adjusted = pygame.Rect(player.dino_rect.x, player.dino_rect.y,
+                                                player.dino_rect.width - 60, player.dino_rect.height - 40)
+                boost_rect_adjusted = pygame.Rect(boost.rect.x, boost.rect.y,
+                                                boost.rect.width - 20, boost.rect.height - 15)
 
-        player.draw(SCREEN)
-        player.update(userInput)
+                if dino_rect_adjusted.colliderect(boost_rect_adjusted):
+                    pass
+            '''
 
-        x1_pos_bg -= game_speed
-        if x1_pos_bg <= -CLASSIC1.get_width():
-            x1_pos_bg = 0
+            if pause_button.draw():
+                paused = True
 
-        x2_pos_bg -= (background_speed - 13)
-        if x2_pos_bg <= -CLASSIC2.get_width():
-            x2_pos_bg = 0
+            points, game_speed, background_speed = score(points, game_speed, background_speed)
+
+            player.draw(SCREEN)
+            player.update(userInput)
+
+            x1_pos_bg -= game_speed
+            if x1_pos_bg <= -CLASSIC1.get_width():
+                x1_pos_bg = 0
+
+            x2_pos_bg -= (background_speed - 13)
+            if x2_pos_bg <= -CLASSIC2.get_width():
+                x2_pos_bg = 0
 
         pygame.display.flip()
 
         clock.tick(30)
 
+        if paused == True:
+            paused = pause_board(death_count, player, paused, level_state, points)
+
     play_menu_music()
 
 
-def main_winter(player):
+def main_winter(player, level_state):
     run = True
     clock = pygame.time.Clock()
     game_speed = 16
@@ -150,6 +198,8 @@ def main_winter(player):
     obstacles = []
     death_count = 0
     winter_music_playing = False
+    pause_button = Button(1465, 30, PAUSE)
+    paused = False
 
     def play_winter_music():
         pygame.mixer.music.load(WINTER_LEVEL_MUSIC)
@@ -174,9 +224,26 @@ def main_winter(player):
 
         text = font.render("Points: " + str(points), True, (0, 0, 0))
         textRect = text.get_rect()
-        textRect.center = (1440, 40)
+        textRect.center = (80, 40)
         SCREEN.blit(text, textRect)
         return points, game_speed, background_speed
+    
+    def pause_board(death_count, player, paused, level_state, points):
+            pause_start = Button(620, 330, PAUSESTART)
+            pause_menu = Button(620, 440, PAUSEMENU)
+            
+            SCREEN.blit(PAUSEBOARD, (420, 170))
+
+            if pause_start.draw():
+                paused = False
+
+            if pause_menu.draw():
+                death_count += 1
+                level_state = "main_winter"
+                loose_menu(death_count, level_state, points, player)
+                stop_music()
+
+            return paused
 
     x1_pos_bg = 0
     x2_pos_bg = 0
@@ -186,77 +253,86 @@ def main_winter(player):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_p:  # Нажата кнопка 'p' (пауза)
+                    paused = not paused  # Изменить состояние паузы 
+            
+        if paused == False:
+            if not winter_music_playing:
+                play_winter_music()
+                winter_music_playing = True
 
-        if not winter_music_playing:
-            play_winter_music()
-            winter_music_playing = True
+            userInput = pygame.key.get_pressed()
 
-        userInput = pygame.key.get_pressed()
+            SCREEN.fill((255, 255, 255))
 
-        SCREEN.fill((255, 255, 255))
+            SCREEN.blit(WINTER1, (x1_pos_bg, 555))
+            SCREEN.blit(WINTER1, (WINTER1.get_width() + x1_pos_bg, 555))
 
-        SCREEN.blit(WINTER1, (x1_pos_bg, 555))
-        SCREEN.blit(WINTER1, (WINTER1.get_width() + x1_pos_bg, 555))
+            SCREEN.blit(WINTER2, (x2_pos_bg, 523))
+            SCREEN.blit(WINTER2, (WINTER2.get_width() + x2_pos_bg, 523))
 
-        SCREEN.blit(WINTER2, (x2_pos_bg, 523))
-        SCREEN.blit(WINTER2, (WINTER2.get_width() + x2_pos_bg, 523))
+            SCREEN.blit(WINTER3, (x3_pos_bg, 0))
+            SCREEN.blit(WINTER3, (WINTER3.get_width() + x3_pos_bg, 0))
 
-        SCREEN.blit(WINTER3, (x3_pos_bg, 0))
-        SCREEN.blit(WINTER3, (WINTER3.get_width() + x3_pos_bg, 0))
+            if len(obstacles) == 0:
+                if random.randint(0, 2) == 0:
+                    obstacles.append(SmallCactus(SNOWMAN))
+                elif random.randint(0, 2) == 1:
+                    obstacles.append(LargeCactus(SKIS))
+                elif random.randint(0, 2) == 2:
+                    obstacles.append(Bird(BIRD_WINTER))
 
-        if len(obstacles) == 0:
-            if random.randint(0, 2) == 0:
-                obstacles.append(SmallCactus(SNOWMAN))
-            elif random.randint(0, 2) == 1:
-                obstacles.append(LargeCactus(SKIS))
-            elif random.randint(0, 2) == 2:
-                obstacles.append(Bird(BIRD_WINTER))
+            for obstacle in obstacles:
+                obstacle.draw(SCREEN)
+                obstacle.update(obstacles, game_speed)
 
-        for obstacle in obstacles:
-            obstacle.draw(SCREEN)
-            obstacle.update(obstacles, game_speed)
+                dino_rect_adjusted = pygame.Rect(player.dino_rect.x, player.dino_rect.y,
+                                                player.dino_rect.width - 60, player.dino_rect.height - 40)
+                obstacle_rect_adjusted = pygame.Rect(obstacle.rect.x, obstacle.rect.y,
+                                                    obstacle.rect.width - 20, obstacle.rect.height - 15)
 
-            dino_rect_adjusted = pygame.Rect(player.dino_rect.x, player.dino_rect.y,
-                                              player.dino_rect.width - 60, player.dino_rect.height - 40)
-            obstacle_rect_adjusted = pygame.Rect(obstacle.rect.x, obstacle.rect.y,
-                                                  obstacle.rect.width - 20, obstacle.rect.height - 15)
+                if dino_rect_adjusted.colliderect(obstacle_rect_adjusted):
+                    DEATH_SOUND.play()
+                    pygame.time.delay(700)
+                    death_count += 1
+                    level_state = "main_winter"
+                    loose_menu(death_count, level_state, points, player)
+                    run = False
+                    stop_music()
 
-            if dino_rect_adjusted.colliderect(obstacle_rect_adjusted):
-                DEATH_SOUND.play()
-                pygame.time.delay(700)
-                death_count += 1
-                level_state = "main_winter"
-                loose_menu(death_count, level_state, points, player)
-                run = False
-                stop_music()
-                
+            if pause_button.draw():
+                paused = True       
 
-        points, game_speed, background_speed = score(points, game_speed, background_speed)
+            points, game_speed, background_speed = score(points, game_speed, background_speed)
 
-        player.draw(SCREEN)
-        player.update(userInput)
+            player.draw(SCREEN)
+            player.update(userInput)
 
-        x1_pos_bg -= (background_speed + 3)
-        if x1_pos_bg <= -WINTER1.get_width():
-            x1_pos_bg = 0
+            x1_pos_bg -= (background_speed + 3)
+            if x1_pos_bg <= -WINTER1.get_width():
+                x1_pos_bg = 0
 
-        x2_pos_bg -= game_speed 
-        if x2_pos_bg <= -WINTER2.get_width():
-            x2_pos_bg = 0
+            x2_pos_bg -= game_speed 
+            if x2_pos_bg <= -WINTER2.get_width():
+                x2_pos_bg = 0
 
-        x3_pos_bg -= (background_speed - 13)
-        if x3_pos_bg <= -WINTER3.get_width():
-            x3_pos_bg = 0
+            x3_pos_bg -= (background_speed - 13)
+            if x3_pos_bg <= -WINTER3.get_width():
+                x3_pos_bg = 0
 
         pygame.display.flip()
 
         clock.tick(30)
 
+        if paused == True:
+            paused = pause_board(death_count, player, paused, level_state, points)
+
     # После выхода из цикла уровня, вызов функции воспроизведения музыки из меню
     play_menu_music()
 
 
-def main_beach(player):
+def main_beach(player, level_state):
     run = True
     clock = pygame.time.Clock()
     game_speed = 16
@@ -266,6 +342,9 @@ def main_beach(player):
     obstacles = []
     death_count = 0
     beach_music_playing = False
+
+    pause_button = Button(1465, 30, PAUSE)
+    paused = False
 
     def play_beach_music():
         pygame.mixer.music.load(BEACH_LEVEL_MUSIC)
@@ -290,9 +369,26 @@ def main_beach(player):
 
         text = font.render("Points: " + str(points), True, (0, 0, 0))
         textRect = text.get_rect()
-        textRect.center = (1440, 40)
+        textRect.center = (80, 40)
         SCREEN.blit(text, textRect)
         return points, game_speed, background_speed
+    
+    def pause_board(death_count, player, paused, level_state, points):
+            pause_start = Button(620, 330, PAUSESTART)
+            pause_menu = Button(620, 440, PAUSEMENU)
+            
+            SCREEN.blit(PAUSEBOARD, (420, 170))
+
+            if pause_start.draw():
+                paused = False
+
+            if pause_menu.draw():
+                death_count += 1
+                level_state = "main_beach"
+                loose_menu(death_count, level_state, points, player)
+                stop_music()
+
+            return paused
 
     x1_pos_bg = 0
     x2_pos_bg = 0
@@ -302,75 +398,86 @@ def main_beach(player):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_p:  # Нажата кнопка 'p' (пауза)
+                    paused = not paused  # Изменить состояние паузы 
+            
+        if paused == False:
+            if not beach_music_playing:
+                play_beach_music()
+                beach_music_playing = True
+            userInput = pygame.key.get_pressed()
 
-        if not beach_music_playing:
-            play_beach_music()
-            beach_music_playing = True
-        userInput = pygame.key.get_pressed()
+            SCREEN.fill((255, 255, 255))
 
-        SCREEN.fill((255, 255, 255))
+            # Отображение фона 
+            SCREEN.blit(BEACH1, (x1_pos_bg, 510))
+            SCREEN.blit(BEACH1, (BEACH1.get_width() + x1_pos_bg, 510))
 
-        # Отображение фона 
-        SCREEN.blit(BEACH1, (x1_pos_bg, 510))
-        SCREEN.blit(BEACH1, (BEACH1.get_width() + x1_pos_bg, 510))
+            SCREEN.blit(BEACH2, (x2_pos_bg, 332))
+            SCREEN.blit(BEACH2, (BEACH2.get_width() + x2_pos_bg, 332))
 
-        SCREEN.blit(BEACH2, (x2_pos_bg, 332))
-        SCREEN.blit(BEACH2, (BEACH2.get_width() + x2_pos_bg, 332))
+            SCREEN.blit(BEACH3, (x3_pos_bg, 0))
+            SCREEN.blit(BEACH3, (BEACH3.get_width() + x3_pos_bg, 0))
 
-        SCREEN.blit(BEACH3, (x3_pos_bg, 0))
-        SCREEN.blit(BEACH3, (BEACH3.get_width() + x3_pos_bg, 0))
+            if len(obstacles) == 0:
+                if random.randint(0, 2) == 0:
+                    obstacles.append(LargeCactus(LARGE_TREES))
+                elif random.randint(0, 2) == 1:
+                    obstacles.append(LargeCactus(LARGE_BOARDS))
+                elif random.randint(0, 2) == 2:
+                    obstacles.append(Bird(BIRD_BEACH))
 
-        if len(obstacles) == 0:
-            if random.randint(0, 2) == 0:
-                obstacles.append(LargeCactus(LARGE_TREES))
-            elif random.randint(0, 2) == 1:
-                obstacles.append(LargeCactus(LARGE_BOARDS))
-            elif random.randint(0, 2) == 2:
-                obstacles.append(Bird(BIRD_BEACH))
+            for obstacle in obstacles:
+                obstacle.draw(SCREEN)
+                obstacle.update(obstacles, game_speed)
 
-        for obstacle in obstacles:
-            obstacle.draw(SCREEN)
-            obstacle.update(obstacles, game_speed)
+                # Столкновение
+                dino_rect_adjusted = pygame.Rect(player.dino_rect.x, player.dino_rect.y,
+                                                player.dino_rect.width - 60, player.dino_rect.height - 40)
+                obstacle_rect_adjusted = pygame.Rect(obstacle.rect.x, obstacle.rect.y,
+                                                    obstacle.rect.width - 20, obstacle.rect.height - 15)
 
-            # Столкновение
-            dino_rect_adjusted = pygame.Rect(player.dino_rect.x, player.dino_rect.y,
-                                              player.dino_rect.width - 60, player.dino_rect.height - 40)
-            obstacle_rect_adjusted = pygame.Rect(obstacle.rect.x, obstacle.rect.y,
-                                                  obstacle.rect.width - 20, obstacle.rect.height - 15)
+                if dino_rect_adjusted.colliderect(obstacle_rect_adjusted):
+                    DEATH_SOUND.play()
+                    pygame.time.delay(700)
+                    death_count += 1
+                    level_state = "main_beach"
+                    loose_menu(death_count, level_state, points, player)
+                    run = False
+                    stop_music()
 
-            if dino_rect_adjusted.colliderect(obstacle_rect_adjusted):
-                DEATH_SOUND.play()
-                pygame.time.delay(700)
-                death_count += 1
-                level_state = "main_beach"
-                loose_menu(death_count, level_state, points, player)
-                run = False
-                stop_music()
+            if pause_button.draw():
+                paused = True  
 
-        points, game_speed, background_speed = score(points, game_speed, background_speed)
+            points, game_speed, background_speed = score(points, game_speed, background_speed)
 
-        player.draw(SCREEN)
-        player.update(userInput)
+            player.draw(SCREEN)
+            player.update(userInput)
 
-        x1_pos_bg -= game_speed
-        if x1_pos_bg <= -BEACH1.get_width():
-            x1_pos_bg = 0
+            x1_pos_bg -= game_speed
+            if x1_pos_bg <= -BEACH1.get_width():
+                x1_pos_bg = 0
 
-        x2_pos_bg -= (background_speed - 10)
-        if x2_pos_bg <= -BEACH2.get_width():
-            x2_pos_bg = 0
+            x2_pos_bg -= (background_speed - 10)
+            if x2_pos_bg <= -BEACH2.get_width():
+                x2_pos_bg = 0
 
-        x3_pos_bg -= (background_speed - 11)
-        if x3_pos_bg <= -BEACH3.get_width():
-           x3_pos_bg = 0
+            x3_pos_bg -= (background_speed - 11)
+            if x3_pos_bg <= -BEACH3.get_width():
+                x3_pos_bg = 0
 
         pygame.display.flip()    
 
         clock.tick(30)
+
+        if paused == True:
+            paused = pause_board(death_count, player, paused, level_state, points)
+
     play_menu_music()
 
 
-def main_zombi(player):
+def main_zombi(player, level_state):
     run = True
     clock = pygame.time.Clock()
     game_speed = 14
@@ -380,6 +487,9 @@ def main_zombi(player):
     obstacles = []
     death_count = 0
     zombi_music_playing = False
+
+    pause_button = Button(1465, 30, PAUSEWHITE)
+    paused = False
 
     def play_zombi_music():
         pygame.mixer.music.load(ZOMBI_LEVEL_MUSIC)
@@ -404,9 +514,26 @@ def main_zombi(player):
 
         text = font.render("Points: " + str(points), True, (255, 255, 255))
         textRect = text.get_rect()
-        textRect.center = (1440, 40)
+        textRect.center = (80, 40)
         SCREEN.blit(text, textRect)
         return points, game_speed, background_speed
+
+    def pause_board(death_count, player, paused, level_state, points):
+            pause_start = Button(620, 330, PAUSESTART)
+            pause_menu = Button(620, 440, PAUSEMENU)
+            
+            SCREEN.blit(PAUSEBOARD, (420, 170))
+
+            if pause_start.draw():
+                paused = False
+
+            if pause_menu.draw():
+                death_count += 1
+                level_state = "main_zombi"
+                loose_menu(death_count, level_state, points, player)
+                stop_music()
+
+            return paused
 
     x1_pos_bg = 0
     x2_pos_bg = 0
@@ -416,81 +543,91 @@ def main_zombi(player):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
-
-        if not zombi_music_playing:
-            play_zombi_music()
-            zombi_music_playing = True
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_p:  # Нажата кнопка 'p' (пауза)
+                    paused = not paused  # Изменить состояние паузы 
             
-        userInput = pygame.key.get_pressed()
+        if paused == False:
+            if not zombi_music_playing:
+                play_zombi_music()
+                zombi_music_playing = True
+                
+            userInput = pygame.key.get_pressed()
 
-        SCREEN.fill((255, 255, 255))
+            SCREEN.fill((255, 255, 255))
 
-        # Отображение фона 
-        SCREEN.blit(ZOMBI1, (x1_pos_bg, 550))
-        SCREEN.blit(ZOMBI1, (ZOMBI1.get_width() + x1_pos_bg, 550))
+            # Отображение фона 
+            SCREEN.blit(ZOMBI1, (x1_pos_bg, 550))
+            SCREEN.blit(ZOMBI1, (ZOMBI1.get_width() + x1_pos_bg, 550))
 
-        SCREEN.blit(ZOMBI2, (x2_pos_bg, 510))
-        SCREEN.blit(ZOMBI2, (ZOMBI1.get_width() + x2_pos_bg, 510))
+            SCREEN.blit(ZOMBI2, (x2_pos_bg, 510))
+            SCREEN.blit(ZOMBI2, (ZOMBI1.get_width() + x2_pos_bg, 510))
 
-        SCREEN.blit(ZOMBI3, (x3_pos_bg, 0))
-        SCREEN.blit(ZOMBI3, (ZOMBI3.get_width() + x3_pos_bg, 0))
-
-
-        if len(obstacles) == 0:
-            if random.randint(0, 2) == 0:
-                obstacles.append(Zombi(ZOMBI))
-            elif random.randint(0, 2) == 1:
-                obstacles.append(LargeCactus(LARGE_GRAVES))
-            elif random.randint(0, 2) == 2:
-                obstacles.append(Bird(BAT))
+            SCREEN.blit(ZOMBI3, (x3_pos_bg, 0))
+            SCREEN.blit(ZOMBI3, (ZOMBI3.get_width() + x3_pos_bg, 0))
 
 
-        for obstacle in obstacles:
-            obstacle.draw(SCREEN)
-            obstacle.update(obstacles, game_speed)
+            if len(obstacles) == 0:
+                if random.randint(0, 2) == 0:
+                    obstacles.append(Zombi(ZOMBI))
+                elif random.randint(0, 2) == 1:
+                    obstacles.append(LargeCactus(LARGE_GRAVES))
+                elif random.randint(0, 2) == 2:
+                    obstacles.append(Bird(BAT))
 
-            # Столкновение
-            dino_rect_adjusted = pygame.Rect(player.dino_rect.x, player.dino_rect.y,
-                                              player.dino_rect.width - 60, player.dino_rect.height - 40)
-            obstacle_rect_adjusted = pygame.Rect(obstacle.rect.x, obstacle.rect.y,
-                                                  obstacle.rect.width - 20, obstacle.rect.height - 15)
 
-            if dino_rect_adjusted.colliderect(obstacle_rect_adjusted):
-                DEATH_SOUND.play()
-                pygame.time.delay(700)
-                death_count += 1
-                level_state = "main_zombi"
-                loose_menu(death_count, level_state, points, player)
-                run = False
-                stop_music()
+            for obstacle in obstacles:
+                obstacle.draw(SCREEN)
+                obstacle.update(obstacles, game_speed)
 
-        points, game_speed, background_speed = score(points, game_speed, background_speed)
+                # Столкновение
+                dino_rect_adjusted = pygame.Rect(player.dino_rect.x, player.dino_rect.y,
+                                                player.dino_rect.width - 60, player.dino_rect.height - 40)
+                obstacle_rect_adjusted = pygame.Rect(obstacle.rect.x, obstacle.rect.y,
+                                                    obstacle.rect.width - 20, obstacle.rect.height - 15)
 
-        player.draw(SCREEN)
-        player.update(userInput)
+                if dino_rect_adjusted.colliderect(obstacle_rect_adjusted):
+                    DEATH_SOUND.play()
+                    pygame.time.delay(700)
+                    death_count += 1
+                    level_state = "main_zombi"
+                    loose_menu(death_count, level_state, points, player)
+                    run = False
+                    stop_music()
 
-        x1_pos_bg -= (background_speed + 4)
-        if x1_pos_bg <= -ZOMBI1.get_width():
-            x1_pos_bg = 0
+            if pause_button.draw():
+                paused = True  
 
-        x2_pos_bg -= game_speed
-        if x2_pos_bg <= -ZOMBI2.get_width():
-            x2_pos_bg = 0
+            points, game_speed, background_speed = score(points, game_speed, background_speed)
 
-        x3_pos_bg -= (background_speed - 12)
-        if x3_pos_bg <= -ZOMBI3.get_width():
-            x3_pos_bg = 0
+            player.draw(SCREEN)
+            player.update(userInput)
+
+            x1_pos_bg -= (background_speed + 4)
+            if x1_pos_bg <= -ZOMBI1.get_width():
+                x1_pos_bg = 0
+
+            x2_pos_bg -= game_speed
+            if x2_pos_bg <= -ZOMBI2.get_width():
+                x2_pos_bg = 0
+
+            x3_pos_bg -= (background_speed - 12)
+            if x3_pos_bg <= -ZOMBI3.get_width():
+                x3_pos_bg = 0
 
         pygame.display.flip()
 
         clock.tick(30)
 
+        if paused == True:
+            paused = pause_board(death_count, player, paused, level_state, points)
+
     play_menu_music()
 
 
 def start_menu(death_count, player, level_state):
-    start_button = Button(400, 250, START)
-    multiplayer_button = Button(400, 350, MULTIPLAYER)
+    start_button = Button(400, 230, START)
+    multiplayer_button = Button(400, 330, MULTIPLAYER)
     settings_button = Button(20, 20, SETTINGS)
     paint_button = Button(20, 120, PAINT)
     exit = Button(1460, 20, EXIT)
@@ -550,8 +687,9 @@ def loose_menu(death_count, level_state, points, player):
         pygame.mixer.music.load(MAIN_MENU_MUSIC)
         pygame.mixer.music.play(-1)
     play_menu_music()
-    reset_button = Button(SCREEN_WIDTH // 2 - 150, 250, RESET)
-    menu_button = Button(SCREEN_WIDTH // 2 - 150, 360, MENUB)
+    reset_button = Button(320, 310, RESET)
+    menu_button = Button(320, 420, MENUB)
+
     run = True
     while run:
         for event in pygame.event.get():
@@ -561,28 +699,28 @@ def loose_menu(death_count, level_state, points, player):
         SCREEN.fill((255, 255, 255))
         SCREEN.blit(MENU, (0, 0))
 
-        font = pygame.font.Font('freesansbold.ttf', 45)
+        font = pygame.font.Font('freesansbold.ttf', 55)
 
-        if death_count > 0 and death_count < 9999:
+        if death_count > 0:
             if reset_button.draw():
                 if level_state == "main":
-                    main(player)
+                    main(player, level_state)
                 if level_state == "main_winter":
-                    main_winter(player)
+                    main_winter(player, level_state)
                 if level_state == "main_beach":
-                    main_beach(player)
+                    main_beach(player, level_state)
                 if level_state == "main_zombi":
-                    main_zombi(player)
+                    main_zombi(player, level_state)
                 if level_state == "multiplayer":
                     multiplayer(player, heart1=2, heart2=2)
-            elif menu_button.draw():
+
+            if menu_button.draw():
                 start_menu(death_count=0, player=Dinosaur(), level_state=None)
-            score = font.render("Your Score: " + str(points), True, (255, 255, 255))
+            score = font.render("Your Score: " + str(points), True, (0, 0, 0))
             scoreRect = score.get_rect()
-            scoreRect.center = (SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2 + 100)
+            scoreRect.center = (470, 255)
             SCREEN.blit(score, scoreRect)
 
-        SCREEN.blit(DINOMENU, (SCREEN_WIDTH // 2 - 80, SCREEN_HEIGHT // 2 - 350))
         pygame.display.flip()
 
 
@@ -609,7 +747,7 @@ def classic_level(slider1_button_clicked, slider2_button_clicked, level_button_c
 
         if level_button.draw() and not level_button_clicked[0]:
             level_button_clicked[0] = True
-            main(player)
+            main(player, level_state)
         elif not level_button.draw():
             level_button_clicked[0] = False
 
@@ -648,7 +786,7 @@ def winter_level(slider1_button_clicked, slider2_button_clicked, level_button_cl
             start_menu(death_count=0, player=Dinosaur(), level_state=None)
 
         if level_button.draw():
-            main_winter(player)
+            main_winter(player, level_state)
 
         if slider1_button.draw() and not slider1_button_clicked[0]:
             slider1_button_clicked[0] = True
@@ -685,7 +823,7 @@ def beach_level(slider1_button_clicked, slider2_button_clicked, level_button_cli
             start_menu(death_count=0, player=Dinosaur(), level_state=None)
 
         if level_button.draw():
-            main_beach(player)
+            main_beach(player, level_state)
 
         if slider1_button.draw() and not slider1_button_clicked[0]:
             slider1_button_clicked[0] = True
@@ -723,7 +861,7 @@ def zombi_level(slider1_button_clicked, slider2_button_clicked, level_button_cli
             start_menu(death_count=0, player=Dinosaur(), level_state=None)
 
         if level_button.draw():
-            main_zombi(player)
+            main_zombi(player, level_state)
 
         if slider1_button.draw() and not slider1_button_clicked[0]:
             slider1_button_clicked[0] = True

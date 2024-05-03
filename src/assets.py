@@ -71,9 +71,6 @@ for i in range(1, 3):
     DUCKING_SKIN1_ZOMBI.append(pygame.image.load(os.path.join("Assets", "Dino", f"DinoSkin1DuckZombi{i}.png")).convert_alpha()) 
 JUMPING_SKIN1_ZOMBI = pygame.image.load(os.path.join("Assets", "Dino", "DinoSkin1JumpZombi.png")).convert_alpha()
 
-
-DINOMENU = pygame.image.load(os.path.join("Assets", "Dino", "DinoMenu.png")).convert_alpha()
-
 SMALL_CACTUS = [pygame.image.load(os.path.join("Assets", "Cactus", "SmallCactus1.png")).convert_alpha(),
                 pygame.image.load(os.path.join("Assets", "Cactus", "SmallCactus2.png")).convert_alpha(),
                 pygame.image.load(os.path.join("Assets", "Cactus", "SmallCactus3.png")).convert_alpha()]
@@ -204,3 +201,9 @@ UP = pygame.image.load (os.path.join("Assets", "Other", "up.png")).convert_alpha
 HEART = pygame.image.load (os.path.join("Assets", "Other", "heart.png")).convert_alpha()
 PLAYER1 = pygame.image.load (os.path.join("Assets", "Other", "Player1.png")).convert_alpha()
 PLAYER2 = pygame.image.load (os.path.join("Assets", "Other", "Player2.png")).convert_alpha()
+
+PAUSE = pygame.image.load (os.path.join("Assets", "Other", "pause.png")).convert_alpha()
+PAUSEWHITE = pygame.image.load (os.path.join("Assets", "Other", "pause_white.png")).convert_alpha()
+PAUSEBOARD = pygame.image.load (os.path.join("Assets", "Other", "PauseBoard.png")).convert_alpha()
+PAUSESTART = pygame.image.load (os.path.join("Assets", "Other", "Start.png")).convert_alpha()
+PAUSEMENU = pygame.image.load (os.path.join("Assets", "Other", "MenuB.png")).convert_alpha()
