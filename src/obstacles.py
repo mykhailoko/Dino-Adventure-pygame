@@ -81,7 +81,6 @@ class Bird(Obstacle):
         SCREEN.blit(self.image[self.index // 5], self.rect)
         self.index += 1
 
-
 class SmallCactusMultiplayer1(Obstacle):
     def __init__(self, image):
         self.type = random.randint(0, 2)

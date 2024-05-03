@@ -51,9 +51,9 @@ def main(player):
 
     def score(points, game_speed, background_speed):
         points += 1
-        if points % 200 == 0 and points < 3000:
+        if points % 500 == 0 and points < 3000:
             game_speed += 1
-        if points % 250 == 0 and points < 1400:
+        if points % 500 == 0 and points < 1400:
             background_speed += 1
         if points % 1000 == 0:
             SCORE_SOUND.play()
@@ -63,6 +63,10 @@ def main(player):
         textRect.center = (1440, 40)
         SCREEN.blit(text, textRect)
         return points, game_speed, background_speed
+    
+    def speed(game_speed):
+        game_speed -=7
+        return game_speed
 
     x1_pos_bg = 0
     x2_pos_bg = 0
@@ -95,7 +99,7 @@ def main(player):
                 obstacles.append(LargeCactus(LARGE_CACTUS))
             elif obstacle_type == 2:
                 obstacles.append(Bird(BIRD))
-                
+
         for obstacle in obstacles:
             obstacle.draw(SCREEN)
             obstacle.update(obstacles, game_speed)
@@ -114,6 +118,7 @@ def main(player):
                 loose_menu(death_count, level_state, points, player)
                 run = False
                 stop_music()
+
 
         points, game_speed, background_speed = score(points, game_speed, background_speed)
 
@@ -368,8 +373,8 @@ def main_beach(player):
 def main_zombi(player):
     run = True
     clock = pygame.time.Clock()
-    game_speed = 16
-    background_speed = 16
+    game_speed = 14
+    background_speed = 14
     points = 0 
     font = pygame.font.Font('freesansbold.ttf', 23)
     obstacles = []
@@ -472,7 +477,7 @@ def main_zombi(player):
         if x2_pos_bg <= -ZOMBI2.get_width():
             x2_pos_bg = 0
 
-        x3_pos_bg -= (background_speed - 10)
+        x3_pos_bg -= (background_speed - 12)
         if x3_pos_bg <= -ZOMBI3.get_width():
             x3_pos_bg = 0
 
@@ -486,8 +491,9 @@ def main_zombi(player):
 def start_menu(death_count, player, level_state):
     start_button = Button(400, 250, START)
     multiplayer_button = Button(400, 350, MULTIPLAYER)
-    settings_button =Button(20, 20, SETTINGS)
-    paint_button =Button(20, 120, PAINT)
+    settings_button = Button(20, 20, SETTINGS)
+    paint_button = Button(20, 120, PAINT)
+    exit = Button(1460, 20, EXIT)
     run = True
     while run:
         for event in pygame.event.get():
@@ -508,23 +514,38 @@ def start_menu(death_count, player, level_state):
             elif not start_button.draw():
                 level_button_clicked[0] = False
             if multiplayer_button.draw():
-                multiplayer(player)
+                multiplayer(player, heart1=2, heart2=2)
             if settings_button.draw():
                 pass
             if paint_button.draw():
                 closet(death_count, player, level_state)
+            if exit.draw():
+                exit_board(death_count, player, level_state)
 
-        #SCREEN.blit(EXITMENU, (0, 0))
-        #SCREEN.blit(EXIT, (1450, 30))
-        #SCREEN.blit(EXITBOARD, (400, 170))
-        #SCREEN.blit(EXITYES, (610, 430))
-        #SCREEN.blit(EXITNO, (800, 430))
+        pygame.display.flip()
+
+        
+def exit_board(death_count, player, level_state):
+    exit_yes = Button(610, 430, EXITYES)
+    exit_no = Button(800, 430, EXITNO)
+
+    run = True
+    while run:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
+
+        SCREEN.blit(EXITMENU, (0, 0))
+        SCREEN.blit(EXITBOARD, (400, 170))
+        if exit_yes.draw():
+            quit()
+        if exit_no.draw():
+            start_menu(death_count, player, level_state)
 
         pygame.display.flip()
 
 
 def loose_menu(death_count, level_state, points, player):
-    #pygame.mixer.music.play(-1) # Начать проигрывание музыки при возвращении в меню
     def play_menu_music():
         pygame.mixer.music.load(MAIN_MENU_MUSIC)
         pygame.mixer.music.play(-1)
@@ -542,7 +563,7 @@ def loose_menu(death_count, level_state, points, player):
 
         font = pygame.font.Font('freesansbold.ttf', 45)
 
-        if death_count > 0:
+        if death_count > 0 and death_count < 9999:
             if reset_button.draw():
                 if level_state == "main":
                     main(player)
@@ -553,7 +574,7 @@ def loose_menu(death_count, level_state, points, player):
                 if level_state == "main_zombi":
                     main_zombi(player)
                 if level_state == "multiplayer":
-                    multiplayer(player)
+                    multiplayer(player, heart1=2, heart2=2)
             elif menu_button.draw():
                 start_menu(death_count=0, player=Dinosaur(), level_state=None)
             score = font.render("Your Score: " + str(points), True, (255, 255, 255))
@@ -569,7 +590,6 @@ def classic_level(slider1_button_clicked, slider2_button_clicked, level_button_c
     back_button = Button(30, 30, BACK)
     slider1_button = Button(30, SCREEN_HEIGHT // 2 - 60, SLIDER1)
     slider2_button = Button(1410, SCREEN_HEIGHT // 2 - 60, SLIDER2)
-    #level_button = Button(930, 563, START_LEVEL)
     level_button = Button(SCREEN_WIDTH // 2 - 450, SCREEN_HEIGHT // 2 - 320, CLASSICLEVEL)
     run = True
     level_state = "main"
@@ -805,7 +825,7 @@ def skin1(death_count, player, level_state):
 
         if Skeleton.draw():
             SCREEN.blit(CLOSET, (0, 0))
-            SCREEN.blit(SKINZOMBI1, (940, 201))
+            SCREEN.blit(SKINZOMBI1, (941, 201))
             player = DinosaurZombi()
 
         if SkinButton2.draw():
@@ -887,7 +907,7 @@ def skin2(death_count, player, level_state):
         pygame.display.flip()
 
 
-def multiplayer(player):
+def multiplayer(player, heart1, heart2):
     run = True
     clock = pygame.time.Clock()
     game_speed = 14
@@ -916,9 +936,9 @@ def multiplayer(player):
 
     def score(points, game_speed, background_speed):
         points += 1
-        if points % 100 == 0 and points < 1500:
+        if points % 200 == 0 and points < 1500:
             game_speed += 1
-        if points % 250 == 0 and points < 1400:
+        if points % 350 == 0 and points < 1400:
             background_speed += 1
         if points % 1000 == 0:
             SCORE_SOUND.play()
@@ -982,7 +1002,28 @@ def multiplayer(player):
             obstacle1_rect_adjusted = pygame.Rect(obstacle1.rect.x, obstacle1.rect.y,
                                                   obstacle1.rect.width - 20, obstacle1.rect.height - 15)
             
-            if dino_rect_adjusted.colliderect(obstacle1_rect_adjusted):
+            if heart1 == 2:
+                SCREEN.blit(PLAYER1, (10, 18))
+                SCREEN.blit(HEART, (10, 50))
+                SCREEN.blit(HEART, (45, 50))
+                SCREEN.blit(HEART, (80, 50))
+            
+            if heart1 == 1:
+                SCREEN.blit(PLAYER1, (10, 18))
+                SCREEN.blit(HEART, (10, 50))
+                SCREEN.blit(HEART, (45, 50))
+
+            if heart1 == 0:
+                SCREEN.blit(PLAYER1, (10, 18))
+                SCREEN.blit(HEART, (10, 50))
+
+            if dino_rect_adjusted.colliderect(obstacle1_rect_adjusted) and heart1 != 0:
+                DEATH_SOUND.play()
+                pygame.time.delay(700)
+                heart1 = heart1 - 1
+                multiplayer(player, heart1, heart2)
+
+            if dino_rect_adjusted.colliderect(obstacle1_rect_adjusted) and heart1 == 0:
                 DEATH_SOUND.play()
                 pygame.time.delay(700)
                 death_count += 1
@@ -990,7 +1031,7 @@ def multiplayer(player):
                 loose_menu(death_count, level_state, points, player)
                 run = False
                 stop_music()
-            
+
 
         if len(obstacles2) == 0:
             obstacle_type2 = random.randint(0, 2)
@@ -1010,8 +1051,29 @@ def multiplayer(player):
                                               player2.dino_rect.width - 60, player2.dino_rect.height - 40)
             obstacle2_rect_adjusted = pygame.Rect(obstacle2.rect.x, obstacle2.rect.y,
                                                   obstacle2.rect.width - 20, obstacle2.rect.height - 15)
+            
+            if heart2 == 2:
+                SCREEN.blit(PLAYER2, (10, 430))
+                SCREEN.blit(HEART, (10, 461))
+                SCREEN.blit(HEART, (45, 461))
+                SCREEN.blit(HEART, (80, 461))
+            
+            if heart2 == 1:
+                SCREEN.blit(PLAYER2, (10, 430))
+                SCREEN.blit(HEART, (10, 461))
+                SCREEN.blit(HEART, (45, 461))
 
-            if dino_rect_adjusted.colliderect(obstacle2_rect_adjusted):
+            if heart2 == 0:
+                SCREEN.blit(PLAYER2, (10, 430))
+                SCREEN.blit(HEART, (10, 461))
+
+            if dino_rect_adjusted.colliderect(obstacle2_rect_adjusted) and heart2 != 0:
+                DEATH_SOUND.play()
+                pygame.time.delay(700)
+                heart2 = heart2 - 1
+                multiplayer(player, heart1, heart2)
+
+            if dino_rect_adjusted.colliderect(obstacle2_rect_adjusted) and heart2 == 0:
                 DEATH_SOUND.play()
                 pygame.time.delay(700)
                 death_count += 1
