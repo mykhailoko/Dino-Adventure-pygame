@@ -1,4 +1,5 @@
 from assets import *
+from button import *
 
 class Dinosaur:
     X_POS = 80
@@ -23,6 +24,23 @@ class Dinosaur:
         self.dino_rect.y = self.Y_POS
 
     def update(self, userInput):
+
+        '''
+        # android version
+        down = Button(200, 620, DOWN)
+        up = Button(1200, 620, UP)
+
+        if up.draw() and not self.dino_jump:
+            JUMP_SOUND.play()
+            self.dino_duck = False
+            self.dino_run = False
+            self.dino_jump = True 
+        if down.draw() and not self.dino_jump:
+            self.dino_duck = True
+            self.dino_run = False
+            self.dino_jump = False
+        '''
+
         if self.dino_duck:
             self.duck()
         elif self.dino_run:
@@ -31,7 +49,7 @@ class Dinosaur:
             self.jump()
 
         if self.step_index >= 10:
-            self.step_index = 0
+            self.step_index = 0 
 
         if userInput[pygame.K_UP] and not self.dino_jump:
             JUMP_SOUND.play()

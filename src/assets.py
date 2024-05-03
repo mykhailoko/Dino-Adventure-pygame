@@ -184,7 +184,9 @@ SKELETON = pygame.image.load(os.path.join("Assets", "Dino", "Skeleton.png")).con
 OKAY = pygame.image.load (os.path.join("Assets", "Other", "Okay.png")).convert_alpha()
 MENULEVELS = pygame.image.load (os.path.join("Assets", "Other", "MenuLevels.png")).convert_alpha()
 
-BOOST = pygame.image.load (os.path.join("Assets", "Other", "boost.png")).convert_alpha()
+BOOST = [pygame.image.load (os.path.join("Assets", "Other", "boost.png")).convert_alpha(),
+         pygame.image.load (os.path.join("Assets", "Other", "boost.png")).convert_alpha(),
+         pygame.image.load (os.path.join("Assets", "Other", "boost.png")).convert_alpha()]
 
 MULTIPLAYERBG1 = pygame.image.load (os.path.join("Assets", "Other", "multiplayer1.png")).convert_alpha()
 MULTIPLAYERBG2 = pygame.image.load (os.path.join("Assets", "Other", "multiplayer2.png")).convert_alpha()
@@ -195,3 +197,10 @@ EXITBOARD = pygame.image.load (os.path.join("Assets", "Other", "ExitBoard.png"))
 EXITYES = pygame.image.load (os.path.join("Assets", "Other", "ExitYes.png")).convert_alpha()
 EXITNO = pygame.image.load (os.path.join("Assets", "Other", "ExitNo.png")).convert_alpha()
 EXITMENU = pygame.image.load (os.path.join("Assets", "Other", "ExitMenu.png")).convert_alpha()
+
+DOWN = pygame.image.load (os.path.join("Assets", "Other", "down.png")).convert_alpha()
+UP = pygame.image.load (os.path.join("Assets", "Other", "up.png")).convert_alpha()
+
+HEART = pygame.image.load (os.path.join("Assets", "Other", "heart.png")).convert_alpha()
+PLAYER1 = pygame.image.load (os.path.join("Assets", "Other", "Player1.png")).convert_alpha()
+PLAYER2 = pygame.image.load (os.path.join("Assets", "Other", "Player2.png")).convert_alpha()
