@@ -1,7 +1,6 @@
 import pygame
 import os
 
-
 pygame.init()
 pygame.mixer.init()
 
@@ -205,5 +204,9 @@ PLAYER2 = pygame.image.load (os.path.join("Assets", "Other", "Player2.png")).con
 PAUSE = pygame.image.load (os.path.join("Assets", "Other", "pause.png")).convert_alpha()
 PAUSEWHITE = pygame.image.load (os.path.join("Assets", "Other", "pause_white.png")).convert_alpha()
 PAUSEBOARD = pygame.image.load (os.path.join("Assets", "Other", "PauseBoard.png")).convert_alpha()
-PAUSESTART = pygame.image.load (os.path.join("Assets", "Other", "Start.png")).convert_alpha()
+PAUSERESUME = pygame.image.load (os.path.join("Assets", "Other", "Resume.png")).convert_alpha()
 PAUSEMENU = pygame.image.load (os.path.join("Assets", "Other", "MenuB.png")).convert_alpha()
+
+MULTIPLAYERLOOSE = pygame.image.load (os.path.join("Assets", "Other", "MultiplayerLoose.png")).convert_alpha()
+MULTARROWS = pygame.image.load (os.path.join("Assets", "Other", "MultArrows.png")).convert_alpha()
+MULTWS = pygame.image.load (os.path.join("Assets", "Other", "MultWS.png")).convert_alpha()
