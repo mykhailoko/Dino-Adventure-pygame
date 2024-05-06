@@ -70,7 +70,7 @@ def main(player, level_state):
         return points, game_speed, background_speed
     
     def pause_board(death_count, player, paused, level_state, points):
-            pause_start = Button(620, 330, PAUSESTART)
+            pause_start = Button(620, 330, PAUSERESUME)
             pause_menu = Button(620, 440, PAUSEMENU)
             
             SCREEN.blit(PAUSEBOARD, (420, 170))
@@ -229,7 +229,7 @@ def main_winter(player, level_state):
         return points, game_speed, background_speed
     
     def pause_board(death_count, player, paused, level_state, points):
-            pause_start = Button(620, 330, PAUSESTART)
+            pause_start = Button(620, 330, PAUSERESUME)
             pause_menu = Button(620, 440, PAUSEMENU)
             
             SCREEN.blit(PAUSEBOARD, (420, 170))
@@ -374,7 +374,7 @@ def main_beach(player, level_state):
         return points, game_speed, background_speed
     
     def pause_board(death_count, player, paused, level_state, points):
-            pause_start = Button(620, 330, PAUSESTART)
+            pause_start = Button(620, 330, PAUSERESUME)
             pause_menu = Button(620, 440, PAUSEMENU)
             
             SCREEN.blit(PAUSEBOARD, (420, 170))
@@ -519,7 +519,7 @@ def main_zombi(player, level_state):
         return points, game_speed, background_speed
 
     def pause_board(death_count, player, paused, level_state, points):
-            pause_start = Button(620, 330, PAUSESTART)
+            pause_start = Button(620, 330, PAUSERESUME)
             pause_menu = Button(620, 440, PAUSEMENU)
             
             SCREEN.blit(PAUSEBOARD, (420, 170))
@@ -651,7 +651,7 @@ def start_menu(death_count, player, level_state):
             elif not start_button.draw():
                 level_button_clicked[0] = False
             if multiplayer_button.draw():
-                multiplayer(player, heart1=2, heart2=2)
+                multiplayer(player, level_state, 3, 3)
             if settings_button.draw():
                 pass
             if paint_button.draw():
@@ -711,8 +711,6 @@ def loose_menu(death_count, level_state, points, player):
                     main_beach(player, level_state)
                 if level_state == "main_zombi":
                     main_zombi(player, level_state)
-                if level_state == "multiplayer":
-                    multiplayer(player, heart1=2, heart2=2)
 
             if menu_button.draw():
                 start_menu(death_count=0, player=Dinosaur(), level_state=None)
@@ -1045,47 +1043,51 @@ def skin2(death_count, player, level_state):
         pygame.display.flip()
 
 
-def multiplayer(player, heart1, heart2):
+def multiplayer(player, level_state, heart1, heart2):
     run = True
     clock = pygame.time.Clock()
-    game_speed = 14
-    background_speed = 16
-    points = 0 
+    game_speed = 18
+    background_speed = 18
     player1 = DinosaurMultiplayer1()
     player2 = DinosaurMultiplayer2()
 
-    font = pygame.font.Font('freesansbold.ttf', 23)
     obstacles1 = []
     obstacles2 = []
     death_count = 0
     main_music_playing = False
+
+    pause_button = Button(1465, 30, PAUSE)
+    paused = False
 
     def play_main_music():
         pygame.mixer.music.load(MAIN_LEVEL_MUSIC)
         pygame.mixer.music.set_volume(0.5)
         pygame.mixer.music.play(-1)
 
-    def play_menu_music():
-        pygame.mixer.music.load(MAIN_MENU_MUSIC)
-        pygame.mixer.music.play(-1)
-
     def stop_music():
         pygame.mixer.music.stop()
 
-    def score(points, game_speed, background_speed):
-        points += 1
-        if points % 200 == 0 and points < 1500:
-            game_speed += 1
-        if points % 350 == 0 and points < 1400:
-            background_speed += 1
-        if points % 1000 == 0:
-            SCORE_SOUND.play()
+    def pause_board(death_count, player, paused, level_state):
+            pause_start = Button(620, 330, PAUSERESUME)
+            pause_menu = Button(620, 440, PAUSEMENU)
+            
+            SCREEN.blit(PAUSEBOARD, (420, 170))
 
-        text = font.render("Points: " + str(points), True, (255, 255, 255))
-        textRect = text.get_rect()
-        textRect.center = (1440, 40)
-        SCREEN.blit(text, textRect)
-        return points, game_speed, background_speed
+            if pause_start.draw():
+                paused = False
+
+            if pause_menu.draw():
+                death_count += 1
+                level_state = "multiplayer"
+                multiplayer_loose_menu(death_count, level_state, player, heart1, heart2)
+                stop_music()
+
+            return paused
+    
+    # Проверяем, не проигрывается ли уже музыка
+    if not main_music_playing:
+        play_main_music()
+        main_music_playing = True
 
     x1_pos_bg = 0
     x2_pos_bg = 0
@@ -1095,153 +1097,197 @@ def multiplayer(player, heart1, heart2):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
-
-        if not main_music_playing:
-            play_main_music()
-            main_music_playing = True
-
-        userInput = pygame.key.get_pressed()
-
-        SCREEN.fill((255, 255, 255))
-
-        # Отображение фона
-        SCREEN.blit(MULTIPLAYERBG1, (x1_pos_bg, 0))
-        SCREEN.blit(MULTIPLAYERBG1, (MULTIPLAYERBG1.get_width() + x1_pos_bg, 0))
-
-        SCREEN.blit(MULTIPLAYERBG1, (x1_pos_bg, 413))
-        SCREEN.blit(MULTIPLAYERBG1, (MULTIPLAYERBG1.get_width() + x1_pos_bg, 413))
-
-        SCREEN.blit(MULTIPLAYERBG2, (x2_pos_bg, 299))
-        SCREEN.blit(MULTIPLAYERBG2, (MULTIPLAYERBG2.get_width() + x2_pos_bg, 299))
-
-        SCREEN.blit(MULTIPLAYERBG2, (x2_pos_bg, 712))
-        SCREEN.blit(MULTIPLAYERBG2, (MULTIPLAYERBG2.get_width() + x2_pos_bg, 712))
-
-        SCREEN.blit(MULTIPLAYERBG3, (x3_pos_bg, 397))
-        SCREEN.blit(MULTIPLAYERBG3, (MULTIPLAYERBG3.get_width() + x3_pos_bg, 397))
-
-
-        if len(obstacles1) == 0:
-            obstacle_type1 = random.randint(0, 2)
-            if obstacle_type1 == 0:
-                obstacles1.append(SmallCactusMultiplayer1(SMALL_CACTUS))
-            elif obstacle_type1 == 1:
-                obstacles1.append(LargeCactusMultiplayer1(LARGE_CACTUS))
-            elif obstacle_type1 == 2:
-                obstacles1.append(BirdMultiplayer1(BIRD))
-
-        for obstacle1 in obstacles1:
-            obstacle1.draw(SCREEN)
-            obstacle1.update(obstacles1, game_speed)
- 
-            # Столкновение
-            dino_rect_adjusted = pygame.Rect(player1.dino_rect.x, player1.dino_rect.y,
-                                              player1.dino_rect.width - 60, player1.dino_rect.height - 40)
-            obstacle1_rect_adjusted = pygame.Rect(obstacle1.rect.x, obstacle1.rect.y,
-                                                  obstacle1.rect.width - 20, obstacle1.rect.height - 15)
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_p:  # Нажата кнопка 'p' (пауза)
+                    paused = not paused  # Изменить состояние паузы 
             
-            if heart1 == 2:
-                SCREEN.blit(PLAYER1, (10, 18))
-                SCREEN.blit(HEART, (10, 50))
-                SCREEN.blit(HEART, (45, 50))
-                SCREEN.blit(HEART, (80, 50))
-            
-            if heart1 == 1:
-                SCREEN.blit(PLAYER1, (10, 18))
-                SCREEN.blit(HEART, (10, 50))
-                SCREEN.blit(HEART, (45, 50))
+        if paused == False:
+            userInput = pygame.key.get_pressed()
 
-            if heart1 == 0:
-                SCREEN.blit(PLAYER1, (10, 18))
-                SCREEN.blit(HEART, (10, 50))
+            SCREEN.fill((255, 255, 255))
 
-            if dino_rect_adjusted.colliderect(obstacle1_rect_adjusted) and heart1 != 0:
-                DEATH_SOUND.play()
-                pygame.time.delay(700)
-                heart1 = heart1 - 1
-                multiplayer(player, heart1, heart2)
+            # Отображение фона
+            SCREEN.blit(MULTIPLAYERBG1, (x1_pos_bg, 0))
+            SCREEN.blit(MULTIPLAYERBG1, (MULTIPLAYERBG1.get_width() + x1_pos_bg, 0))
 
-            if dino_rect_adjusted.colliderect(obstacle1_rect_adjusted) and heart1 == 0:
-                DEATH_SOUND.play()
-                pygame.time.delay(700)
-                death_count += 1
-                level_state = "multiplayer"
-                loose_menu(death_count, level_state, points, player)
-                run = False
-                stop_music()
+            SCREEN.blit(MULTIPLAYERBG1, (x1_pos_bg, 413))
+            SCREEN.blit(MULTIPLAYERBG1, (MULTIPLAYERBG1.get_width() + x1_pos_bg, 413))
+
+            SCREEN.blit(MULTIPLAYERBG2, (x2_pos_bg, 299))
+            SCREEN.blit(MULTIPLAYERBG2, (MULTIPLAYERBG2.get_width() + x2_pos_bg, 299))
+
+            SCREEN.blit(MULTIPLAYERBG2, (x2_pos_bg, 712))
+            SCREEN.blit(MULTIPLAYERBG2, (MULTIPLAYERBG2.get_width() + x2_pos_bg, 712))
+
+            SCREEN.blit(MULTIPLAYERBG3, (x3_pos_bg, 397))
+            SCREEN.blit(MULTIPLAYERBG3, (MULTIPLAYERBG3.get_width() + x3_pos_bg, 397))
+
+            SCREEN.blit(MULTARROWS, (130, 17))
+            SCREEN.blit(MULTWS, (130, 430))
+
+            if len(obstacles1) == 0:
+                obstacle_type1 = random.randint(0, 2)
+                if obstacle_type1 == 0:
+                    obstacles1.append(SmallCactusMultiplayer1(SMALL_CACTUS))
+                elif obstacle_type1 == 1:
+                    obstacles1.append(LargeCactusMultiplayer1(LARGE_CACTUS))
+                elif obstacle_type1 == 2:
+                    obstacles1.append(BirdMultiplayer1(BIRD))
+
+            for obstacle1 in obstacles1:
+                obstacle1.draw(SCREEN)
+                obstacle1.update(obstacles1, game_speed)
+    
+                # Столкновение
+                dino_rect_adjusted = pygame.Rect(player1.dino_rect.x, player1.dino_rect.y,
+                                                player1.dino_rect.width - 60, player1.dino_rect.height - 40)
+                obstacle1_rect_adjusted = pygame.Rect(obstacle1.rect.x, obstacle1.rect.y,
+                                                    obstacle1.rect.width - 20, obstacle1.rect.height - 15)
+                
+                if heart1 == 3:
+                    SCREEN.blit(PLAYER1, (10, 18))
+                    SCREEN.blit(HEART, (10, 50))
+                    SCREEN.blit(HEART, (45, 50))
+                    SCREEN.blit(HEART, (80, 50))
+                
+                if heart1 == 2:
+                    SCREEN.blit(PLAYER1, (10, 18))
+                    SCREEN.blit(HEART, (10, 50))
+                    SCREEN.blit(HEART, (45, 50))
+
+                if heart1 == 1:
+                    SCREEN.blit(PLAYER1, (10, 18))
+                    SCREEN.blit(HEART, (10, 50))
+
+                if dino_rect_adjusted.colliderect(obstacle1_rect_adjusted) and heart1 != 0:
+                    DEATH_SOUND.play()
+                    pygame.time.delay(700)
+                    heart1 = heart1 - 1
+                    obstacles1 = []
+                    obstacles2 = []
+
+                if dino_rect_adjusted.colliderect(obstacle1_rect_adjusted) and heart1 == 0:
+                    DEATH_SOUND.play()
+                    pygame.time.delay(700)
+                    death_count += 1
+                    level_state = "multiplayer"
+                    multiplayer_loose_menu(death_count, level_state, player, heart1, heart2)
+                    run = False
 
 
-        if len(obstacles2) == 0:
-            obstacle_type2 = random.randint(0, 2)
-            if obstacle_type2 == 0:
-                obstacles2.append(SmallCactusMultiplayer2(SMALL_CACTUS))
-            elif obstacle_type2 == 1:
-                obstacles2.append(LargeCactusMultiplayer2(LARGE_CACTUS))
-            elif obstacle_type2 == 2:
-                obstacles2.append(BirdMultiplayer2(BIRD))
+            if len(obstacles2) == 0:
+                obstacle_type2 = random.randint(0, 2)
+                if obstacle_type2 == 0:
+                    obstacles2.append(SmallCactusMultiplayer2(SMALL_CACTUS))
+                elif obstacle_type2 == 1:
+                    obstacles2.append(LargeCactusMultiplayer2(LARGE_CACTUS))
+                elif obstacle_type2 == 2:
+                    obstacles2.append(BirdMultiplayer2(BIRD))
 
-        for obstacle2 in obstacles2:
-            obstacle2.draw(SCREEN)
-            obstacle2.update(obstacles2, game_speed)
- 
-            # Столкновение
-            dino_rect_adjusted = pygame.Rect(player2.dino_rect.x, player2.dino_rect.y,
-                                              player2.dino_rect.width - 60, player2.dino_rect.height - 40)
-            obstacle2_rect_adjusted = pygame.Rect(obstacle2.rect.x, obstacle2.rect.y,
-                                                  obstacle2.rect.width - 20, obstacle2.rect.height - 15)
-            
-            if heart2 == 2:
-                SCREEN.blit(PLAYER2, (10, 430))
-                SCREEN.blit(HEART, (10, 461))
-                SCREEN.blit(HEART, (45, 461))
-                SCREEN.blit(HEART, (80, 461))
-            
-            if heart2 == 1:
-                SCREEN.blit(PLAYER2, (10, 430))
-                SCREEN.blit(HEART, (10, 461))
-                SCREEN.blit(HEART, (45, 461))
+            for obstacle2 in obstacles2:
+                obstacle2.draw(SCREEN)
+                obstacle2.update(obstacles2, game_speed)
+    
+                # Столкновение
+                dino_rect_adjusted = pygame.Rect(player2.dino_rect.x, player2.dino_rect.y,
+                                                player2.dino_rect.width - 60, player2.dino_rect.height - 40)
+                obstacle2_rect_adjusted = pygame.Rect(obstacle2.rect.x, obstacle2.rect.y,
+                                                    obstacle2.rect.width - 20, obstacle2.rect.height - 15)
+                
+                if heart2 == 3:
+                    SCREEN.blit(PLAYER2, (10, 430))
+                    SCREEN.blit(HEART, (10, 461))
+                    SCREEN.blit(HEART, (45, 461))
+                    SCREEN.blit(HEART, (80, 461))
+                
+                if heart2 == 2:
+                    SCREEN.blit(PLAYER2, (10, 430))
+                    SCREEN.blit(HEART, (10, 461))
+                    SCREEN.blit(HEART, (45, 461))
 
-            if heart2 == 0:
-                SCREEN.blit(PLAYER2, (10, 430))
-                SCREEN.blit(HEART, (10, 461))
+                if heart2 == 1:
+                    SCREEN.blit(PLAYER2, (10, 430))
+                    SCREEN.blit(HEART, (10, 461))
 
-            if dino_rect_adjusted.colliderect(obstacle2_rect_adjusted) and heart2 != 0:
-                DEATH_SOUND.play()
-                pygame.time.delay(700)
-                heart2 = heart2 - 1
-                multiplayer(player, heart1, heart2)
+                if dino_rect_adjusted.colliderect(obstacle2_rect_adjusted) and heart2 != 0:
+                    DEATH_SOUND.play()
+                    pygame.time.delay(700)
+                    heart2 = heart2 - 1
+                    obstacles1 = []
+                    obstacles2 = []
 
-            if dino_rect_adjusted.colliderect(obstacle2_rect_adjusted) and heart2 == 0:
-                DEATH_SOUND.play()
-                pygame.time.delay(700)
-                death_count += 1
-                level_state = "multiplayer"
-                loose_menu(death_count, level_state, points, player)
-                run = False
-                stop_music()
+                if dino_rect_adjusted.colliderect(obstacle2_rect_adjusted) and heart2 == 0:
+                    DEATH_SOUND.play()
+                    pygame.time.delay(700)
+                    death_count += 1
+                    level_state = "multiplayer"
+                    multiplayer_loose_menu(death_count, level_state, player, heart1, heart2)
+                    run = False
 
-        points, game_speed, background_speed = score(points, game_speed, background_speed)
+            if pause_button.draw():
+                paused = True
 
-        player1.draw(SCREEN)
-        player1.update(userInput)
+            player1.draw(SCREEN)
+            player1.update(userInput)
 
-        player2.draw(SCREEN)
-        player2.update(userInput)
+            player2.draw(SCREEN)
+            player2.update(userInput)
 
-        x2_pos_bg -= game_speed
-        if x2_pos_bg <= -MULTIPLAYERBG2.get_width():
-            x2_pos_bg = 0
+            x2_pos_bg -= game_speed
+            if x2_pos_bg <= -MULTIPLAYERBG2.get_width():
+                x2_pos_bg = 0
 
-        x1_pos_bg -= (background_speed - 14)
-        if x1_pos_bg <= -MULTIPLAYERBG1.get_width():
-            x1_pos_bg = 0
+            x1_pos_bg -= (background_speed - 14)
+            if x1_pos_bg <= -MULTIPLAYERBG1.get_width():
+                x1_pos_bg = 0
 
-        x3_pos_bg -= (background_speed - 14)
-        if x3_pos_bg <= -MULTIPLAYERBG3.get_width():
-            x3_pos_bg = 0
+            x3_pos_bg -= (background_speed - 14)
+            if x3_pos_bg <= -MULTIPLAYERBG3.get_width():
+                x3_pos_bg = 0
 
         pygame.display.flip()
 
         clock.tick(30)
+
+        if paused == True:
+            paused = pause_board(death_count, player, paused, level_state)
+
+
+def multiplayer_loose_menu(death_count, level_state, player, heart1, heart2):
+    def play_menu_music():
+        pygame.mixer.music.load(MAIN_MENU_MUSIC)
+        pygame.mixer.music.play(-1)
+    play_menu_music()
+    reset_button = Button(1000, 300, RESET)
+    menu_button = Button(1000, 410, MENUB)
+
+    run = True
+    while run:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
+
+        SCREEN.fill((255, 255, 255))
+        SCREEN.blit(MULTIPLAYERLOOSE, (0, 0))
+
+        if death_count > 0:
+            if reset_button.draw():
+                if level_state == "multiplayer":
+                    multiplayer(player, level_state, heart1=3, heart2=3)
+
+            if menu_button.draw():
+                start_menu(death_count=0, player=Dinosaur(), level_state=None)
+
+        if heart1 > heart2:
+            SCREEN.blit(DINOSKIN1, (270, 230))
+
+        if heart2 > heart1:
+            SCREEN.blit(DINOSKIN2, (240, 230))
+
+        if heart1 == heart2:
+            pass
+
+        pygame.display.flip()
+
     
 start_menu(death_count=0, player=Dinosaur(), level_state=None)
