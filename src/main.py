@@ -29,8 +29,8 @@ pygame.mixer.music.play(-1)  # -1 означает,что музыка буде�
 def main(player, level_state):
     run = True
     clock = pygame.time.Clock()
-    game_speed = 16
-    background_speed = 16
+    game_speed = 17
+    background_speed = 17
     points = 0 
 
     font = pygame.font.Font('freesansbold.ttf', 23)
@@ -174,7 +174,7 @@ def main(player, level_state):
             if x1_pos_bg <= -CLASSIC1.get_width():
                 x1_pos_bg = 0
 
-            x2_pos_bg -= (background_speed - 13)
+            x2_pos_bg -= (background_speed - 14)
             if x2_pos_bg <= -CLASSIC2.get_width():
                 x2_pos_bg = 0
 
@@ -191,8 +191,8 @@ def main(player, level_state):
 def main_winter(player, level_state):
     run = True
     clock = pygame.time.Clock()
-    game_speed = 16
-    background_speed = 16
+    game_speed = 17
+    background_speed = 17
     points = 0 
     font = pygame.font.Font('freesansbold.ttf', 23)
     obstacles = []
@@ -317,7 +317,7 @@ def main_winter(player, level_state):
             if x2_pos_bg <= -WINTER2.get_width():
                 x2_pos_bg = 0
 
-            x3_pos_bg -= (background_speed - 13)
+            x3_pos_bg -= (background_speed - 15)
             if x3_pos_bg <= -WINTER3.get_width():
                 x3_pos_bg = 0
 
@@ -335,8 +335,8 @@ def main_winter(player, level_state):
 def main_beach(player, level_state):
     run = True
     clock = pygame.time.Clock()
-    game_speed = 16
-    background_speed = 16
+    game_speed = 17
+    background_speed = 17
     points = 0 
     font = pygame.font.Font('freesansbold.ttf', 23)
     obstacles = []
@@ -459,11 +459,11 @@ def main_beach(player, level_state):
             if x1_pos_bg <= -BEACH1.get_width():
                 x1_pos_bg = 0
 
-            x2_pos_bg -= (background_speed - 10)
+            x2_pos_bg -= (background_speed - 12)
             if x2_pos_bg <= -BEACH2.get_width():
                 x2_pos_bg = 0
 
-            x3_pos_bg -= (background_speed - 11)
+            x3_pos_bg -= (background_speed - 13)
             if x3_pos_bg <= -BEACH3.get_width():
                 x3_pos_bg = 0
 
@@ -480,8 +480,8 @@ def main_beach(player, level_state):
 def main_zombi(player, level_state):
     run = True
     clock = pygame.time.Clock()
-    game_speed = 14
-    background_speed = 14
+    game_speed = 16
+    background_speed = 16
     points = 0 
     font = pygame.font.Font('freesansbold.ttf', 23)
     obstacles = []
@@ -603,7 +603,7 @@ def main_zombi(player, level_state):
             player.draw(SCREEN)
             player.update(userInput)
 
-            x1_pos_bg -= (background_speed + 4)
+            x1_pos_bg -= (background_speed + 2)
             if x1_pos_bg <= -ZOMBI1.get_width():
                 x1_pos_bg = 0
 
@@ -611,7 +611,7 @@ def main_zombi(player, level_state):
             if x2_pos_bg <= -ZOMBI2.get_width():
                 x2_pos_bg = 0
 
-            x3_pos_bg -= (background_speed - 12)
+            x3_pos_bg -= (background_speed - 14)
             if x3_pos_bg <= -ZOMBI3.get_width():
                 x3_pos_bg = 0
 
@@ -625,12 +625,12 @@ def main_zombi(player, level_state):
     play_menu_music()
 
 
-def start_menu(death_count, player, level_state):
+def start_menu(player, death_count, level_state):
     start_button = Button(400, 230, START)
     multiplayer_button = Button(400, 330, MULTIPLAYER)
-    settings_button = Button(20, 20, SETTINGS)
-    paint_button = Button(20, 120, PAINT)
-    exit = Button(1460, 20, EXIT)
+    settings_button = Button(5, 5, SETTINGS)
+    paint_button = Button(5, 99, PAINT)
+    exit = Button(1465, 15, EXIT)
     run = True
     while run:
         for event in pygame.event.get():
@@ -655,7 +655,7 @@ def start_menu(death_count, player, level_state):
             if settings_button.draw():
                 pass
             if paint_button.draw():
-                closet(death_count, player, level_state)
+                closet(player, death_count, level_state)
             if exit.draw():
                 exit_board(death_count, player, level_state)
 
@@ -677,7 +677,7 @@ def exit_board(death_count, player, level_state):
         if exit_yes.draw():
             quit()
         if exit_no.draw():
-            start_menu(death_count, player, level_state)
+            start_menu(player, death_count, level_state)
 
         pygame.display.flip()
 
@@ -713,7 +713,7 @@ def loose_menu(death_count, level_state, points, player):
                     main_zombi(player, level_state)
 
             if menu_button.draw():
-                start_menu(death_count=0, player=Dinosaur(), level_state=None)
+                start_menu(player, death_count=0, level_state=None)
             score = font.render("Your Score: " + str(points), True, (0, 0, 0))
             scoreRect = score.get_rect()
             scoreRect.center = (470, 255)
@@ -739,7 +739,7 @@ def classic_level(slider1_button_clicked, slider2_button_clicked, level_button_c
                 run = False
 
         if back_button.draw():
-            start_menu(death_count=0, player=Dinosaur(), level_state=None)
+            start_menu(player, death_count=0, level_state=None)
 
         SCREEN.blit(CLASSICLEVEL, (SCREEN_WIDTH // 2 - 450, SCREEN_HEIGHT // 2 - 320))
 
@@ -781,7 +781,7 @@ def winter_level(slider1_button_clicked, slider2_button_clicked, level_button_cl
                 run = False
 
         if back_button.draw():
-            start_menu(death_count=0, player=Dinosaur(), level_state=None)
+            start_menu(player, death_count=0, level_state=None)
 
         if level_button.draw():
             main_winter(player, level_state)
@@ -818,7 +818,7 @@ def beach_level(slider1_button_clicked, slider2_button_clicked, level_button_cli
                 run = False
 
         if back_button.draw():
-            start_menu(death_count=0, player=Dinosaur(), level_state=None)
+            start_menu(player, death_count=0, level_state=None)
 
         if level_button.draw():
             main_beach(player, level_state)
@@ -856,7 +856,7 @@ def zombi_level(slider1_button_clicked, slider2_button_clicked, level_button_cli
                 run = False
 
         if back_button.draw():
-            start_menu(death_count=0, player=Dinosaur(), level_state=None)
+            start_menu(player, death_count=0, level_state=None)
 
         if level_button.draw():
             main_zombi(player, level_state)
@@ -873,23 +873,24 @@ def zombi_level(slider1_button_clicked, slider2_button_clicked, level_button_cli
         pygame.display.flip()
 
 
-def closet(death_count, player, level_state):
-    SkinButton1 = Button(220, 200, SKINBUTTON1)
-    SkinButton2 = Button(300, 200, SKINBUTTON2)
-    SkinButton3 = Button(380, 200, SKINBUTTON3)
-    SkinButton4 = Button(460, 200, SKINBUTTON3)
-    SkinButton5 = Button(540, 200, SKINBUTTON3)
+def closet(player, death_count, level_state):
+    SkinButton1 = Button(290, 200, SKINBUTTON1)
+    SkinButton2 = Button(380, 200, SKINBUTTON2)
+    SkinButton3 = Button(470, 200, SKINBUTTON3)
 
-    SantaHat = Button(220, 300, SANTAHAT)
-    Circle = Button(300, 300, CIRCLE)
-    Skeleton = Button(380, 300, SKELETON)
+    SantaHat = Button(290, 300, SANTAHAT)
+    Circle = Button(380, 300, CIRCLE)
+    Skeleton = Button(470, 300, SKELETON)
+    Cowboy = Button(290, 390, COWBOY)
+    Viking = Button(380, 390, VIKING)
+    Clown = Button(470, 390, CLOWN)
 
     run = True
 
     SCREEN.fill((255, 255, 255))
     SCREEN.blit(CLOSET, (0, 0))
 
-    level_button = Button(1410, 30, OKAY)
+    level_button = Button(1385, 50, OKAY)
 
     while run:
         for event in pygame.event.get():
@@ -899,45 +900,43 @@ def closet(death_count, player, level_state):
         SantaHat.draw()
         Circle.draw()
         Skeleton.draw()
+        Cowboy.draw()
+        Viking.draw()
+        Clown.draw()
                 
         if SkinButton1.draw():
-            death_count, level_state, player = skin1(death_count, player, level_state)
+            player, death_count, level_state = skin1(player, death_count, level_state)
             
         if SkinButton2.draw():
-            death_count, level_state, player = skin2(death_count, player, level_state)
+            player, death_count, level_state = skin2(player, death_count, level_state)
 
         if SkinButton3.draw():
-            pass
-
-        if SkinButton4.draw():
-            pass
-
-        if SkinButton5.draw():
-            pass
+            player, death_count, level_state = skin3(player, death_count, level_state)
 
         if level_button.draw():
-            start_menu(death_count, player, level_state=None)
+            start_menu(player, death_count=0, level_state=None)
 
         pygame.display.flip()
 
 
-def skin1(death_count, player, level_state):
-    SkinButton1 = Button(220, 200, SKINBUTTON1)
-    SkinButton2 = Button(300, 200, SKINBUTTON2)
-    SkinButton3 = Button(380, 200, SKINBUTTON3)
-    SkinButton4 = Button(460, 200, SKINBUTTON3)
-    SkinButton5 = Button(540, 200, SKINBUTTON3)
+def skin1(player, death_count, level_state):
+    SkinButton1 = Button(290, 200, SKINBUTTON1)
+    SkinButton2 = Button(380, 200, SKINBUTTON2)
+    SkinButton3 = Button(470, 200, SKINBUTTON3)
 
-    SantaHat = Button(220, 300, SANTAHAT)
-    Circle = Button(300, 300, CIRCLE)
-    Skeleton = Button(380, 300, SKELETON)
+    SantaHat = Button(290, 300, SANTAHAT)
+    Circle = Button(380, 300, CIRCLE)
+    Skeleton = Button(470, 300, SKELETON)
+    Cowboy = Button(290, 390, COWBOY)
+    Viking = Button(380, 390, VIKING)
+    Clown = Button(470, 390, CLOWN)
 
     run = True
 
     SCREEN.fill((255, 255, 255))
     SCREEN.blit(CLOSET, (0, 0))
 
-    level_button = Button(1410, 30, OKAY)
+    level_button = Button(1385, 50, OKAY)
 
     while run:
         for event in pygame.event.get():
@@ -964,41 +963,51 @@ def skin1(death_count, player, level_state):
             SCREEN.blit(SKINZOMBI1, (941, 201))
             player = DinosaurZombi()
 
+        if Cowboy.draw():
+            SCREEN.blit(CLOSET, (0, 0))
+            SCREEN.blit(SKINCOWBOY1, (940, 166))
+            player = DinosaurCowboy()
+
+        if Viking.draw():
+            SCREEN.blit(CLOSET, (0, 0))
+            SCREEN.blit(SKINVIKING1, (940, 128))
+            player = DinosaurViking()
+
+        if Clown.draw():
+            SCREEN.blit(CLOSET, (0, 0))
+            SCREEN.blit(SKINCLOWN1, (940, 172))
+            player = DinosaurClown()
+
         if SkinButton2.draw():
-            death_count, level_state, player = skin2(death_count, player, level_state)
+            player, death_count, level_state = skin2(player, death_count, level_state)
 
         if SkinButton3.draw():
-            pass
-
-        if SkinButton4.draw():
-            pass
-
-        if SkinButton5.draw():
-            pass
+            player, death_count, level_state = skin3(player, death_count, level_state)
 
         if level_button.draw():
-            start_menu(death_count, player, level_state=None)
+            start_menu(player, death_count=0, level_state=None)
 
         pygame.display.flip()
 
 
-def skin2(death_count, player, level_state):
-    SkinButton1 = Button(220, 200, SKINBUTTON1)
-    SkinButton2 = Button(300, 200, SKINBUTTON2)
-    SkinButton3 = Button(380, 200, SKINBUTTON3)
-    SkinButton4 = Button(460, 200, SKINBUTTON3)
-    SkinButton5 = Button(540, 200, SKINBUTTON3)
+def skin2(player, death_count, level_state):
+    SkinButton1 = Button(290, 200, SKINBUTTON1)
+    SkinButton2 = Button(380, 200, SKINBUTTON2)
+    SkinButton3 = Button(470, 200, SKINBUTTON3)
 
-    SantaHat = Button(220, 300, SANTAHAT)
-    Circle = Button(300, 300, CIRCLE)
-    Skeleton = Button(380, 300, SKELETON)
+    SantaHat = Button(290, 300, SANTAHAT)
+    Circle = Button(380, 300, CIRCLE)
+    Skeleton = Button(470, 300, SKELETON)
+    Cowboy = Button(290, 390, COWBOY)
+    Viking = Button(380, 390, VIKING)
+    Clown = Button(470, 390, CLOWN)
 
     run = True
 
     SCREEN.fill((255, 255, 255))
     SCREEN.blit(CLOSET, (0, 0))
 
-    level_button = Button(1410, 30, OKAY)
+    level_button = Button(1385, 50, OKAY)
 
     while run:
         for event in pygame.event.get():
@@ -1006,7 +1015,7 @@ def skin2(death_count, player, level_state):
                 run = False
                 
         if SkinButton1.draw():
-            death_count, level_state, player = skin1(death_count, player, level_state)
+            player, death_count, level_state = skin1(player, death_count, level_state)
 
         if SantaHat.draw():
             SCREEN.blit(CLOSET, (0, 0))
@@ -1023,22 +1032,101 @@ def skin2(death_count, player, level_state):
             SCREEN.blit(SKINZOMBI2, (910, 210))
             player = DinosaurSkin1Zombi()
 
+        if Cowboy.draw():
+            SCREEN.blit(CLOSET, (0, 0))
+            SCREEN.blit(SKINCOWBOY2, (910, 184))
+            player = DinosaurSkin1Cowboy()
+
+        if Viking.draw():
+            SCREEN.blit(CLOSET, (0, 0))
+            SCREEN.blit(SKINVIKING2, (910, 142))
+            player = DinosaurSkin1Viking()
+        
+        if Clown.draw():
+            SCREEN.blit(CLOSET, (0, 0))
+            SCREEN.blit(SKINCLOWN2, (910, 176))
+            player = DinosaurSkin1Clown()
+
         if SkinButton2.draw():
             SCREEN.blit(CLOSET, (0, 0))
             SCREEN.blit(DINOSKIN2, (910, 210))
             player = DinosaurSkin1()
 
         if SkinButton3.draw():
-            pass
-
-        if SkinButton4.draw():
-            pass
-
-        if SkinButton5.draw():
-            pass
+            player, death_count, level_state = skin3(player, death_count, level_state)
 
         if level_button.draw():
-            start_menu(death_count, player, level_state=None)
+            start_menu(player, death_count=0, level_state=None)
+
+        pygame.display.flip()
+
+def skin3(player, death_count, level_state):
+    SkinButton1 = Button(290, 200, SKINBUTTON1)
+    SkinButton2 = Button(380, 200, SKINBUTTON2)
+    SkinButton3 = Button(470, 200, SKINBUTTON3)
+
+    SantaHat = Button(290, 300, SANTAHAT)
+    Circle = Button(380, 300, CIRCLE)
+    Skeleton = Button(470, 300, SKELETON)
+    Cowboy = Button(290, 390, COWBOY)
+    Viking = Button(380, 390, VIKING)
+    Clown = Button(470, 390, CLOWN)
+
+    run = True
+
+    SCREEN.fill((255, 255, 255))
+    SCREEN.blit(CLOSET, (0, 0))
+
+    level_button = Button(1385, 50, OKAY)
+
+    while run:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
+                
+        if SkinButton1.draw():
+            player, death_count, level_state = skin1(player, death_count, level_state)
+
+        if SantaHat.draw():
+            SCREEN.blit(CLOSET, (0, 0))
+            SCREEN.blit(SKINSANTA3, (910, 180))
+            player = DinosaurSkin3Winter() 
+
+        if Circle.draw():
+            SCREEN.blit(CLOSET, (0, 0))
+            SCREEN.blit(SKINBEACH3, (910, 200))
+            player = DinosaurSkin3Beach()
+
+        if Skeleton.draw():
+            SCREEN.blit(CLOSET, (0, 0))
+            SCREEN.blit(SKINZOMBI3, (910, 200))
+            player = DinosaurSkin3Zombi()
+
+        if Cowboy.draw():
+            SCREEN.blit(CLOSET, (0, 0))
+            SCREEN.blit(SKINCOWBOY3, (910, 171))
+            player = DinosaurSkin3Cowboy()
+
+        if Viking.draw():
+            SCREEN.blit(CLOSET, (0, 0))
+            SCREEN.blit(SKINVIKING3, (910, 130))
+            player = DinosaurSkin3Viking()
+
+        if Clown.draw():
+            SCREEN.blit(CLOSET, (0, 0))
+            SCREEN.blit(SKINCLOWN3, (910, 174))
+            player = DinosaurSkin3Clown()
+
+        if SkinButton2.draw():
+            player, death_count, level_state = skin2(player, death_count, level_state)
+
+        if SkinButton3.draw():
+            SCREEN.blit(CLOSET, (0, 0))
+            SCREEN.blit(DINOSKIN3, (910, 200))
+            player = DinosaurSkin3()
+
+        if level_button.draw():
+            start_menu(player, death_count=0, level_state=None)
 
         pygame.display.flip()
 
@@ -1290,4 +1378,4 @@ def multiplayer_loose_menu(death_count, level_state, player, heart1, heart2):
         pygame.display.flip()
 
     
-start_menu(death_count=0, player=Dinosaur(), level_state=None)
+start_menu(player=Dinosaur(), death_count=0, level_state=None)
