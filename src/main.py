@@ -631,6 +631,8 @@ def start_menu(player, death_count, level_state):
     settings_button = Button(5, 5, SETTINGS)
     paint_button = Button(5, 99, PAINT)
     exit = Button(1465, 15, EXIT)
+    start_clicked = False
+    mult_clicked = False
     run = True
     while run:
         for event in pygame.event.get():
@@ -644,14 +646,34 @@ def start_menu(player, death_count, level_state):
         slider2_button_clicked = [False]
         level_button_clicked = [False]
         if death_count == 0:
-            if start_button.draw() and not level_button_clicked[0]:
-                level_button_clicked[0] = True
-                if classic_level(slider1_button_clicked, slider2_button_clicked, level_button_clicked, player, level_state):
-                    break 
+            if start_button.draw() and not start_clicked:
+                start_clicked = True
+                SCREEN.blit(MENU, (0, 0))
+                SCREEN.blit(START_CLICK, (409, 234)) 
+                multiplayer_button.draw()
+                settings_button.draw()
+                paint_button.draw()
+                exit.draw()
+                pygame.display.flip() 
+                pygame.time.delay(700)
+                classic_level(slider1_button_clicked, slider2_button_clicked, level_button_clicked, player, level_state)
             elif not start_button.draw():
-                level_button_clicked[0] = False
-            if multiplayer_button.draw():
+                start_clicked = False
+
+            if multiplayer_button.draw() and not mult_clicked:
+                mult_clicked = True
+                SCREEN.blit(MENU, (0, 0))
+                SCREEN.blit(MULT_CLICK, (409, 334))
+                start_button.draw()
+                settings_button.draw()
+                paint_button.draw()
+                exit.draw()
+                pygame.display.flip()
+                pygame.time.delay(700)
                 multiplayer(player, level_state, 3, 3)
+            elif not multiplayer_button.draw():
+                mult_clicked = False
+
             if settings_button.draw():
                 pass
             if paint_button.draw():
@@ -687,8 +709,8 @@ def loose_menu(death_count, level_state, points, player):
         pygame.mixer.music.load(MAIN_MENU_MUSIC)
         pygame.mixer.music.play(-1)
     play_menu_music()
-    reset_button = Button(320, 310, RESET)
-    menu_button = Button(320, 420, MENUB)
+    reset_button = Button(940, 280, RESET)
+    menu_button = Button(940, 390, MENUB)
 
     run = True
     while run:
@@ -697,7 +719,7 @@ def loose_menu(death_count, level_state, points, player):
                 run = False
 
         SCREEN.fill((255, 255, 255))
-        SCREEN.blit(MENU, (0, 0))
+        SCREEN.blit(LOOSEMENU, (0, 0))
 
         font = pygame.font.Font('freesansbold.ttf', 55)
 
@@ -714,10 +736,18 @@ def loose_menu(death_count, level_state, points, player):
 
             if menu_button.draw():
                 start_menu(player, death_count=0, level_state=None)
-            score = font.render("Your Score: " + str(points), True, (0, 0, 0))
+            score = font.render("Your Score: " + str(points), True, (255, 255, 255))
             scoreRect = score.get_rect()
-            scoreRect.center = (470, 255)
+            scoreRect.center = (470, 130)
             SCREEN.blit(score, scoreRect)
+
+            if points < 1000:
+                SCREEN.blit(MESSAGE1, (490, 230))
+            if points > 1000 and points < 4000:
+                SCREEN.blit(MESSAGE2, (490, 230))
+            if points > 4000:
+                SCREEN.blit(MESSAGE3, (490, 230))
+            SCREEN.blit(DINOSKIN1, (100, 250))
 
         pygame.display.flip()
 
