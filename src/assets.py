@@ -227,6 +227,7 @@ SLIDER1 = pygame.image.load (os.path.join("Assets", "Other", "Slider1.png")).con
 SLIDER2 = pygame.image.load (os.path.join("Assets", "Other", "Slider2.png")).convert_alpha()
 
 START_CLICK = pygame.image.load(os.path.join("Assets", "Other", "StartClick.png")).convert_alpha()
+MULT_CLICK = pygame.image.load(os.path.join("Assets", "Other", "MultButtonClick.png")).convert_alpha()
 
 BG = pygame.image.load(os.path.join("Assets", "Other", "Track.png")).convert_alpha()
 BGWINTER = pygame.image.load(os.path.join("Assets", "Other", "TrackWinter.png")).convert_alpha()
@@ -244,6 +245,7 @@ WINTER1 = pygame.image.load(os.path.join("Assets", "Other", "Winter1.png")).conv
 WINTER2 = pygame.image.load(os.path.join("Assets", "Other", "Winter2.png")).convert_alpha()
 WINTER3 = pygame.image.load(os.path.join("Assets", "Other", "Winter3.png")).convert_alpha()
 MENU = pygame.image.load(os.path.join("Assets", "Other", "Menu.png")).convert_alpha()
+LOOSEMENU = pygame.image.load(os.path.join("Assets", "Other", "LooseMenu.png")).convert_alpha()
 
 CLASSICLEVEL = pygame.image.load (os.path.join("Assets", "Other", "ClassicLevel.png")).convert_alpha()
 WINTERLEVEL = pygame.image.load (os.path.join("Assets", "Other", "WinterLevel.png")).convert_alpha()
@@ -320,3 +322,7 @@ PAUSEMENU = pygame.image.load (os.path.join("Assets", "Other", "MenuB.png")).con
 MULTIPLAYERLOOSE = pygame.image.load (os.path.join("Assets", "Other", "MultiplayerLoose.png")).convert_alpha()
 MULTARROWS = pygame.image.load (os.path.join("Assets", "Other", "MultArrows.png")).convert_alpha()
 MULTWS = pygame.image.load (os.path.join("Assets", "Other", "MultWS.png")).convert_alpha()
+
+MESSAGE1 = pygame.image.load (os.path.join("Assets", "Other", "Message1.png")).convert_alpha()
+MESSAGE2 = pygame.image.load (os.path.join("Assets", "Other", "Message2.png")).convert_alpha()
+MESSAGE3 = pygame.image.load (os.path.join("Assets", "Other", "Message3.png")).convert_alpha()
