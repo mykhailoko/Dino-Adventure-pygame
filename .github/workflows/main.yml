@@ -8,7 +8,10 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
 
     steps:
     - name: Checkout code
@@ -23,19 +26,22 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         python -m pip install nuitka
-        
+      shell: ${{ matrix.os == 'windows-latest' && 'bash' || 'sh' }}
+
     - name: Build project with Nuitka
       run: |
         python -m nuitka --onefile --standalone src/main.py
         ls main.dist
-        
+      shell: ${{ matrix.os == 'windows-latest' && 'bash' || 'sh' }}
+
     - name: Package executable
       run: |
         mkdir -p build
         mv main.dist/main.bin build/Dino-Adventure.exe 
         zip -r Dino-Adventure.zip build/*
         tree
-        
+      shell: ${{ matrix.os == 'windows-latest' && 'bash' || 'sh' }}
+
     - name: Generate Git Tag
       id: generate_tag
       run: |
@@ -46,6 +52,7 @@ jobs:
         NEW_TAG="${VERSION_PREFIX}${VERSION_MAJOR_MINOR}.${VERSION_PATCH}"
         echo "Generated new tag: $NEW_TAG"
         echo "NEW_TAG=$NEW_TAG" >> $GITHUB_ENV
+      shell: ${{ matrix.os == 'windows-latest' && 'bash' || 'sh' }}
         
     - name: Create GitHub Release
       uses: softprops/action-gh-release@v1
