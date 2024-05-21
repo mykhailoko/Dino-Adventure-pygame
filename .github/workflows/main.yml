@@ -27,7 +27,7 @@ jobs:
         
     - name: Build project with PyInstaller
       run: |
-        pyinstaller --onefile --add-data "Assets/Sounds" src/main.py
+        pyinstaller --onefile --add-data "Assets\\Sounds;Assets\\Sounds" src/main.py
         
     - name: Package executable
       run: |
