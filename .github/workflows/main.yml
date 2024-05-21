@@ -27,6 +27,7 @@ jobs:
         
     - name: Build project with Nuitka
       run: |
+        PATH=$PATH:/home/$USER/.local/bin
         nuitka3 --onefile --standalone src/main.py
         ls main.dist
         
