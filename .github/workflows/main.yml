@@ -28,7 +28,12 @@ jobs:
       run: echo "/home/runner/.local/bin" >> $GITHUB_PATH
     
     - name: Run Nuitka
-      run: run nuitka --standalone src/main.py
+      run:  python3 -m venv venv
+            . venv/bin/activate
+            pip install --upgrade pip
+            pip install nuitka
+            . venv/bin/activate
+            venv/bin/python3 -m nuitka --standalone src/main.py
 
     - name: Check
       run: ls 
