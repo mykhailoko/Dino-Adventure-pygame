@@ -1,4 +1,4 @@
-name: Build Python Project with Nuitka 
+name: Build Python Project with Nuitka
 
 on:
   push:
@@ -21,9 +21,9 @@ jobs:
     
     - name: Install dependencies
       run: |
-        python3 -m pip install --upgrade pip
-        python3 -m pip install nuitka
-        python3 -m pip install pygame
+        python -m pip install --upgrade pip
+        python -m pip install nuitka
+        python -m pip install pygame
         
     - name: Build project with Nuitka
       run: |
@@ -33,20 +33,20 @@ jobs:
     - name: Package executable
       run: |
         mkdir build
-        #mv main.dist/main.bin build/Dino-Adventure.exe 
-        #zip -r Dino-Adventure.zip build/*
+        mv main.dist/main.exe build/Dino-Adventure.exe 
+        zip -r Dino-Adventure.zip build/*
         tree
         
     - name: Generate Git Tag
       id: generate_tag
       run: |
-        VERSION_PREFIX="v"
-        VERSION_MAJOR_MINOR="1.0"
-        VERSION_PATCH="0"
+        $VERSION_PREFIX="v"
+        $VERSION_MAJOR_MINOR="1.0"
+        $VERSION_PATCH="0"
         
-        NEW_TAG=v1.0.0
-        echo "Generated new tag: v1.0.0"
-        echo "NEW_TAG=v1.0.0" >> $GITHUB_ENV
+        $NEW_TAG="$VERSION_PREFIX$VERSION_MAJOR_MINOR.$VERSION_PATCH"
+        Write-Output "Generated new tag: $NEW_TAG"
+        echo "NEW_TAG=$NEW_TAG" >> $env:GITHUB_ENV
         
     - name: Create GitHub Release
       uses: softprops/action-gh-release@v1
