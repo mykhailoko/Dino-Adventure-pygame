@@ -33,9 +33,9 @@ jobs:
     - name: Package executable
       run: |
         mkdir build
-        mv main.dist/main.exe build/Dino-Adventure.exe 
-        zip -r Dino-Adventure.zip build/*
-        tree
+        Move-Item main.dist\main.exe build\Dino-Adventure.exe
+        Compress-Archive -Path build\* -DestinationPath Dino-Adventure.zip
+        Get-ChildItem
         
     - name: Generate Git Tag
       id: generate_tag
