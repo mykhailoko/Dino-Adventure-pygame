@@ -28,7 +28,7 @@ jobs:
     - name: Build project with PyInstaller
       run: |
         pyinstaller --onefile --clean --add-data "Assets\Bird;Assets\Bird" --add-data "Assets\Cactus;Assets\Cactus" --add-data "Assets\Dino;Assets\Dino" --add-data "Assets\Other;Assets\Other" --add-data "Assets\Sounds;Assets\Sounds" src\main.py
-        dir
+        pyinstaller --clean main.spec
         
     - name: Package executable
       run: |
