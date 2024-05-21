@@ -25,13 +25,20 @@ jobs:
         python -m pip install pyinstaller
         python -m pip install pygame
         
+    - name: Copy resource files
+      run: |
+        mkdir resources
+        cp -r src/Assets resources/
+
     - name: Build project with PyInstaller
       run: |
-        pyinstaller --onefile src/main.py
+        pyinstaller --onefile --add-data "resources;resources" src/main.py
         
     - name: Package executable
       run: |
-        Move-Item dist\main.exe build\Dino-Adventure.exe
+        mkdir build
+        mv dist/main.exe build/Dino-Adventure.exe
+        cp -r resources build/
         Compress-Archive -Path build\* -DestinationPath Dino-Adventure.zip
         Get-ChildItem
         
