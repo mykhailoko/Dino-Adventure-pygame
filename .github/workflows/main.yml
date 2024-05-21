@@ -31,7 +31,6 @@ jobs:
         
     - name: Package executable
       run: |
-        mkdir build
         Move-Item dist\main.exe build\Dino-Adventure.exe
         Compress-Archive -Path build\* -DestinationPath Dino-Adventure.zip
         Get-ChildItem
