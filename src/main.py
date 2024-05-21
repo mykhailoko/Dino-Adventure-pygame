@@ -72,12 +72,27 @@ def main(player, level_state):
             pause_start = Button(620, 330, PAUSERESUME)
             pause_menu = Button(620, 440, PAUSEMENU)
             
+            pause_start_clicked = False
+            pause_menu_clicked = False
+            
             SCREEN.blit(PAUSEBOARD, (420, 170))
 
-            if pause_start.draw():
+            if pause_start.draw() and not pause_start_clicked:
+                pause_start_clicked = True
+                SCREEN.blit(PAUSEBOARD, (420, 170))
+                SCREEN.blit(RESUME_CLICK, (630, 330)) 
+                pause_menu.draw()
+                pygame.display.flip() 
+                pygame.time.delay(400)
                 paused = False
 
-            if pause_menu.draw():
+            if pause_menu.draw() and not pause_menu_clicked:
+                pause_menu_clicked = True
+                SCREEN.blit(PAUSEBOARD, (420, 170))
+                SCREEN.blit(MENU_CLICK, (620, 440)) 
+                pause_start.draw()
+                pygame.display.flip() 
+                pygame.time.delay(400)
                 death_count += 1
                 level_state = "main"
                 loose_menu(death_count, level_state, points, player)
@@ -210,12 +225,27 @@ def main_winter(player, level_state):
             pause_start = Button(620, 330, PAUSERESUME)
             pause_menu = Button(620, 440, PAUSEMENU)
             
+            pause_start_clicked = False
+            pause_menu_clicked = False
+            
             SCREEN.blit(PAUSEBOARD, (420, 170))
 
-            if pause_start.draw():
+            if pause_start.draw() and not pause_start_clicked:
+                pause_start_clicked = True
+                SCREEN.blit(PAUSEBOARD, (420, 170))
+                SCREEN.blit(RESUME_CLICK, (630, 330)) 
+                pause_menu.draw()
+                pygame.display.flip() 
+                pygame.time.delay(400)
                 paused = False
 
-            if pause_menu.draw():
+            if pause_menu.draw() and not pause_menu_clicked:
+                pause_menu_clicked = True
+                SCREEN.blit(PAUSEBOARD, (420, 170))
+                SCREEN.blit(MENU_CLICK, (620, 440)) 
+                pause_start.draw()
+                pygame.display.flip() 
+                pygame.time.delay(400)
                 death_count += 1
                 level_state = "main_winter"
                 loose_menu(death_count, level_state, points, player)
@@ -355,12 +385,27 @@ def main_beach(player, level_state):
             pause_start = Button(620, 330, PAUSERESUME)
             pause_menu = Button(620, 440, PAUSEMENU)
             
+            pause_start_clicked = False
+            pause_menu_clicked = False
+            
             SCREEN.blit(PAUSEBOARD, (420, 170))
 
-            if pause_start.draw():
+            if pause_start.draw() and not pause_start_clicked:
+                pause_start_clicked = True
+                SCREEN.blit(PAUSEBOARD, (420, 170))
+                SCREEN.blit(RESUME_CLICK, (630, 330)) 
+                pause_menu.draw()
+                pygame.display.flip() 
+                pygame.time.delay(400)
                 paused = False
 
-            if pause_menu.draw():
+            if pause_menu.draw() and not pause_menu_clicked:
+                pause_menu_clicked = True
+                SCREEN.blit(PAUSEBOARD, (420, 170))
+                SCREEN.blit(MENU_CLICK, (620, 440)) 
+                pause_start.draw()
+                pygame.display.flip() 
+                pygame.time.delay(400)
                 death_count += 1
                 level_state = "main_beach"
                 loose_menu(death_count, level_state, points, player)
@@ -500,12 +545,27 @@ def main_zombi(player, level_state):
             pause_start = Button(620, 330, PAUSERESUME)
             pause_menu = Button(620, 440, PAUSEMENU)
             
+            pause_start_clicked = False
+            pause_menu_clicked = False
+            
             SCREEN.blit(PAUSEBOARD, (420, 170))
 
-            if pause_start.draw():
+            if pause_start.draw() and not pause_start_clicked:
+                pause_start_clicked = True
+                SCREEN.blit(PAUSEBOARD, (420, 170))
+                SCREEN.blit(RESUME_CLICK, (630, 330)) 
+                pause_menu.draw()
+                pygame.display.flip() 
+                pygame.time.delay(400)
                 paused = False
 
-            if pause_menu.draw():
+            if pause_menu.draw() and not pause_menu_clicked:
+                pause_menu_clicked = True
+                SCREEN.blit(PAUSEBOARD, (420, 170))
+                SCREEN.blit(MENU_CLICK, (620, 440)) 
+                pause_start.draw()
+                pygame.display.flip() 
+                pygame.time.delay(400)
                 death_count += 1
                 level_state = "main_zombi"
                 loose_menu(death_count, level_state, points, player)
@@ -544,7 +604,6 @@ def main_zombi(player, level_state):
             SCREEN.blit(ZOMBI3, (x3_pos_bg, 0))
             SCREEN.blit(ZOMBI3, (ZOMBI3.get_width() + x3_pos_bg, 0))
 
-
             if len(obstacles) == 0:
                 if random.randint(0, 2) == 0:
                     obstacles.append(Zombi(ZOMBI))
@@ -552,7 +611,6 @@ def main_zombi(player, level_state):
                     obstacles.append(LargeCactus(LARGE_GRAVES))
                 elif random.randint(0, 2) == 2:
                     obstacles.append(Bird(BAT))
-
 
             for obstacle in obstacles:
                 obstacle.draw(SCREEN)
@@ -611,6 +669,8 @@ def start_menu(player, death_count, level_state):
     exit = Button(1465, 15, EXIT)
     start_clicked = False
     mult_clicked = False
+    paint_clicked = False
+    settings_clicked = False
     run = True
     while run:
         for event in pygame.event.get():
@@ -622,7 +682,6 @@ def start_menu(player, death_count, level_state):
 
         slider1_button_clicked = [False]
         slider2_button_clicked = [False]
-        level_button_clicked = [False]
         if death_count == 0:
             if start_button.draw() and not start_clicked:
                 start_clicked = True
@@ -633,8 +692,8 @@ def start_menu(player, death_count, level_state):
                 paint_button.draw()
                 exit.draw()
                 pygame.display.flip() 
-                pygame.time.delay(700)
-                classic_level(slider1_button_clicked, slider2_button_clicked, level_button_clicked, player, level_state)
+                pygame.time.delay(400)
+                classic_level(slider1_button_clicked, slider2_button_clicked, player, level_state)
             elif not start_button.draw():
                 start_clicked = False
 
@@ -647,17 +706,58 @@ def start_menu(player, death_count, level_state):
                 paint_button.draw()
                 exit.draw()
                 pygame.display.flip()
-                pygame.time.delay(700)
+                pygame.time.delay(400)
                 multiplayer(player, level_state, 3, 3)
             elif not multiplayer_button.draw():
                 mult_clicked = False
 
-            if settings_button.draw():
-                pass
-            if paint_button.draw():
+            if settings_button.draw() and not settings_clicked:
+                settings_clicked = True
+                SCREEN.blit(MENU, (0, 0))
+                SCREEN.blit(SETTINGS_CLICK, (5, 5))
+                start_button.draw()
+                multiplayer_button.draw()
+                paint_button.draw()
+                exit.draw()
+                pygame.display.flip()
+                pygame.time.delay(400)
+                settings(player, death_count, level_state)
+            elif not settings_button.draw():
+                settings_clicked = False
+
+            if paint_button.draw() and not paint_clicked:
+                paint_clicked = True
+                SCREEN.blit(MENU, (0, 0))
+                SCREEN.blit(PAINT_CLICK, (5, 99))
+                start_button.draw()
+                settings_button.draw()
+                multiplayer_button.draw()
+                exit.draw()
+                pygame.display.flip()
+                pygame.time.delay(400)
                 closet(player, death_count, level_state)
+            elif not paint_button.draw():
+                paint_clicked = False
+
             if exit.draw():
                 exit_board(death_count, player, level_state)
+
+        pygame.display.flip()
+
+
+def settings(player, death_count, level_state):
+    exit = Button(1040, 190, EXIT)
+
+    run = True
+    while run:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
+
+        SCREEN.blit(SETTINGS_BOARD, (0, 0))
+
+        if exit.draw():
+            start_menu(player, death_count, level_state)
 
         pygame.display.flip()
 
@@ -690,6 +790,9 @@ def loose_menu(death_count, level_state, points, player):
     reset_button = Button(940, 280, RESET)
     menu_button = Button(940, 390, MENUB)
 
+    pause_menu_clicked = False
+    reset_button_clicked = False
+
     run = True
     while run:
         for event in pygame.event.get():
@@ -702,7 +805,21 @@ def loose_menu(death_count, level_state, points, player):
         font = pygame.font.Font('freesansbold.ttf', 55)
 
         if death_count > 0:
-            if reset_button.draw():
+            if reset_button.draw() and not reset_button_clicked:
+                reset_button_clicked = True
+                SCREEN.blit(LOOSEMENU, (0, 0))
+                SCREEN.blit(RESET_CLICK, (940, 280)) 
+                menu_button.draw()
+                SCREEN.blit(score, scoreRect)
+                if points <= 1000:
+                    SCREEN.blit(MESSAGE1, (490, 230))
+                if points > 1000 and points <= 4000:
+                    SCREEN.blit(MESSAGE2, (490, 230))
+                if points > 4000:
+                    SCREEN.blit(MESSAGE3, (490, 230))
+                SCREEN.blit(DINOSKIN1, (100, 250))
+                pygame.display.flip() 
+                pygame.time.delay(400)
                 if level_state == "main":
                     main(player, level_state)
                 if level_state == "main_winter":
@@ -712,16 +829,31 @@ def loose_menu(death_count, level_state, points, player):
                 if level_state == "main_zombi":
                     main_zombi(player, level_state)
 
-            if menu_button.draw():
+            if menu_button.draw() and not pause_menu_clicked:
+                pause_menu_clicked = True
+                SCREEN.blit(LOOSEMENU, (0, 0))
+                SCREEN.blit(MENU_CLICK, (940, 390)) 
+                reset_button.draw()
+                SCREEN.blit(score, scoreRect)
+                if points <= 1000:
+                    SCREEN.blit(MESSAGE1, (490, 230))
+                if points > 1000 and points <= 4000:
+                    SCREEN.blit(MESSAGE2, (490, 230))
+                if points > 4000:
+                    SCREEN.blit(MESSAGE3, (490, 230))
+                SCREEN.blit(DINOSKIN1, (100, 250))
+                pygame.display.flip() 
+                pygame.time.delay(400)
                 start_menu(player, death_count=0, level_state=None)
+
             score = font.render("Your Score: " + str(points), True, (255, 255, 255))
             scoreRect = score.get_rect()
             scoreRect.center = (470, 130)
             SCREEN.blit(score, scoreRect)
 
-            if points < 1000:
+            if points <= 1000:
                 SCREEN.blit(MESSAGE1, (490, 230))
-            if points > 1000 and points < 4000:
+            if points > 1000 and points <= 4000:
                 SCREEN.blit(MESSAGE2, (490, 230))
             if points > 4000:
                 SCREEN.blit(MESSAGE3, (490, 230))
@@ -730,9 +862,8 @@ def loose_menu(death_count, level_state, points, player):
         pygame.display.flip()
 
 
-def classic_level(slider1_button_clicked, slider2_button_clicked, level_button_clicked, player, level_state):
-    back_button = Button(30, 30, BACK)
-    slider1_button = Button(30, SCREEN_HEIGHT // 2 - 60, SLIDER1)
+def classic_level(slider1_button_clicked, slider2_button_clicked, player, level_state):
+    back_button = Button(30, 690, BACK)
     slider2_button = Button(1410, SCREEN_HEIGHT // 2 - 60, SLIDER2)
     level_button = Button(SCREEN_WIDTH // 2 - 450, SCREEN_HEIGHT // 2 - 320, CLASSICLEVEL)
     run = True
@@ -751,29 +882,20 @@ def classic_level(slider1_button_clicked, slider2_button_clicked, level_button_c
 
         SCREEN.blit(CLASSICLEVEL, (SCREEN_WIDTH // 2 - 450, SCREEN_HEIGHT // 2 - 320))
 
-        if level_button.draw() and not level_button_clicked[0]:
-            level_button_clicked[0] = True
+        if level_button.draw():
             main(player, level_state)
-        elif not level_button.draw():
-            level_button_clicked[0] = False
 
         if slider2_button.draw() and not slider2_button_clicked[0]:
             slider2_button_clicked[0] = True
-            winter_level(slider1_button_clicked, slider2_button_clicked, level_button_clicked, player, level_state)
+            winter_level(slider1_button_clicked, slider2_button_clicked, player, level_state)
         elif not slider2_button.draw():
             slider2_button_clicked[0] = False
-
-        if slider1_button.draw() and not slider1_button_clicked[0]:
-            slider1_button_clicked[0] = True
-            pass
-        elif not slider1_button.draw():
-            slider1_button_clicked[0] = False
 
         pygame.display.flip()
 
 
-def winter_level(slider1_button_clicked, slider2_button_clicked, level_button_clicked, player, level_state):
-    back_button = Button(30, 30, BACK)
+def winter_level(slider1_button_clicked, slider2_button_clicked, player, level_state):
+    back_button = Button(30, 690, BACK)
     slider1_button = Button(30, SCREEN_HEIGHT // 2 - 60, SLIDER1)
     slider2_button = Button(1410, SCREEN_HEIGHT // 2 - 60, SLIDER2)
     level_button = Button(SCREEN_WIDTH // 2 - 450, SCREEN_HEIGHT // 2 - 320, WINTERLEVEL)
@@ -796,21 +918,21 @@ def winter_level(slider1_button_clicked, slider2_button_clicked, level_button_cl
 
         if slider1_button.draw() and not slider1_button_clicked[0]:
             slider1_button_clicked[0] = True
-            classic_level(slider1_button_clicked, slider2_button_clicked, level_button_clicked, player, level_state)
+            classic_level(slider1_button_clicked, slider2_button_clicked, player, level_state)
         elif not slider1_button.draw():
             slider1_button_clicked[0] = False
 
         if slider2_button.draw() and not slider2_button_clicked[0]:
             slider2_button_clicked[0] = True
-            beach_level(slider1_button_clicked, slider2_button_clicked, level_button_clicked, player, level_state)
+            beach_level(slider1_button_clicked, slider2_button_clicked, player, level_state)
         elif not slider2_button.draw():
             slider2_button_clicked[0] = False
 
         pygame.display.flip()
 
 
-def beach_level(slider1_button_clicked, slider2_button_clicked, level_button_clicked, player, level_state):
-    back_button = Button(30, 30, BACK)
+def beach_level(slider1_button_clicked, slider2_button_clicked, player, level_state):
+    back_button = Button(30, 690, BACK)
     slider1_button = Button(30, SCREEN_HEIGHT // 2 - 60, SLIDER1)
     slider2_button = Button(1410, SCREEN_HEIGHT // 2 - 60, SLIDER2)
     level_button = Button(SCREEN_WIDTH // 2 - 450, SCREEN_HEIGHT // 2 - 320, BEACHLEVEL)
@@ -833,22 +955,21 @@ def beach_level(slider1_button_clicked, slider2_button_clicked, level_button_cli
 
         if slider1_button.draw() and not slider1_button_clicked[0]:
             slider1_button_clicked[0] = True
-            winter_level(slider1_button_clicked, slider2_button_clicked, level_button_clicked, player, level_state)
+            winter_level(slider1_button_clicked, slider2_button_clicked, player, level_state)
         elif not slider1_button.draw():
             slider1_button_clicked[0] = False
 
         if slider2_button.draw() and not slider2_button_clicked[0]:
             slider2_button_clicked[0] = True
-            zombi_level(slider1_button_clicked, slider2_button_clicked, level_button_clicked, player, level_state)
+            zombi_level(slider1_button_clicked, slider2_button_clicked, player, level_state)
         elif not slider2_button.draw():
             slider2_button_clicked[0] = False
 
         pygame.display.flip()
 
 
-
-def zombi_level(slider1_button_clicked, slider2_button_clicked, level_button_clicked, player, level_state):
-    back_button = Button(30, 30, BACK)
+def zombi_level(slider1_button_clicked, slider2_button_clicked, player, level_state):
+    back_button = Button(30, 690, BACK)
     slider1_button = Button(30, SCREEN_HEIGHT // 2 - 60, SLIDER1)
     slider2_button = Button(1410, SCREEN_HEIGHT // 2 - 60, SLIDER2)
     level_button = Button(SCREEN_WIDTH // 2 - 450, SCREEN_HEIGHT // 2 - 320, ZOMBILEVEL)
@@ -871,12 +992,9 @@ def zombi_level(slider1_button_clicked, slider2_button_clicked, level_button_cli
 
         if slider1_button.draw() and not slider1_button_clicked[0]:
             slider1_button_clicked[0] = True
-            beach_level(slider1_button_clicked, slider2_button_clicked, level_button_clicked, player, level_state)
+            beach_level(slider1_button_clicked, slider2_button_clicked, player, level_state)
         elif not slider1_button.draw():
             slider1_button_clicked[0] = False
-
-        if slider2_button.draw():
-            pass
 
         pygame.display.flip()
 
@@ -1166,13 +1284,28 @@ def multiplayer(player, level_state, heart1, heart2):
     def pause_board(death_count, player, paused, level_state):
             pause_start = Button(620, 330, PAUSERESUME)
             pause_menu = Button(620, 440, PAUSEMENU)
+
+            pause_start_clicked = False
+            pause_menu_clicked = False
             
             SCREEN.blit(PAUSEBOARD, (420, 170))
 
-            if pause_start.draw():
+            if pause_start.draw() and not pause_start_clicked:
+                pause_start_clicked = True
+                SCREEN.blit(PAUSEBOARD, (420, 170))
+                SCREEN.blit(RESUME_CLICK, (630, 335)) 
+                pause_menu.draw()
+                pygame.display.flip() 
+                pygame.time.delay(400)
                 paused = False
 
-            if pause_menu.draw():
+            if pause_menu.draw() and not pause_menu_clicked:
+                pause_menu_clicked = True
+                SCREEN.blit(PAUSEBOARD, (420, 170))
+                SCREEN.blit(MENU_CLICK, (620, 440)) 
+                pause_start.draw()
+                pygame.display.flip() 
+                pygame.time.delay(400)
                 death_count += 1
                 level_state = "multiplayer"
                 multiplayer_loose_menu(death_count, level_state, player, heart1, heart2)
@@ -1357,6 +1490,9 @@ def multiplayer_loose_menu(death_count, level_state, player, heart1, heart2):
     reset_button = Button(1000, 300, RESET)
     menu_button = Button(1000, 410, MENUB)
 
+    pause_menu_clicked = False
+    reset_button_clicked = False
+
     run = True
     while run:
         for event in pygame.event.get():
@@ -1367,11 +1503,35 @@ def multiplayer_loose_menu(death_count, level_state, player, heart1, heart2):
         SCREEN.blit(MULTIPLAYERLOOSE, (0, 0))
 
         if death_count > 0:
-            if reset_button.draw():
+            if reset_button.draw() and not reset_button_clicked:
+                reset_button_clicked = True
+                SCREEN.blit(MULTIPLAYERLOOSE, (0, 0))
+                SCREEN.blit(RESET_CLICK, (1000, 300)) 
+                menu_button.draw()
+                if heart1 > heart2:
+                    SCREEN.blit(DINOSKIN1, (270, 230))
+                if heart2 > heart1:
+                    SCREEN.blit(DINOSKIN2, (240, 230))
+                if heart1 == heart2:
+                    pass
+                pygame.display.flip() 
+                pygame.time.delay(400)
                 if level_state == "multiplayer":
                     multiplayer(player, level_state, heart1=3, heart2=3)
 
-            if menu_button.draw():
+            if menu_button.draw() and not pause_menu_clicked:
+                pause_menu_clicked = True
+                SCREEN.blit(MULTIPLAYERLOOSE, (0, 0))
+                SCREEN.blit(MENU_CLICK, (1000, 410)) 
+                reset_button.draw()
+                if heart1 > heart2:
+                    SCREEN.blit(DINOSKIN1, (270, 230))
+                if heart2 > heart1:
+                    SCREEN.blit(DINOSKIN2, (240, 230))
+                if heart1 == heart2:
+                    pass
+                pygame.display.flip() 
+                pygame.time.delay(400)
                 start_menu(death_count=0, player=Dinosaur(), level_state=None)
 
         if heart1 > heart2:
