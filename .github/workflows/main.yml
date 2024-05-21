@@ -1,56 +1,57 @@
-name: Build EXE
+name: Build Python Project with PyInstaller 
 
 on:
   push:
-    branches:
-      - main
-
-env:
-  REPO_NAME: mykhailoko/Dino-Adventure
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    
+
     steps:
     - name: Checkout code
-      uses: actions/checkout@v2
-      
-    - name: Setup Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: '3.11'
-        
-    - name: Install Nuitka
-      run: python -m pip install nuitka
-      
-    - name: Set Nuitka path
-      run: echo "/home/runner/.local/bin" >> $GITHUB_PATH
-    
-    - name: Run Nuitka
-      run:  python3 -m venv venv
-            . venv/bin/activate
-            pip install --upgrade pip
-            pip install nuitka
-            . venv/bin/activate
-            venv/bin/python3 -m nuitka --standalone src/main.py
+      uses: actions/checkout@v4
 
-    - name: Check
-      run: ls 
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'  
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pyinstaller
+        pip install -r requirements.txt
+
+    - name: Build project with PyInstaller
+      run: |
+        pyinstaller --onefile src/main.py
+        ls dist
+
+    - name: Package executable
+      run: |
+        mkdir -p build
+        mv dist/main.exe build/Dino-Adventure.exe  
+        zip -r Dino-Adventure.zip build/*
+        tree
 
     - name: Generate Git Tag
       id: generate_tag
       run: |
-          VERSION_PREFIX="v"
-          VERSION_MAJOR_MINOR="1.0"
-          VERSION_PATCH="0"
-           
-          NEW_TAG="${VERSION_PREFIX}${VERSION_MAJOR_MINOR}.${VERSION_PATCH}"
-          echo "Generated new tag: $NEW_TAG"
-          echo "NEW_TAG=$NEW_TAG" >> $GITHUB_ENV
-      
-    - name: Upload EXE artifact
-      uses: softprops/action-gh-release@v2
-      if: startsWith(github.ref, 'refs/tags/')
+        VERSION_PREFIX="v"
+        VERSION_MAJOR_MINOR="1.0"
+        VERSION_PATCH="0"
+        
+        NEW_TAG="${VERSION_PREFIX}${VERSION_MAJOR_MINOR}.${VERSION_PATCH}"
+        echo "Generated new tag: $NEW_TAG"
+        echo "NEW_TAG=$NEW_TAG" >> $GITHUB_ENV
+
+    - name: Create GitHub Release
+      uses: softprops/action-gh-release@v1
       with:
-        files: ./main.bin
+        files: Dino-Adventure.zip
+        tag_name: ${{ env.NEW_TAG }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
