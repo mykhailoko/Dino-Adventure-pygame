@@ -19,7 +19,6 @@ from assets import *
 from dinosaur import *
 from obstacles import *
 from button import *
-from boost import *
 
 pygame.mixer.music.load(MAIN_MENU_MUSIC)
 pygame.mixer.music.set_volume(0.5)  # Устанавливаем громкость музыки (от 0 до 1)
@@ -140,27 +139,6 @@ def main(player, level_state):
                     loose_menu(death_count, level_state, points, player)
                     run = False
                     stop_music()
-
-            # BOOST
-            '''
-            if len(boosts) == 0:
-                boost_type = random.randint(0, 10)
-                if boost_type == 0:
-                    boosts.append(Speed(BOOST))
-
-            for boost in boosts:
-                boost.draw(SCREEN)
-                boost.update(boosts, game_speed)
-
-                # Столкновение
-                dino_rect_adjusted = pygame.Rect(player.dino_rect.x, player.dino_rect.y,
-                                                player.dino_rect.width - 60, player.dino_rect.height - 40)
-                boost_rect_adjusted = pygame.Rect(boost.rect.x, boost.rect.y,
-                                                boost.rect.width - 20, boost.rect.height - 15)
-
-                if dino_rect_adjusted.colliderect(boost_rect_adjusted):
-                    pass
-            '''
 
             if pause_button.draw():
                 paused = True
