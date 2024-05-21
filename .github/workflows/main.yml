@@ -19,6 +19,7 @@ jobs:
       with:
         python-version: '3.10'  
     # comment
+    # comment 2
     - name: Install dependencies
       run: |
         python3 -m pip install --upgrade pip
