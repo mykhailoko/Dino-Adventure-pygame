@@ -25,20 +25,13 @@ jobs:
         python -m pip install pyinstaller
         python -m pip install pygame
         
-    - name: Copy resource files
-      run: |
-        mkdir resources
-        cp -r /Assets resources/
-
     - name: Build project with PyInstaller
       run: |
-        pyinstaller --onefile --add-data "Assets/Sounds/death_sound.wav;Assets/Sounds" src/main.py
+        pyinstaller --onefile --add-data "Assets/Sounds" src/main.py
         
     - name: Package executable
       run: |
-        mkdir build
-        mv dist/main.exe build/Dino-Adventure.exe
-        cp -r resources build/
+        Move-Item dist\main.exe build\Dino-Adventure.exe
         Compress-Archive -Path build\* -DestinationPath Dino-Adventure.zip
         Get-ChildItem
         
