@@ -28,7 +28,7 @@ jobs:
     - name: Copy resource files
       run: |
         mkdir resources
-        cp -r src/Assets resources/
+        cp -r /Assets resources/
 
     - name: Build project with PyInstaller
       run: |
