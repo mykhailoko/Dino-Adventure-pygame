@@ -31,7 +31,6 @@ jobs:
 
     - name: Package executable
       run: |
-        mv dist/main.exe build/Dino-Adventure.exe  
         zip -r Dino-Adventure.zip build/*
         tree
 
