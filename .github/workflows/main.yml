@@ -27,7 +27,6 @@ jobs:
     - name: Build project with PyInstaller
       run: |
         pyinstaller --onefile src/main.py
-        ls main.dist
 
     - name: Package executable
       run: |
