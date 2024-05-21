@@ -1,4 +1,4 @@
-name: Build Python Project with PyInstaller
+name: Build Python Project with Nuitka 
 
 on:
   push:
@@ -22,12 +22,13 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install pyinstaller
+        python -m pip install nuitka
         
-    - name: Build project with PyInstaller
+    - name: Build project with Nuitka
       run: |
-        pyinstaller --onefile src/main.py
-
+        python -m nuitka --onefile src/main.py
+        ls main.dist
+        
     - name: Package executable
       run: |
         mkdir -p build
@@ -53,4 +54,3 @@ jobs:
         tag_name: ${{ env.NEW_TAG }}
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
