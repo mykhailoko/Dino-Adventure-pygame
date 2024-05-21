@@ -32,7 +32,7 @@ jobs:
     - name: Package executable
       run: |
         mkdir -p build
-        mv main.dist/main.exe build/JumpFight.exe  # Adjust main.exe if necessary
+        mv main.dist/main.bin build/Dino-Adventure.exe 
         zip -r Dino-Adventure.zip build/*
         tree
         
