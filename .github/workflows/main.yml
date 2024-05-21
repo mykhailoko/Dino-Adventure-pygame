@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: windows-2022
 
     steps:
     - name: Checkout code
@@ -18,8 +18,7 @@ jobs:
       uses: actions/setup-python@v4
       with:
         python-version: '3.10'  
-    # comment
-    # comment 2
+    
     - name: Install dependencies
       run: |
         python3 -m pip install --upgrade pip
@@ -28,15 +27,14 @@ jobs:
         
     - name: Build project with Nuitka
       run: |
-        PATH=$PATH:/home/$USER/.local/bin
         nuitka3 --onefile --standalone src/main.py
-        ls main.dist
+        dir main.dist
         
     - name: Package executable
       run: |
-        mkdir -p build
-        mv main.dist/main.bin build/Dino-Adventure.exe 
-        zip -r Dino-Adventure.zip build/*
+        mkdir build
+        #mv main.dist/main.bin build/Dino-Adventure.exe 
+        #zip -r Dino-Adventure.zip build/*
         tree
         
     - name: Generate Git Tag
