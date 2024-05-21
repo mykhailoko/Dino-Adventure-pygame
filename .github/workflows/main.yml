@@ -27,7 +27,7 @@ jobs:
         
     - name: Build project with Nuitka
       run: |
-        nuitka --onefile --standalone src/main.py
+        nuitka --standalone src/main.py
         
     - name: Package executable
       run: |
