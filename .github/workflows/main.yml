@@ -32,7 +32,7 @@ jobs:
 
     - name: Build project with PyInstaller
       run: |
-        pyinstaller --onefile --add-data "resources;resources" src/main.py
+        pyinstaller --onefile --add-data "Assets/Sounds/death_sound.wav;Assets/Sounds" src/main.py
         
     - name: Package executable
       run: |
