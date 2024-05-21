@@ -26,7 +26,7 @@ jobs:
         
     - name: Build project with Nuitka
       run: |
-        run nuitka --standalone src/main.py
+        nuitka --standalone src/main.py
         ls dist
 
     - name: Package executable
