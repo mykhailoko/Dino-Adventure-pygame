@@ -775,7 +775,7 @@ def exit_board(death_count, player, level_state):
         SCREEN.blit(EXITMENU, (0, 0))
         SCREEN.blit(EXITBOARD, (400, 170))
         if exit_yes.draw():
-            quit()
+            exit()
         if exit_no.draw():
             start_menu(player, death_count, level_state)
 
