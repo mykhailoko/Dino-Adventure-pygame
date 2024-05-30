@@ -46,9 +46,9 @@
   
 
 ## Фото игры
-![Main menu](https://github.com/mykhailoko/Dino-Adventure/blob/main/Screenshots/Screenshot_1.png)
-![Game is running](https://github.com/mykhailoko/Dino-Adventure/blob/main/Screenshots/Screenshot_2.png)
-![Reset menu](https://github.com/mykhailoko/Dino-Adventure/blob/main/Screenshots/Screenshot_3.png)
+![Main menu](https://github.com/mykhailoko/Dino-Adventure/blob/main/Screenshots/video1.mp4)
+![Game is running](https://github.com/mykhailoko/Dino-Adventure/blob/main/Screenshots/video2.mp4)
+![Reset menu](https://github.com/mykhailoko/Dino-Adventure/blob/main/Screenshots/video3.mp4)
 
 ### Авторы
 Разработчик: [mykhailoko](https://github.com/mykhailoko)   
