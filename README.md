@@ -44,22 +44,10 @@
 ## Система Интеграции и развертывания 
 В качестве системы CI/CD выступает Github Actions [![Build Python Project](https://github.com/mykhailoko/Dino-Adventure/actions/workflows/main.yml/badge.svg)](https://github.com/mykhailoko/Dino-Adventure/actions/workflows/main.yml)
   
-
-
+## Видео игры
 https://github.com/mykhailoko/Dino-Adventure/assets/145272215/87cec27b-d1a6-453e-91d1-24842815d3a9
-
-
 https://github.com/mykhailoko/Dino-Adventure/assets/145272215/33a69851-35d4-47e0-9d6f-cd2c83cff872
-
-
 https://github.com/mykhailoko/Dino-Adventure/assets/145272215/44862786-3eef-413b-a254-1bb874c1578e
-
-
-
-## Фото игры
-![Main menu](https://github.com/mykhailoko/Dino-Adventure/blob/main/Screenshots/Screenshot_1.png)
-![Game is running](https://github.com/mykhailoko/Dino-Adventure/blob/main/Screenshots/Screenshot_2.png)
-![Reset menu](https://github.com/mykhailoko/Dino-Adventure/blob/main/Screenshots/Screenshot_3.png)
 
 ### Авторы
 Разработчик: [mykhailoko](https://github.com/mykhailoko)   
