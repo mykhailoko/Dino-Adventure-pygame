@@ -24,8 +24,7 @@ pygame.mixer.music.load(MAIN_MENU_MUSIC)
 pygame.mixer.music.set_volume(0.5)  # Устанавливаем громкость музыки (от 0 до 1)
 pygame.mixer.music.play(-1)  # -1 означает,что музыка будет воспроизводиться в цикле бесконечно
 
-
-def main(player, level_state):
+def main(player, level_state, melody_clicked, sound_clicked):
     run = True
     clock = pygame.time.Clock()
     game_speed = 17
@@ -41,17 +40,19 @@ def main(player, level_state):
     pause_button = Button(1465, 30, PAUSE)
     paused = False
 
-    def play_main_music():
-        pygame.mixer.music.load(MAIN_LEVEL_MUSIC)
-        pygame.mixer.music.set_volume(0.5)
-        pygame.mixer.music.play(-1)
+    if melody_clicked == True:
+        def play_main_music():
+            pygame.mixer.music.load(MAIN_LEVEL_MUSIC)
+            pygame.mixer.music.set_volume(0.5)
+            pygame.mixer.music.play(-1)
 
-    def play_menu_music():
-        pygame.mixer.music.load(MAIN_MENU_MUSIC)
-        pygame.mixer.music.play(-1)
+        def play_menu_music():
+            pygame.mixer.music.load(MAIN_MENU_MUSIC)
+            pygame.mixer.music.play(-1)
 
-    def stop_music():
-        pygame.mixer.music.stop()
+        def stop_music():
+            pygame.mixer.music.stop()
+    else: pass
 
     def score(points, game_speed, background_speed):
         points += 1
@@ -68,13 +69,13 @@ def main(player, level_state):
         SCREEN.blit(text, textRect)
         return points, game_speed, background_speed
     
-    def pause_board(death_count, player, paused, level_state, points):
+    def pause_board(death_count, player, paused, level_state, points, melody_clicked, sound_clicked):
             pause_start = Button(620, 330, PAUSERESUME)
             pause_menu = Button(620, 440, PAUSEMENU)
-            
+    
             pause_start_clicked = False
             pause_menu_clicked = False
-            
+    
             SCREEN.blit(PAUSEBOARD, (420, 170))
 
             if pause_start.draw() and not pause_start_clicked:
@@ -95,7 +96,7 @@ def main(player, level_state):
                 pygame.time.delay(400)
                 death_count += 1
                 level_state = "main"
-                loose_menu(death_count, level_state, points, player)
+                loose_menu(death_count, level_state, points, player, melody_clicked, sound_clicked)
                 stop_music()
 
             return paused
@@ -112,9 +113,11 @@ def main(player, level_state):
                     paused = not paused  # Изменить состояние паузы 
             
         if paused == False:
-            if not main_music_playing:
-                play_main_music()
-                main_music_playing = True
+            if melody_clicked == True:
+                if not main_music_playing:
+                    play_main_music()
+                    main_music_playing = True
+            else: pass
 
             userInput = pygame.key.get_pressed()
 
@@ -151,7 +154,7 @@ def main(player, level_state):
                     pygame.time.delay(700)
                     death_count += 1
                     level_state = "main"
-                    loose_menu(death_count, level_state, points, player)
+                    loose_menu(death_count, level_state, points, player, melody_clicked, sound_clicked)
                     run = False
                     stop_music()
 
@@ -176,12 +179,13 @@ def main(player, level_state):
         clock.tick(30)
 
         if paused == True:
-            paused = pause_board(death_count, player, paused, level_state, points)
+            paused = pause_board(death_count, player, paused, level_state, points, melody_clicked, sound_clicked)
 
-    play_menu_music()
+    if melody_clicked == True:
+        play_menu_music()
+    else: pass
 
-
-def main_winter(player, level_state):
+def main_winter(player, level_state, melody_clicked, sound_clicked):
     run = True
     clock = pygame.time.Clock()
     game_speed = 17
@@ -221,7 +225,7 @@ def main_winter(player, level_state):
         SCREEN.blit(text, textRect)
         return points, game_speed, background_speed
     
-    def pause_board(death_count, player, paused, level_state, points):
+    def pause_board(death_count, player, paused, level_state, points, melody_clicked, sound_clicked):
             pause_start = Button(620, 330, PAUSERESUME)
             pause_menu = Button(620, 440, PAUSEMENU)
             
@@ -248,7 +252,7 @@ def main_winter(player, level_state):
                 pygame.time.delay(400)
                 death_count += 1
                 level_state = "main_winter"
-                loose_menu(death_count, level_state, points, player)
+                loose_menu(death_count, level_state, points, player, melody_clicked, sound_clicked)
                 stop_music()
 
             return paused
@@ -305,7 +309,7 @@ def main_winter(player, level_state):
                     pygame.time.delay(700)
                     death_count += 1
                     level_state = "main_winter"
-                    loose_menu(death_count, level_state, points, player)
+                    loose_menu(death_count, level_state, points, player, melody_clicked, sound_clicked)
                     run = False
                     stop_music()
 
@@ -334,13 +338,13 @@ def main_winter(player, level_state):
         clock.tick(30)
 
         if paused == True:
-            paused = pause_board(death_count, player, paused, level_state, points)
+            paused = pause_board(death_count, player, paused, level_state, points, melody_clicked, sound_clicked)
 
     # После выхода из цикла уровня, вызов функции воспроизведения музыки из меню
     play_menu_music()
 
 
-def main_beach(player, level_state):
+def main_beach(player, level_state, melody_clicked, sound_clicked):
     run = True
     clock = pygame.time.Clock()
     game_speed = 17
@@ -381,7 +385,7 @@ def main_beach(player, level_state):
         SCREEN.blit(text, textRect)
         return points, game_speed, background_speed
     
-    def pause_board(death_count, player, paused, level_state, points):
+    def pause_board(death_count, player, paused, level_state, points, melody_clicked, sound_clicked):
             pause_start = Button(620, 330, PAUSERESUME)
             pause_menu = Button(620, 440, PAUSEMENU)
             
@@ -408,7 +412,7 @@ def main_beach(player, level_state):
                 pygame.time.delay(400)
                 death_count += 1
                 level_state = "main_beach"
-                loose_menu(death_count, level_state, points, player)
+                loose_menu(death_count, level_state, points, player, melody_clicked, sound_clicked)
                 stop_music()
 
             return paused
@@ -466,7 +470,7 @@ def main_beach(player, level_state):
                     pygame.time.delay(700)
                     death_count += 1
                     level_state = "main_beach"
-                    loose_menu(death_count, level_state, points, player)
+                    loose_menu(death_count, level_state, points, player, melody_clicked, sound_clicked)
                     run = False
                     stop_music()
 
@@ -495,12 +499,12 @@ def main_beach(player, level_state):
         clock.tick(30)
 
         if paused == True:
-            paused = pause_board(death_count, player, paused, level_state, points)
+            paused = pause_board(death_count, player, paused, level_state, points, melody_clicked, sound_clicked)
 
     play_menu_music()
 
 
-def main_zombi(player, level_state):
+def main_zombi(player, level_state, melody_clicked, sound_clicked):
     run = True
     clock = pygame.time.Clock()
     game_speed = 16
@@ -541,7 +545,7 @@ def main_zombi(player, level_state):
         SCREEN.blit(text, textRect)
         return points, game_speed, background_speed
 
-    def pause_board(death_count, player, paused, level_state, points):
+    def pause_board(death_count, player, paused, level_state, points, melody_clicked, sound_clicked):
             pause_start = Button(620, 330, PAUSERESUME)
             pause_menu = Button(620, 440, PAUSEMENU)
             
@@ -568,7 +572,7 @@ def main_zombi(player, level_state):
                 pygame.time.delay(400)
                 death_count += 1
                 level_state = "main_zombi"
-                loose_menu(death_count, level_state, points, player)
+                loose_menu(death_count, level_state, points, player, melody_clicked, sound_clicked)
                 stop_music()
 
             return paused
@@ -627,7 +631,7 @@ def main_zombi(player, level_state):
                     pygame.time.delay(700)
                     death_count += 1
                     level_state = "main_zombi"
-                    loose_menu(death_count, level_state, points, player)
+                    loose_menu(death_count, level_state, points, player, melody_clicked, sound_clicked)
                     run = False
                     stop_music()
 
@@ -656,12 +660,12 @@ def main_zombi(player, level_state):
         clock.tick(30)
 
         if paused == True:
-            paused = pause_board(death_count, player, paused, level_state, points)
-
+            paused = pause_board(death_count, player, paused, level_state, points, melody_clicked, sound_clicked)
+    
     play_menu_music()
 
 
-def start_menu(player, death_count, level_state):
+def start_menu(melody_clicked, sound_clicked, player, death_count, level_state):
     start_button = Button(400, 230, START)
     multiplayer_button = Button(400, 330, MULTIPLAYER)
     settings_button = Button(5, 5, SETTINGS)
@@ -693,7 +697,7 @@ def start_menu(player, death_count, level_state):
                 exit.draw()
                 pygame.display.flip() 
                 pygame.time.delay(400)
-                classic_level(slider1_button_clicked, slider2_button_clicked, player, level_state)
+                classic_level(slider1_button_clicked, slider2_button_clicked, player, level_state, melody_clicked, sound_clicked)
             elif not start_button.draw():
                 start_clicked = False
 
@@ -707,7 +711,7 @@ def start_menu(player, death_count, level_state):
                 exit.draw()
                 pygame.display.flip()
                 pygame.time.delay(400)
-                multiplayer(player, level_state, 3, 3)
+                multiplayer(melody_clicked, sound_clicked, player, level_state, 3, 3)
             elif not multiplayer_button.draw():
                 mult_clicked = False
 
@@ -721,7 +725,7 @@ def start_menu(player, death_count, level_state):
                 exit.draw()
                 pygame.display.flip()
                 pygame.time.delay(400)
-                settings(player, death_count, level_state)
+                settings(player, death_count, level_state, melody_clicked, sound_clicked)
             elif not settings_button.draw():
                 settings_clicked = False
 
@@ -735,18 +739,22 @@ def start_menu(player, death_count, level_state):
                 exit.draw()
                 pygame.display.flip()
                 pygame.time.delay(400)
-                closet(player, death_count, level_state)
+                closet(player, death_count, level_state, melody_clicked, sound_clicked)
             elif not paint_button.draw():
                 paint_clicked = False
 
             if exit.draw():
-                exit_board(death_count, player, level_state)
+                exit_board(death_count, player, level_state, melody_clicked, sound_clicked)
 
         pygame.display.flip()
 
 
-def settings(player, death_count, level_state):
-    exit = Button(1040, 190, EXIT)
+def settings(player, death_count, level_state, melody_clicked, sound_clicked):
+    exit_button = Button(1040, 190, EXIT)
+    melody_button = Button(600, 370, MELODY_VOLUME)
+    melody_off_button = Button(600, 370, MELODY_VOLUME_OFF)
+    sound_button = Button(840, 370, SOUND_VOLUME)
+    sound_off_button = Button(840, 370, SOUND_VOLUME_OFF)
 
     run = True
     while run:
@@ -754,15 +762,46 @@ def settings(player, death_count, level_state):
             if event.type == pygame.QUIT:
                 run = False
 
+            # Проверка нажатия кнопок
+            if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                if melody_clicked:
+                    if melody_button.is_hovered():
+                        melody_clicked = False
+                else:
+                    if melody_off_button.is_hovered():
+                        melody_clicked = True
+
+                if sound_clicked:
+                    if sound_button.is_hovered():
+                        sound_clicked = False
+                else:
+                    if sound_off_button.is_hovered():
+                        sound_clicked = True
+
+                if exit_button.is_hovered():
+                    BUTTON_CLICK_SOUND.play()
+                    start_menu(melody_clicked, sound_clicked, player, death_count, level_state)
+                    return
+
         SCREEN.blit(SETTINGS_BOARD, (0, 0))
 
-        if exit.draw():
-            start_menu(player, death_count, level_state)
+        # Отображаем кнопки в зависимости от их состояния
+        if melody_clicked:
+            melody_button.draw()
+        else:
+            melody_off_button.draw()
+
+        if sound_clicked:
+            sound_button.draw()
+        else:
+            sound_off_button.draw()
+
+        exit_button.draw()
 
         pygame.display.flip()
 
         
-def exit_board(death_count, player, level_state):
+def exit_board(death_count, player, level_state, melody_clicked, sound_clicked):
     exit_yes = Button(610, 430, EXITYES)
     exit_no = Button(800, 430, EXITNO)
 
@@ -777,12 +816,12 @@ def exit_board(death_count, player, level_state):
         if exit_yes.draw():
             exit()
         if exit_no.draw():
-            start_menu(player, death_count, level_state)
+            start_menu(melody_clicked, sound_clicked, player, death_count, level_state)
 
         pygame.display.flip()
 
 
-def loose_menu(death_count, level_state, points, player):
+def loose_menu(death_count, level_state, points, player, melody_clicked, sound_clicked):
     def play_menu_music():
         pygame.mixer.music.load(MAIN_MENU_MUSIC)
         pygame.mixer.music.play(-1)
@@ -821,13 +860,13 @@ def loose_menu(death_count, level_state, points, player):
                 pygame.display.flip() 
                 pygame.time.delay(400)
                 if level_state == "main":
-                    main(player, level_state)
+                    main(player, level_state, melody_clicked, sound_clicked)
                 if level_state == "main_winter":
-                    main_winter(player, level_state)
+                    main_winter(player, level_state, melody_clicked, sound_clicked)
                 if level_state == "main_beach":
-                    main_beach(player, level_state)
+                    main_beach(player, level_state, melody_clicked, sound_clicked)
                 if level_state == "main_zombi":
-                    main_zombi(player, level_state)
+                    main_zombi(player, level_state, melody_clicked, sound_clicked)
 
             if menu_button.draw() and not pause_menu_clicked:
                 pause_menu_clicked = True
@@ -844,7 +883,7 @@ def loose_menu(death_count, level_state, points, player):
                 SCREEN.blit(DINOSKIN1, (100, 250))
                 pygame.display.flip() 
                 pygame.time.delay(400)
-                start_menu(player, death_count=0, level_state=None)
+                start_menu(melody_clicked, sound_clicked, player, death_count=0, level_state=None)
 
             score = font.render("Your Score: " + str(points), True, (255, 255, 255))
             scoreRect = score.get_rect()
@@ -862,7 +901,7 @@ def loose_menu(death_count, level_state, points, player):
         pygame.display.flip()
 
 
-def classic_level(slider1_button_clicked, slider2_button_clicked, player, level_state):
+def classic_level(slider1_button_clicked, slider2_button_clicked, player, level_state, melody_clicked, sound_clicked):
     back_button = Button(30, 690, BACK)
     slider2_button = Button(1410, SCREEN_HEIGHT // 2 - 60, SLIDER2)
     level_button = Button(SCREEN_WIDTH // 2 - 450, SCREEN_HEIGHT // 2 - 320, CLASSICLEVEL)
@@ -878,23 +917,23 @@ def classic_level(slider1_button_clicked, slider2_button_clicked, player, level_
                 run = False
 
         if back_button.draw():
-            start_menu(player, death_count=0, level_state=None)
+            start_menu(melody_clicked, sound_clicked, player, death_count=0, level_state=None)
 
         SCREEN.blit(CLASSICLEVEL, (SCREEN_WIDTH // 2 - 450, SCREEN_HEIGHT // 2 - 320))
 
         if level_button.draw():
-            main(player, level_state)
+            main(player, level_state, melody_clicked, sound_clicked)
 
         if slider2_button.draw() and not slider2_button_clicked[0]:
             slider2_button_clicked[0] = True
-            winter_level(slider1_button_clicked, slider2_button_clicked, player, level_state)
+            winter_level(slider1_button_clicked, slider2_button_clicked, player, level_state, melody_clicked, sound_clicked)
         elif not slider2_button.draw():
             slider2_button_clicked[0] = False
 
         pygame.display.flip()
 
 
-def winter_level(slider1_button_clicked, slider2_button_clicked, player, level_state):
+def winter_level(slider1_button_clicked, slider2_button_clicked, player, level_state, melody_clicked, sound_clicked):
     back_button = Button(30, 690, BACK)
     slider1_button = Button(30, SCREEN_HEIGHT // 2 - 60, SLIDER1)
     slider2_button = Button(1410, SCREEN_HEIGHT // 2 - 60, SLIDER2)
@@ -911,27 +950,27 @@ def winter_level(slider1_button_clicked, slider2_button_clicked, player, level_s
                 run = False
 
         if back_button.draw():
-            start_menu(player, death_count=0, level_state=None)
+            start_menu(melody_clicked, sound_clicked, player, death_count=0, level_state=None)
 
         if level_button.draw():
-            main_winter(player, level_state)
+            main_winter(player, level_state, melody_clicked, sound_clicked)
 
         if slider1_button.draw() and not slider1_button_clicked[0]:
             slider1_button_clicked[0] = True
-            classic_level(slider1_button_clicked, slider2_button_clicked, player, level_state)
+            classic_level(slider1_button_clicked, slider2_button_clicked, player, level_state, melody_clicked, sound_clicked)
         elif not slider1_button.draw():
             slider1_button_clicked[0] = False
 
         if slider2_button.draw() and not slider2_button_clicked[0]:
             slider2_button_clicked[0] = True
-            beach_level(slider1_button_clicked, slider2_button_clicked, player, level_state)
+            beach_level(slider1_button_clicked, slider2_button_clicked, player, level_state, melody_clicked, sound_clicked)
         elif not slider2_button.draw():
             slider2_button_clicked[0] = False
 
         pygame.display.flip()
 
 
-def beach_level(slider1_button_clicked, slider2_button_clicked, player, level_state):
+def beach_level(slider1_button_clicked, slider2_button_clicked, player, level_state, melody_clicked, sound_clicked):
     back_button = Button(30, 690, BACK)
     slider1_button = Button(30, SCREEN_HEIGHT // 2 - 60, SLIDER1)
     slider2_button = Button(1410, SCREEN_HEIGHT // 2 - 60, SLIDER2)
@@ -948,27 +987,27 @@ def beach_level(slider1_button_clicked, slider2_button_clicked, player, level_st
                 run = False
 
         if back_button.draw():
-            start_menu(player, death_count=0, level_state=None)
+            start_menu(melody_clicked, sound_clicked, player, death_count=0, level_state=None)
 
         if level_button.draw():
-            main_beach(player, level_state)
+            main_beach(player, level_state, melody_clicked, sound_clicked)
 
         if slider1_button.draw() and not slider1_button_clicked[0]:
             slider1_button_clicked[0] = True
-            winter_level(slider1_button_clicked, slider2_button_clicked, player, level_state)
+            winter_level(slider1_button_clicked, slider2_button_clicked, player, level_state, melody_clicked, sound_clicked)
         elif not slider1_button.draw():
             slider1_button_clicked[0] = False
 
         if slider2_button.draw() and not slider2_button_clicked[0]:
             slider2_button_clicked[0] = True
-            zombi_level(slider1_button_clicked, slider2_button_clicked, player, level_state)
+            zombi_level(slider1_button_clicked, slider2_button_clicked, player, level_state, melody_clicked, sound_clicked)
         elif not slider2_button.draw():
             slider2_button_clicked[0] = False
 
         pygame.display.flip()
 
 
-def zombi_level(slider1_button_clicked, slider2_button_clicked, player, level_state):
+def zombi_level(slider1_button_clicked, slider2_button_clicked, player, level_state, melody_clicked, sound_clicked):
     back_button = Button(30, 690, BACK)
     slider1_button = Button(30, SCREEN_HEIGHT // 2 - 60, SLIDER1)
     slider2_button = Button(1410, SCREEN_HEIGHT // 2 - 60, SLIDER2)
@@ -985,21 +1024,21 @@ def zombi_level(slider1_button_clicked, slider2_button_clicked, player, level_st
                 run = False
 
         if back_button.draw():
-            start_menu(player, death_count=0, level_state=None)
+            start_menu(melody_clicked, sound_clicked, player, death_count=0, level_state=None)
 
         if level_button.draw():
-            main_zombi(player, level_state)
+            main_zombi(player, level_state, melody_clicked, sound_clicked)
 
         if slider1_button.draw() and not slider1_button_clicked[0]:
             slider1_button_clicked[0] = True
-            beach_level(slider1_button_clicked, slider2_button_clicked, player, level_state)
+            beach_level(slider1_button_clicked, slider2_button_clicked, player, level_state, melody_clicked, sound_clicked)
         elif not slider1_button.draw():
             slider1_button_clicked[0] = False
 
         pygame.display.flip()
 
 
-def closet(player, death_count, level_state):
+def closet(player, death_count, level_state, melody_clicked, sound_clicked):
     SkinButton1 = Button(290, 200, SKINBUTTON1)
     SkinButton2 = Button(380, 200, SKINBUTTON2)
     SkinButton3 = Button(470, 200, SKINBUTTON3)
@@ -1031,21 +1070,21 @@ def closet(player, death_count, level_state):
         Clown.draw()
                 
         if SkinButton1.draw():
-            player, death_count, level_state = skin1(player, death_count, level_state)
+            player, death_count, level_state = skin1(player, death_count, level_state, melody_clicked, sound_clicked)
             
         if SkinButton2.draw():
-            player, death_count, level_state = skin2(player, death_count, level_state)
+            player, death_count, level_state = skin2(player, death_count, level_state, melody_clicked, sound_clicked)
 
         if SkinButton3.draw():
-            player, death_count, level_state = skin3(player, death_count, level_state)
+            player, death_count, level_state = skin3(player, death_count, level_state, melody_clicked, sound_clicked)
 
         if level_button.draw():
-            start_menu(player, death_count=0, level_state=None)
+            start_menu(melody_clicked, sound_clicked, player, death_count=0, level_state=None)
 
         pygame.display.flip()
 
 
-def skin1(player, death_count, level_state):
+def skin1(player, death_count, level_state, melody_clicked, sound_clicked):
     SkinButton1 = Button(290, 200, SKINBUTTON1)
     SkinButton2 = Button(380, 200, SKINBUTTON2)
     SkinButton3 = Button(470, 200, SKINBUTTON3)
@@ -1105,18 +1144,18 @@ def skin1(player, death_count, level_state):
             player = DinosaurClown()
 
         if SkinButton2.draw():
-            player, death_count, level_state = skin2(player, death_count, level_state)
+            player, death_count, level_state = skin2(player, death_count, level_state, melody_clicked, sound_clicked)
 
         if SkinButton3.draw():
-            player, death_count, level_state = skin3(player, death_count, level_state)
+            player, death_count, level_state = skin3(player, death_count, level_state, melody_clicked, sound_clicked)
 
         if level_button.draw():
-            start_menu(player, death_count=0, level_state=None)
+            start_menu(melody_clicked, sound_clicked, player, death_count=0, level_state=None)
 
         pygame.display.flip()
 
 
-def skin2(player, death_count, level_state):
+def skin2(player, death_count, level_state, melody_clicked, sound_clicked):
     SkinButton1 = Button(290, 200, SKINBUTTON1)
     SkinButton2 = Button(380, 200, SKINBUTTON2)
     SkinButton3 = Button(470, 200, SKINBUTTON3)
@@ -1141,7 +1180,7 @@ def skin2(player, death_count, level_state):
                 run = False
                 
         if SkinButton1.draw():
-            player, death_count, level_state = skin1(player, death_count, level_state)
+            player, death_count, level_state = skin1(player, death_count, level_state, melody_clicked, sound_clicked)
 
         if SantaHat.draw():
             SCREEN.blit(CLOSET, (0, 0))
@@ -1179,14 +1218,14 @@ def skin2(player, death_count, level_state):
             player = DinosaurSkin1()
 
         if SkinButton3.draw():
-            player, death_count, level_state = skin3(player, death_count, level_state)
+            player, death_count, level_state = skin3(player, death_count, level_state, melody_clicked, sound_clicked)
 
         if level_button.draw():
-            start_menu(player, death_count=0, level_state=None)
+            start_menu(melody_clicked, sound_clicked, player, death_count=0, level_state=None)
 
         pygame.display.flip()
 
-def skin3(player, death_count, level_state):
+def skin3(player, death_count, level_state, melody_clicked, sound_clicked):
     SkinButton1 = Button(290, 200, SKINBUTTON1)
     SkinButton2 = Button(380, 200, SKINBUTTON2)
     SkinButton3 = Button(470, 200, SKINBUTTON3)
@@ -1211,7 +1250,7 @@ def skin3(player, death_count, level_state):
                 run = False
                 
         if SkinButton1.draw():
-            player, death_count, level_state = skin1(player, death_count, level_state)
+            player, death_count, level_state = skin1(player, death_count, level_state, melody_clicked, sound_clicked)
 
         if SantaHat.draw():
             SCREEN.blit(CLOSET, (0, 0))
@@ -1244,7 +1283,7 @@ def skin3(player, death_count, level_state):
             player = DinosaurSkin3Clown()
 
         if SkinButton2.draw():
-            player, death_count, level_state = skin2(player, death_count, level_state)
+            player, death_count, level_state = skin2(player, death_count, level_state, melody_clicked, sound_clicked)
 
         if SkinButton3.draw():
             SCREEN.blit(CLOSET, (0, 0))
@@ -1252,12 +1291,12 @@ def skin3(player, death_count, level_state):
             player = DinosaurSkin3()
 
         if level_button.draw():
-            start_menu(player, death_count=0, level_state=None)
+            start_menu(melody_clicked, sound_clicked, player, death_count=0, level_state=None)
 
         pygame.display.flip()
 
 
-def multiplayer(player, level_state, heart1, heart2):
+def multiplayer(melody_clicked, sound_clicked, player, level_state, heart1, heart2):
     run = True
     clock = pygame.time.Clock()
     game_speed = 18
@@ -1281,7 +1320,7 @@ def multiplayer(player, level_state, heart1, heart2):
     def stop_music():
         pygame.mixer.music.stop()
 
-    def pause_board(death_count, player, paused, level_state):
+    def pause_board(melody_clicked, sound_clicked, death_count, player, paused, level_state):
             pause_start = Button(620, 330, PAUSERESUME)
             pause_menu = Button(620, 440, PAUSEMENU)
 
@@ -1308,7 +1347,7 @@ def multiplayer(player, level_state, heart1, heart2):
                 pygame.time.delay(400)
                 death_count += 1
                 level_state = "multiplayer"
-                multiplayer_loose_menu(death_count, level_state, player, heart1, heart2)
+                multiplayer_loose_menu(melody_clicked, sound_clicked, death_count, level_state, player, heart1, heart2)
                 stop_music()
 
             return paused
@@ -1400,7 +1439,7 @@ def multiplayer(player, level_state, heart1, heart2):
                     pygame.time.delay(700)
                     death_count += 1
                     level_state = "multiplayer"
-                    multiplayer_loose_menu(death_count, level_state, player, heart1, heart2)
+                    multiplayer_loose_menu(melody_clicked, sound_clicked, death_count, level_state, player, heart1, heart2)
                     run = False
 
 
@@ -1450,7 +1489,7 @@ def multiplayer(player, level_state, heart1, heart2):
                     pygame.time.delay(700)
                     death_count += 1
                     level_state = "multiplayer"
-                    multiplayer_loose_menu(death_count, level_state, player, heart1, heart2)
+                    multiplayer_loose_menu(melody_clicked, sound_clicked, death_count, level_state, player, heart1, heart2)
                     run = False
 
             if pause_button.draw():
@@ -1479,10 +1518,10 @@ def multiplayer(player, level_state, heart1, heart2):
         clock.tick(30)
 
         if paused == True:
-            paused = pause_board(death_count, player, paused, level_state)
+            paused = pause_board(melody_clicked, sound_clicked, death_count, player, paused, level_state)
 
 
-def multiplayer_loose_menu(death_count, level_state, player, heart1, heart2):
+def multiplayer_loose_menu(melody_clicked, sound_clicked, death_count, level_state, player, heart1, heart2):
     def play_menu_music():
         pygame.mixer.music.load(MAIN_MENU_MUSIC)
         pygame.mixer.music.play(-1)
@@ -1517,7 +1556,7 @@ def multiplayer_loose_menu(death_count, level_state, player, heart1, heart2):
                 pygame.display.flip() 
                 pygame.time.delay(400)
                 if level_state == "multiplayer":
-                    multiplayer(player, level_state, heart1=3, heart2=3)
+                    multiplayer(melody_clicked, sound_clicked, player, level_state, heart1=3, heart2=3)
 
             if menu_button.draw() and not pause_menu_clicked:
                 pause_menu_clicked = True
@@ -1532,7 +1571,7 @@ def multiplayer_loose_menu(death_count, level_state, player, heart1, heart2):
                     pass
                 pygame.display.flip() 
                 pygame.time.delay(400)
-                start_menu(death_count=0, player=Dinosaur(), level_state=None)
+                start_menu(melody_clicked, sound_clicked, death_count=0, player=Dinosaur(), level_state=None)
 
         if heart1 > heart2:
             SCREEN.blit(DINOSKIN1, (270, 230))
@@ -1546,4 +1585,4 @@ def multiplayer_loose_menu(death_count, level_state, player, heart1, heart2):
         pygame.display.flip()
 
     
-start_menu(player=Dinosaur(), death_count=0, level_state=None)
+start_menu(melody_clicked=True, sound_clicked=True, player=Dinosaur(), death_count=0, level_state=None)
