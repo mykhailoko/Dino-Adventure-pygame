@@ -335,3 +335,7 @@ MESSAGE2 = pygame.image.load (os.path.join(base_path, "Assets", "Other", "Messag
 MESSAGE3 = pygame.image.load (os.path.join(base_path, "Assets", "Other", "Message3.png")).convert_alpha()
 
 SETTINGS_BOARD = pygame.image.load (os.path.join(base_path, "Assets", "Other", "SettingsBoard.png")).convert_alpha()
+MELODY_VOLUME = pygame.image.load (os.path.join(base_path, "Assets", "Other", "MelodyVolume.png")).convert_alpha()
+MELODY_VOLUME_OFF = pygame.image.load (os.path.join(base_path, "Assets", "Other", "MelodyVolumeOff.png")).convert_alpha()
+SOUND_VOLUME = pygame.image.load (os.path.join(base_path, "Assets", "Other", "SoundVolume.png")).convert_alpha()
+SOUND_VOLUME_OFF = pygame.image.load (os.path.join(base_path, "Assets", "Other", "SoundVolumeOff.png")).convert_alpha()
