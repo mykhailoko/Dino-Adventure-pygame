@@ -14,7 +14,7 @@ SCREEN_WIDTH = screen_width
 SCREEN = pygame.display.set_mode((window_width, window_height), pygame.RESIZABLE)
 pygame.display.set_caption("Dino Adventure")
 
-BUTTON_CLICK_SOUND = pygame.mixer.Sound(os.path.join("Assets", "Sounds", "button_click.mp3"))
+BUTTON_CLICK_SOUND = pygame.mixer.Sound(os.path.join(base_path, "Assets", "Sounds", "button_click.mp3"))
 
 class Button():
     def __init__(self, x, y, image):
