@@ -46,9 +46,9 @@ Welcome to the Dino Adventure game! This project is a recreation of the classic 
 Github Actions acts as a CI/CD system [![Build Python Project](https://github.com/mykhailoko/Dino-Adventure/actions/workflows/main.yml/badge.svg)](https://github.com/mykhailoko/Dino-Adventure/actions/workflows/main.yml)
 
 ## Game's Photos
-![Main menu](https://github.com/mykhailoko/Dino-Adventure/blob/main/Screenshots/Photo_1.png)
-![Game is running](https://github.com/mykhailoko/Dino-Adventure/blob/main/Screenshots/Photo_2.png)
-![Reset menu](https://github.com/mykhailoko/Dino-Adventure/blob/main/Screenshots/Photo_3.png)
+![Main menu](https://github.com/mykhailoko/Dino-Adventure-pygame/blob/main/Screenshots/Screenshot_1.png)
+![Game is running](https://github.com/mykhailoko/Dino-Adventure-pygame/blob/main/Screenshots/Screenshot_2.png)
+![Reset menu](https://github.com/mykhailoko/Dino-Adventure-pygame/blob/main/Screenshots/Screenshot_3.png)
 
 ### Authors
 Developer: [mykhailoko](https://github.com/mykhailoko)   
